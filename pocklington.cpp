@@ -20,7 +20,23 @@ int* factorisation(int n){
         return nullptr;
 }
 
+int pgcd(int a, int b){
+        //Algoritme d'Euclide
+        int r = 1, res;
+        while(r != 0) {
+                r = a%b;
+                a = b;
+                b = r;
+                if(r != 0) {
+                        res = r; // On garde le dernier reste non nul en PGDC
+                }
+        }
+        return res;
+}
+
 bool pocklington(int candidatPrime){
+        //Trouver un a, on a f un facteur de a et on a n - 1 = f * r
+        //Et PGDC(f, r) = 1
 
         return false;
 }

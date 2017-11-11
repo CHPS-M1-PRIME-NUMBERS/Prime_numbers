@@ -1,7 +1,7 @@
 #include "pocklington.h"
 
 int* factorisation(int n){
-        if(n<2) ;
+        if(n<2) return nullptr;
         else{
                 int *facteursObtenus = new int[10000](); int i = 0;
 
@@ -22,16 +22,13 @@ int* factorisation(int n){
 
 int pgcd(int a, int b){
         //Algoritme d'Euclide
-        int r = 1, res;
-        while(r != 0) {
+        int r = 1;
+        while(a%b != 0) { //Tant que le reste n'est pas 0
                 r = a%b;
                 a = b;
                 b = r;
-                if(r != 0) {
-                        res = r; // On garde le dernier reste non nul en PGDC
-                }
         }
-        return res;
+        return r;
 }
 
 bool pocklington(int candidatPrime){

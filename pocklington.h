@@ -2,6 +2,7 @@
 #define pocklington_h
 
 #include <iostream>
+#include <cmath>
 
 int* factorisation(int n);
 bool pocklington(int candidatPrime);

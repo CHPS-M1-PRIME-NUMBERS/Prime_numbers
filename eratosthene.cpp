@@ -1,6 +1,6 @@
 #include "eratosthene.h"
 
-void multiple(int i, int number, bool* prime){ // Function that sets all premium multiples [i] to false.
+void multiple(int i, unsigned int number, bool* prime){ // Function that sets all premium multiples [i] to false.
     int j = 2;
 
     while ( j <= number/i){
@@ -9,7 +9,7 @@ void multiple(int i, int number, bool* prime){ // Function that sets all premium
     }
 }
 
-bool* crible_eratosthene(int number){
+bool* eratosthene(unsigned int number){
     bool* isPrime = new bool[number+1]; //Boolean array indicating whether the index number i is prime or not.
     int i = 0, k;
 
@@ -19,7 +19,7 @@ bool* crible_eratosthene(int number){
         i++;
     }
 
-    // 1 et 0 are not prime
+    // 1 and 0 are not prime
     isPrime[0] = false; isPrime[1] = false;
     i = 2;
     while (i <= number){

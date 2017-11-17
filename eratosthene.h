@@ -6,6 +6,6 @@
 #include <iostream>
 
 void multiple(int i, int number, bool* prime);
-bool* crible_eratosthene(int number);
+bool* eratosthene(unsigned int number);
 
 #endif

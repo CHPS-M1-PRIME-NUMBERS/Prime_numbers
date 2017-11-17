@@ -1,5 +1,6 @@
 #include "millerRabin.h"
 
+// Modular exponentiation (x^y) % p
 int expPower(int x, int y, int p){
 	int res = 1;	 
 	x = x % p; 		 					 
@@ -13,12 +14,15 @@ int expPower(int x, int y, int p){
 	return res;
 }
 
+// Returns false if n is composite or 
+// true if n is probably prime.
 bool millerTest(int d, int n){
 	int a = 2 + rand() % (n - 4);
 	int x = expPower(a, d, n);
 	if (x == 1 || x == n-1){		
 		return true;
 	}
+	// Square and multiply
 	while (d != n-1){
 		x = (x * x) % n;
 		d *= 2;
@@ -28,6 +32,8 @@ bool millerTest(int d, int n){
 	return false;
 }
 
+// Returns false if n is composite or true if n
+// is probably prime
 bool isPrime(int n, int k)
 {
 	int d = n - 1;
@@ -47,7 +53,7 @@ bool isPrime(int n, int k)
 
 int main()
 {
-	int n, k = 4;
+	int n, k = 4; //k iterations.
 	std::cout << "Enter the number to check: ";
 	std::cin >>n ;
 	if (isPrime(n, k))

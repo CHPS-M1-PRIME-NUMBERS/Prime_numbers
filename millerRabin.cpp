@@ -15,7 +15,7 @@ int expPower(int x, int y, int p){
 
 bool millerTest(int d, int n){
 	int a = 2 + rand() % (n - 4);
-	int x = power(a, d, n);
+	int x = expPower(a, d, n);
 	if (x == 1 || x == n-1){		
 		return true;
 	}

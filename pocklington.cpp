@@ -1,5 +1,17 @@
 #include "pocklington.h"
 
+template <typename T>
+T modpow(T base, T exp, T modulus){
+        base %= modulus;
+        T result = 1;
+        while(exp > 0) {
+                if(exp & 1) result =(result * base) % modulus;
+                base = (base * base) % modulus;
+                exp >>= 1;
+        }
+        return result;
+}
+
 int* factorisation(int n){
         const int taille = 100000;
         if(n<2) return nullptr;
@@ -32,52 +44,48 @@ int pgcd(int a, int b){
         return r;
 }
 
+int rechercherCandidat(int N){
+        int a = 2;
+        while(modpow(a, N-1, N) != 1) {
+                a += 1;
+        }
+
+        return a;
+}
+
 bool pocklington(int candidatPrime){
         //Trouver un a, on a f un facteur de a et on a n - 1 = f * r
         //Et PGDC(f, r) = 1
         int * facteurs = factorisation(candidatPrime-1);
-        int a = facteurs[0] * facteurs[1]; int i = 2;
+        int A = facteurs[0] * facteurs[1]; int i = 2;
         //On récupère un a depuis les facteurs premier de candidatPrime
-        while(a*a <= candidatPrime) { //A doit être plus grand que sqrt(N) donc A² doit être plus grand que N
-                a *= facteurs[i++];
+        if(facteurs == nullptr) { exit(EXIT_FAILURE); }
+        while(A*A <= candidatPrime) { //A doit être plus grand que sqrt(N) donc A² doit être plus grand que N
+                A *= facteurs[i++];
         }
+        delete[] facteurs;
 
         //On calcule b
-        int b = (candidatPrime-1)/a;
-        std::cout << "A : "<<a<<", B : "<<b<<std::endl;
+        int B = (candidatPrime-1)/A;
+        std::cout << "A : "<<A<<", B : "<<B<<std::endl;
         // std::cout << "A*B = "<< a*b << " "; if(a*b == candidatPrime-1) std::cout<<"True"<<std::endl; else std::cout<<"False"<<std::endl;
-        if(a*a > candidatPrime) {
+        if(A*A > candidatPrime) {
                 std::cout<<"A² > N : True"<<std::endl;
-                if(pgcd(a, b) == 1) {
-                        int * facteursA = factorisation(a); int j = 0;
-                        if(facteursA != NULL) {
-                                while(facteursA[j] != 0) {
-                                        if((int) std::pow(facteursA[j], candidatPrime-1) % candidatPrime == 1) {
-                                                if(pgcd((std::pow(facteursA[j], (candidatPrime-1)/(j+1)))-1, candidatPrime) == 1) {
-                                                        return true;
-                                                }
-                                        }
-                                        j++;
+                int * facteursA = factorisation(A);
+                int a = 0; i = 0;
+                if(facteursA != NULL) {
+                        while(facteursA[i] != 0) {
+                                a = rechercherCandidat(facteursA[i]);
+                                if(pgcd(std::pow(a, (candidatPrime-1)/facteursA[i]), candidatPrime) != 1) {
+                                        return false;
                                 }
+                                i++;
                         }
 
+                        delete[](facteursA);
                 }
         }
-        else { std::cout<<"A² > N : False"<<std::endl; }
 
-        std::cout << "PGCD(" << a << ", " << b << ") =  " << pgcd(a, b) << std::endl;
 
-        //Affichage de la factorisation de N-1
-        /* unsigned int i = 0;
-           if(facteurs != NULL) {
-                while(facteurs[i] != 0) {
-                        std::cout<<facteurs[i]<<" ";
-                        i++;
-                }
-                std::cout<<std::endl;
-
-                delete[](facteurs);
-           } */
-
-        return false;
+        return true;
 }

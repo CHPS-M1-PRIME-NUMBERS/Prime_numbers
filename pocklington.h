@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "facteurs.h"
 
-//int* factorisation(int n);
 bool pocklington(int candidatPrime);
 int pgcd(int a, int b);
 int rechercherCandidat(int N);

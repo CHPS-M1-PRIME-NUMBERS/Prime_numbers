@@ -9,3 +9,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # executable
 
 add_executable(prime_numbers main.cpp)
+add_executable(aks AKS.cpp)

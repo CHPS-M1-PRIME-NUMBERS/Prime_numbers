@@ -1,9 +1,9 @@
-#ifndef memory_bound_h
-#define memory_bound_h
+#ifndef memory_bound_hpp
+#define memory_bound_hpp
 
 #include <iostream>
 #include <list>
-#include "eratosthene.h"
+#include "eratosthene.hpp"
 
 void memory_bound(unsigned int nbr, std::list<unsigned int>* l);
 std::ostream& operator<<(std::ostream& flux, std::list<unsigned int>& l);

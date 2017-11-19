@@ -40,10 +40,12 @@ bool pocklington(int candidatPrime){
                 return false;
         }
         int A = facteurs[0] * facteurs[1]; int i = 2;
+        std::vector<int> facteursA;
         //On récupère un a depuis les facteurs premier de candidatPrime
         while(A*A <= candidatPrime) { //A doit être plus grand que sqrt(N) donc A² doit être plus grand que N
                 if(i < facteurs.getNbFacteurs()) {
-                        A *= facteurs[i++];
+                        A *= facteurs[i];
+                        facteursA.push_back(facteurs[i++]);
                 }
         }
 
@@ -52,9 +54,8 @@ bool pocklington(int candidatPrime){
         //std::cout << "A : "<<A<<", B : "<<B<<std::endl;
         if(A*A > candidatPrime) {
                 // std::cout<<"A² > N : True"<<std::endl;
-                Facteurs facteursA(A);
                 int a = 0;
-                for(i = 0; i < facteursA.getNbFacteurs(); i++) {
+                for(i = 0; i < facteursA.size(); i++) {
                         a = rechercherCandidat(facteursA[i]);
                         if(pgcd(std::pow(a, (candidatPrime-1)/facteursA[i]), candidatPrime) != 1) {
                                 return false;

@@ -1,4 +1,4 @@
-#include "pocklington.h"
+#include "pocklington.hpp"
 
 template <typename T>
 T modpow(T base, T exp, T modulus){

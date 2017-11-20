@@ -1,4 +1,4 @@
-#include "facteurs.h"
+#include "facteurs.hpp"
 
 Facteurs::Facteurs(int n){
         this->nbFactored = n;
@@ -37,4 +37,11 @@ int Facteurs::getNbFacteurs(){
 
 Facteurs::~Facteurs(){
 
+}
+
+std::ostream& operator<<(std::ostream& os, Facteurs& facteur){
+       for(int i = 0; i < facteur.getNbFacteurs(); i++) {
+               os << facteur[i] << " ";
+       }
+       return os;
 }

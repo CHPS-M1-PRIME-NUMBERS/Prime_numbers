@@ -1,10 +1,10 @@
 #include <iostream>
 #include <chrono>
 
-#include "memory_bound.h"
+#include "memory_bound.hpp"
 #include "euclide.hpp"
-#include "millerRabin.h"
-#include "pocklington.h"
+#include "millerRabin.hpp"
+#include "pocklington.hpp"
 
 int main(int argc, char** argv){
 

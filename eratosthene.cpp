@@ -1,4 +1,4 @@
-#include "eratosthene.h"
+#include "eratosthene.hpp"
 
 void multiple(unsigned int i, unsigned int number, bool* prime){ // Function that sets all premium multiples [i] to false.
         int j = 2;

@@ -1,4 +1,4 @@
-#include "millerRabin.h"
+#include "millerRabin.hpp"
 
 // Modular exponentiation (x^y) % p
 unsigned int expPower(unsigned int x, unsigned int y, unsigned int p){

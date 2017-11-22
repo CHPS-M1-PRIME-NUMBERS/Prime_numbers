@@ -36,7 +36,7 @@ bool pocklington(int candidatPrime){
         //Trouver un a, on a f un facteur de a et on a n - 1 = f * r
         //Et PGDC(f, r) = 1
         Facteurs facteurs(candidatPrime - 1);
-        // std::cerr << facteurs << std::endl;
+        std::cerr << facteurs << std::endl;
 
         if(facteurs.getNbFacteurs() < 1) {
                 return false;
@@ -57,15 +57,14 @@ bool pocklington(int candidatPrime){
         int B = (candidatPrime-1)/A;
         std::cerr << "PGCD(A, B) = " << pgcd(A, B) << std::endl;
 
-        bool res = true;
         if(A*A > candidatPrime && A*B == candidatPrime-1 && pgcd(A, B) == 1) {
           for(int  a = 2; a<candidatPrime; a++){
                 for(i = 0; i < facteursA.size(); i++) {
-                    if(modpow(a, candidatPrime-1, candidatPrime) != 1 || pgcd(std::pow(a, (candidatPrime-1)/facteursA[i])-1, candidatPrime) != 1){
-                      res = false;
+                    if(modpow(a, candidatPrime-1, candidatPrime) == 1 && pgcd(std::pow(a, (candidatPrime-1)/facteursA[i])-1, candidatPrime) == 1){
+                      return true;
                     }
                   }
                 }
         }
-        return res;
+        return false;
 }

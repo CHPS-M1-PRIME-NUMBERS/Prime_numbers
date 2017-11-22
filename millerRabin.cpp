@@ -36,6 +36,7 @@ bool millerTest(unsigned int d, unsigned int n){
 // is probably prime
 bool millerRabin(unsigned int n, unsigned int k)
 {
+								srand (time(NULL));
 								unsigned int d = n - 1;
 
 								if (n <= 1 || n == 4) return false;

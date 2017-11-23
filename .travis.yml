@@ -1,4 +1,7 @@
 language: cpp
+
+script: cmake . && make
+
 addons:
   apt:
     sources:

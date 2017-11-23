@@ -7,7 +7,7 @@
 #include "facteurs.hpp"
 
 bool pocklington(int candidatPrime);
-int pgcd(int a, int b);
+int gcd(int a, int b);
 int rechercherCandidat(int N);
 
 #endif

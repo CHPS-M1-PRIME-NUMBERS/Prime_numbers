@@ -8,35 +8,35 @@
 
 int main(int argc, char** argv){
 
-        unsigned int candidatPrime1 = 283;
+        unsigned int candidatPrime1 = 27457;
         unsigned int candidatPrime2 = 8353;
-        unsigned int candidatPrime3 = 305;
+        unsigned int candidatPrime3 = 491;
         bool result;
         std::chrono::time_point<std::chrono::system_clock> start, end;
         int elapsed_time;
 
 
+        /*
+           std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
 
-        std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-
-        std::list<unsigned int> liste;
-        unsigned int n = 500;
-        start = std::chrono::system_clock::now();
-        memory_bound(n, &liste);
-        end = std::chrono::system_clock::now();
-        std::cout << "Eratosthene sieve from 2 to " << n << ":" << std::endl;
-        std::cout << liste << std::endl;
-        elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>
+           std::list<unsigned int> liste;
+           unsigned int n = 500;
+           start = std::chrono::system_clock::now();
+           memory_bound(n, &liste);
+           end = std::chrono::system_clock::now();
+           std::cout << "Eratosthene sieve from 2 to " << n << ":" << std::endl;
+           std::cout << liste << std::endl;
+           elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>
                                (end-start).count();
-        std::cout << "Time elapsed: " << elapsed_time << " ns" << std::endl;
+           std::cout << "Time elapsed: " << elapsed_time << " ns" << std::endl;
 
 
-
+         */
         std::cout << "==== Pocklington ====" << '\n';
 
         std::cout << "Is " << candidatPrime1 << " a prime number?" << std::endl;
         start = std::chrono::system_clock::now();
-        result = pocklington(283);
+        result = pocklington(candidatPrime1);
         end = std::chrono::system_clock::now();
         elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>
                                (end-start).count();
@@ -73,7 +73,7 @@ int main(int argc, char** argv){
         }
         std::cout << "Time elapsed: " << elapsed_time << " ns" << std::endl;
 
-
+/*
         std::cout << "==== Miller Rabin ====" << '\n';
 
         unsigned int iterations = 50;
@@ -208,6 +208,6 @@ int main(int argc, char** argv){
                 std::cout << "False" << std::endl;
         }
         std::cout << "Time elapsed: " << elapsed_time << " ns" << std::endl;
-
+ */
         return 0;
 }

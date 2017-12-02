@@ -1,10 +1,12 @@
 #include <iostream>
 #include <chrono>
+#include <gmpxx.h>
 
 #include "memory_bound.hpp"
 #include "euclide.hpp"
 #include "millerRabin.hpp"
 #include "pocklington.hpp"
+
 
 int main(int argc, char** argv){
 
@@ -15,6 +17,9 @@ int main(int argc, char** argv){
         std::chrono::time_point<std::chrono::system_clock> start, end;
         int elapsed_time;
 
+        mpz_class a(10);
+        a += a;
+        std::cout << "Test "<< a.get_str() << std::endl;
 
         /*
            std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;

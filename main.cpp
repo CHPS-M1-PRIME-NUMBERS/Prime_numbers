@@ -8,6 +8,11 @@
 #include "pocklington.hpp"
 
 
+std::ostream& operator<<(std::ostream& out, mpz_class& chiffre){
+        out << chiffre.get_str();
+        return out;
+}
+
 int main(int argc, char** argv){
 
         unsigned int candidatPrime1 = 27457;
@@ -19,7 +24,6 @@ int main(int argc, char** argv){
 
         mpz_class a(10);
         a += a;
-        std::cout << "Test "<< a.get_str() << std::endl;
 
         /*
            std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;

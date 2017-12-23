@@ -33,3 +33,10 @@
 
 # Cmake build directory
 /build
+
+# Latex
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc

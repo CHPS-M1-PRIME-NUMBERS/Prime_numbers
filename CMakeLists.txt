@@ -13,6 +13,5 @@ include_directories(${GMPXX_INCLUDE_DIR})
 
 
 # executable
-
 add_executable(prime_numbers main.cpp euclide.cpp millerRabin.cpp memory_bound.cpp eratosthene.cpp pocklington.cpp facteurs.cpp)
 target_link_libraries(prime_numbers ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} gmp gmpxx)

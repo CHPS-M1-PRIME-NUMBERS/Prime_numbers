@@ -6,6 +6,7 @@ void memory_bound(unsigned int nbr, std::list<unsigned int>* l){ // Return a lis
 
         bool* isPrime;
         unsigned int i;
+        if (!l->empty()) l->clear(); // Clear the content
         isPrime = eratosthene(nbr); // Application of the eratosthene sieve to find the prime numbers
 
         for(i = 0; i <= nbr; i++) {

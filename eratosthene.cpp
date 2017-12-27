@@ -1,32 +1,33 @@
 #include "eratosthene.hpp"
+#include <iostream>
 
-void multiple(unsigned int i, unsigned int number, bool* prime){ // Function that sets all premium multiples [i] to false.
-        int j = 2;
+void multiple(mpz_class i, mpz_class number, bool* prime){ // Function that sets all premium multiples [i] to false.
+        mpz_class j = 2;
 
-        while ( j <= number/i) {
-                prime[j * i] = false;
-                j++;
+        while ( cmp(j, number/i) <= 0) {
+                prime[j.get_ui() * i.get_ui()] = false;
+                j = j+1;
         }
 }
 
-bool* eratosthene(unsigned int number){
-        bool* isPrime = new bool[number+1]; //Boolean array indicating whether the index number i is prime or not.
-        int i = 0, k;
+bool* eratosthene(mpz_class number){
+        bool* isPrime = new bool[number.get_ui()+1]; //Boolean array indicating whether the index number i is prime or not.
+        mpz_class i = 0, k;
 
         // Initialisation du tableau
-        while(i <= number) {
-                isPrime[i] = true;
-                i++;
+        while(cmp(i, number) <= 0) {
+                isPrime[i.get_ui()] = true;
+                i = i+1;
         }
 
         // 1 and 0 are not prime
         isPrime[0] = false; isPrime[1] = false;
         i = 2;
-        while (i <= number) {
+        while(cmp(i, number) <= 0) {
                 multiple(i,number,isPrime); // Sets all premium multiples of i to false.
                 i++;
-                while( (i <= number) && !(isPrime[i]) ) {
-                        i++;
+                while( (cmp(i, number) <= 0) && !(isPrime[i.get_ui()]) ) {
+                        i = i+1;
                 }
         }
         return isPrime;

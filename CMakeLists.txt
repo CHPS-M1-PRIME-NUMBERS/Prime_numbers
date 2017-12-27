@@ -6,7 +6,12 @@ project(TP1 VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# executable
+#include(FindGMP)
+find_library(GMP REQUIRED)
+include_directories(${GMP_INCLUDE_DIR})
+include_directories(${GMPXX_INCLUDE_DIR})
+
 
 add_executable(prime_numbers main.cpp euclide.cpp millerRabin.cpp memory_bound.cpp eratosthene.cpp
                 AKS.cpp pocklington.cpp facteurs.cpp)
+target_link_libraries(prime_numbers ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} gmp gmpxx)

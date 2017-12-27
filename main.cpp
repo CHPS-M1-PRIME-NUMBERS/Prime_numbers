@@ -1,12 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <gmpxx.h>
 
 #include "memory_bound.hpp"
 #include "euclide.hpp"
 #include "millerRabin.hpp"
 #include "pocklington.hpp"
 #include "AKS.hpp"
+
+
+std::ostream& operator<<(std::ostream& out, mpz_class& chiffre){
+        out << chiffre.get_str();
+        return out;
+}
 
 int main(int argc, char** argv){
 
@@ -30,7 +37,7 @@ int main(int argc, char** argv){
         std::cout << "Test pour N = " << n << std::endl;
 
         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-        std::list<unsigned int> liste;
+        std::list<mpz_class> liste;
         for (int i = 0; i < iter; i ++){
 		          start = std::chrono::system_clock::now();
 		          memory_bound(n, &liste);
@@ -139,13 +146,17 @@ int main(int argc, char** argv){
     {
         std::cout << "\nTest pour un tableau de nombres premier :"<< std::endl;
         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-        std::list<unsigned int> liste;
+        std::list<mpz_class> liste;
+        mpz_class tab2[size];
+        for (int i = 0; i < size; i++){
+            tab2[i] = atoi(argv[i+4]);
+        }
         for (int i = 0; i < size; i ++){
     		start = std::chrono::system_clock::now();
-    		memory_bound(tab[i], &liste);
+    		memory_bound(tab2[i], &liste);
     		end = std::chrono::system_clock::now();
     	    elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-    		file2 << tab[i] << " " << elapsed_time << std::endl;
+    		file2 << tab2[i] << " " << elapsed_time << std::endl;
 	    }file2 << std::endl;
 
        std::cout << "==== Pocklington ====" << '\n';

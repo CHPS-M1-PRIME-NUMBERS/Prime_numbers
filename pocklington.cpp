@@ -30,7 +30,6 @@ bool pocklington(int candidatPrime){
         //Trouver un a, on a f un facteur de a et on a n - 1 = f * r
         //Et PGDC(f, r) = 1
         Facteurs facteurs(candidatPrime - 1);
-        std::cerr << facteurs << std::endl;
 
         if(facteurs.getNbFacteurs() < 1) {
                 return false;

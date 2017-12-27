@@ -1,26 +1,22 @@
-#include <cmath>
-#include <iostream>
-#include <sstream>
-#include <type_traits>
-#include "CPolyMod.cpp"
+#include "AKS.hpp"
 
 // cette fonction vérifie que n est un "perfect power", si cette fonction renvoie true n est composé sinon aks peut continuer a s'executer
-bool is_perfect_power(int n)
+bool is_perfect_power(unsigned int n)
 {
-	int b, a2;
+	unsigned int b, a2;
 	double a;
-	int tmp;
+	unsigned int tmp;
 	for (b=2;b <= log2(n);b++)
 	{
         a = pow(n,1.0/b);
-		if((a - (int)a) == 0) {
+		if((a - (unsigned int)a) == 0) {
 			return true;
 		}
 	}
 	return false;
 }
 
-int max ( int a ,int b)
+unsigned int max ( unsigned int a ,unsigned int b)
 {
 	if ( a > b )
 	{
@@ -31,24 +27,12 @@ int max ( int a ,int b)
 	}
 }
 
-template <typename T>
-T modpow(T base, T exp, T modulus){
-        base %= modulus;
-        T result = 1;
-        while(exp > 0) {
-                if(exp & 1) result =(result * base) % modulus;
-                base = (base * base) % modulus;
-                exp >>= 1;
-        }
-        return result;
-}
-
-int find_r(int n)
+unsigned int find_r(unsigned int n)
 {
-	int maxk = floor(pow(log2(n),2));
-	int maxr = max(ceil(pow(log2(n),5)),3);
+	unsigned int maxk = floor(pow(log2(n),2));
+	unsigned int maxr = max(ceil(pow(log2(n),5)),3);
 	bool nextR = true;
-	int r,k;
+	unsigned int r,k;
 	for (r=2; nextR && (r < maxr); r++)
 	{
 		nextR=false;
@@ -61,8 +45,8 @@ int find_r(int n)
 	return r;
 }
 
-int GCD(int a, int b){
-        int r = 1;
+unsigned int GCD(unsigned int a, unsigned int b){
+        unsigned int r = 1;
         while(a%b != 0)
          {
                 r = a%b;
@@ -71,10 +55,10 @@ int GCD(int a, int b){
         }
         return r;
 }
-int EulerPhi(int n)
+unsigned int EulerPhi(unsigned int n)
 {
 	float res=n;
-	int p;
+	unsigned int p;
 	for ( p=2; (p*p) <= n; p++)
 	{
 		if(n%p ==0)
@@ -91,7 +75,7 @@ int EulerPhi(int n)
 	return res;
 }
 
-bool step_5(int n, int r){
+bool step_5(unsigned int n, unsigned int r){
 	unsigned int max = floor(sqrt(EulerPhi(r))*log2(n));
 	CPolyMod p1(r, n);	// x
 	p1 = p1.Pow(n);		// x^n
@@ -109,9 +93,9 @@ bool step_5(int n, int r){
 	return true;
 }
 
-bool aks(int n)
+bool aks(unsigned int n)
 {
-	int r,i,gcd;
+	unsigned int r,i,gcd;
 	if (is_perfect_power(n))
 	{
 		std::cout<<n<<" composite"<<std::endl;
@@ -139,10 +123,10 @@ bool aks(int n)
 	std::cout<<n<<" prime"<<std::endl;
 	return true;
 }
-
+/*
 int main ()
 {
 	aks(31);
 	aks(1039);
 	aks(1001);
-}
+}*/

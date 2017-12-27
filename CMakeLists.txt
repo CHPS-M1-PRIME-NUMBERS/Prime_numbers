@@ -8,4 +8,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # executable
 
-add_executable(prime_numbers main.cpp euclide.cpp millerRabin.cpp memory_bound.cpp eratosthene.cpp pocklington.cpp facteurs.cpp)
+add_executable(prime_numbers main.cpp euclide.cpp millerRabin.cpp memory_bound.cpp eratosthene.cpp
+                AKS.cpp pocklington.cpp facteurs.cpp)

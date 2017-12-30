@@ -69,12 +69,16 @@ int main(int argc, char** argv){
         file1 << avg << " ";
 
 
-        std::cout << "==== Miller Rabin ====" << '\n';
-        unsigned int iterations = 50;
+        std::cout << "==== Miller Rabin ====" << std::endl;
+        mpz_t iterationsgmp, t;
+        mpz_init(iterationsgmp);
+        mpz_init(t);
+        mpz_set_ui(iterationsgmp, 5);
+        mpz_set_ui(t, n);
         avg = 0;
         for (int i = 0; i < iter; i ++){
             start = std::chrono::system_clock::now();
-            result = millerRabin(n, iterations);
+            result = millerRabin(t, iterationsgmp);
             end = std::chrono::system_clock::now();
             elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
             avg += elapsed_time;
@@ -86,7 +90,7 @@ int main(int argc, char** argv){
         }
         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
         file1 << avg << " ";
-
+        mpz_clear(t); mpz_clear(iterationsgmp);
 
         std::cout << "==== Computation Bound || Euclide ====" << '\n';
         avg = 0;
@@ -169,15 +173,20 @@ int main(int argc, char** argv){
        }file2 << std::endl;
 
        std::cout << "==== Miller Rabin ====" << '\n';
-       unsigned int iterations = 50;
+       mpz_t iterationsgmp, t;
+       mpz_init(iterationsgmp);
+       mpz_init(t);
+       mpz_set_ui(iterationsgmp, 50);
+
        for (int i = 0; i < size; i ++){
            start = std::chrono::system_clock::now();
-           result = millerRabin(tab[i], iterations);
+           mpz_set_ui(t, tab[i]);
+           result = millerRabin(t, iterationsgmp);
            end = std::chrono::system_clock::now();
            elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
            file2 << tab[i] << " " << elapsed_time << std::endl;
        }file2 << std::endl;
-
+       mpz_clear(t); mpz_clear(iterationsgmp);
        std::cout << "==== Computation Bound || Euclide ====" << '\n';
        for (int i = 0; i < size; i ++){
            start = std::chrono::system_clock::now();

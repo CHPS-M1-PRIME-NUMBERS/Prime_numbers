@@ -7,9 +7,17 @@ Facteurs::Facteurs(int n){
 
 void Facteurs::factorisation(){
         int N = this->nbFactored;
-        if(N<=2) {
+        if(N<0) {
                 std::cerr << "Erreur : le nombre à vérifier est inférieur ou égal à 2." << std::endl;
                 exit(EXIT_FAILURE);
+        }
+        else if(N == 1) {
+                facteurs.push_back(1);
+                this->nbFacteurs = facteurs.size();
+        }
+        else if(N == 2) {
+                facteurs.push_back(2);
+                this->nbFacteurs = facteurs.size();
         }
         else{
                 for(int j = 2; j<= N; j++) {
@@ -40,8 +48,8 @@ Facteurs::~Facteurs(){
 }
 
 std::ostream& operator<<(std::ostream& os, Facteurs& facteur){
-       for(int i = 0; i < facteur.getNbFacteurs(); i++) {
-               os << facteur[i] << " ";
-       }
-       return os;
+        for(int i = 0; i < facteur.getNbFacteurs(); i++) {
+                os << facteur[i] << " ";
+        }
+        return os;
 }

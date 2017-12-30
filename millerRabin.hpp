@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <gmpxx.h>
 
 unsigned int expPower(unsigned int x, unsigned int y, unsigned int p);
 bool millerTest(unsigned int d, unsigned int n);

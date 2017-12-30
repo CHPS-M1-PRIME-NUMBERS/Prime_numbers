@@ -6,8 +6,8 @@
 #include <ctime>
 #include <gmpxx.h>
 
-unsigned int expPower(unsigned int x, unsigned int y, unsigned int p);
-bool millerTest(unsigned int d, unsigned int n);
-bool millerRabin(unsigned int n, unsigned int k);
+void expPower(mpz_t dest, mpz_t x, mpz_t y, mpz_t p);
+bool millerTest(mpz_t d, mpz_t n);
+bool millerRabin(mpz_t n, mpz_t k);
 
 #endif

@@ -8,7 +8,7 @@ Facteurs::Facteurs(int n){
 void Facteurs::factorisation(){
         int N = this->nbFactored;
         if(N<0) {
-                std::cerr << "Erreur : le nombre à vérifier est inférieur ou égal à 2." << std::endl;
+                std::cerr << "Erreur : le nombre à vérifier est négatif." << std::endl;
                 exit(EXIT_FAILURE);
         }
         else if(N == 1) {

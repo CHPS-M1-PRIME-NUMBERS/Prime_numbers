@@ -17,19 +17,42 @@ std::ostream& operator<<(std::ostream& out, mpz_class& chiffre){
 
 int main(int argc, char** argv){
 
-// On récupère les arguments de la fonction ;
-    unsigned int iter = atoi(argv[1]);
-    unsigned int n = atoi(argv[2]);
-    unsigned int size = atoi(argv[3]);
-    unsigned int tab[size];
-    for (int i = 0; i < size; i++){
-        tab[i] = atoi(argv[i+4]);
+    unsigned int iter, n, size;
+    // On récupère les arguments.
+    if (argc == 1){ // Il n'y a pas d'arguments
+        iter = 15;
+        n = 7999993;
+        size = 0;
     }
+    else if (argc == 2){ // On connais seulement le nombre d'iérations
+        iter = atoi(argv[1]);
+        n = 7999993;
+        size = 0;
+    }
+    else if (argc == 3 || argc == 4){ // Pas de tableau ou on connait sa taille mais pas de contenus.
+        iter = atoi(argv[1]);
+        n = atoi(argv[2]);
+        size = 0;
+    }
+    else{
+        iter = atoi(argv[1]);
+        n = atoi(argv[2]);
+        size = atoi(argv[3]);
+        if (size != (argc-4)) size = argc-4; // Test fait dans le cas ou one n'utilise pas le script bash.
+    }
+
+    unsigned int tab[size];
+    if (size != 0){
+        for (int i = 0; i < size; i++){
+            tab[i] = atoi(argv[i+4]);
+        }
+    }
+    
     unsigned int avg = 0;
     bool result;
     int elapsed_time;
     std::chrono::time_point<std::chrono::system_clock> start, end;
-    std::ofstream file1("moyenne.txt", std::ios::out | std::ios::trunc);
+    std::ofstream file1("average.txt", std::ios::out | std::ios::trunc);
     std::ofstream file2("data.txt", std::ios::out | std::ios::trunc);
     std::ofstream file3("result.txt", std::ios::out | std::ios::trunc);
 
@@ -143,7 +166,7 @@ int main(int argc, char** argv){
 
 
 
-    {
+    if (size != 0){ // Le tableau n'est pas vide.
         std::cout << "\nTest pour un tableau de nombres premier :"<< std::endl;
         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
         std::list<mpz_class> liste;

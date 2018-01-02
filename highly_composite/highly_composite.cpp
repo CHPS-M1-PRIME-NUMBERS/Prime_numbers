@@ -1,6 +1,5 @@
-#include <cmath>
-#include <cstdlib>
-#include "memory_bound.hpp"
+#include "highly_composite.hpp"
+
 
 unsigned int nb_dividers(unsigned int number){ // calculates the number of divisors of an integer
     std::list<unsigned int> prime; // List of prime number

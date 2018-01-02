@@ -4,13 +4,15 @@
 read -p " Comment d'itération pour le test d'un nombre premier ? " iter # Se sera argv[1]
 read -p " Quel est ce nombre ? " nbr # Se sera argv[2]
 read -p 'Combien de nombres (de préférence premier)? ' size # Se sera argv[3]
-echo "Veuillez les indiquer: "
-
-prime_numbers=()  # Se sera argv[4]
-for ((i=0; i<$size; i++))
-do
-    read prime_numbers[i]
-done
+if [ $size != 0 ]
+then
+    echo "Veuillez les indiquer: "
+    prime_numbers=()  # Se sera argv[4]
+    for ((i=0; i<$size; i++))
+    do
+        read prime_numbers[i]
+    done
+fi
 
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
@@ -31,6 +33,6 @@ else   # On efface le contenu
 fi
 
 ./prime_numbers $iter $nbr $size ${prime_numbers[*]}
-gnuplot -e "plot 'data.txt'; pause -1" # Affiche le plot du résultat
+#gnuplot -e "plot 'data.txt'; pause -1" # Affiche le plot du résultat
 #gnuplot -e "plot 'average.txt'; pause -1" # Un histogramme qui compare la vitesse d'éxécution des algos pour un nombre?
 cd ..

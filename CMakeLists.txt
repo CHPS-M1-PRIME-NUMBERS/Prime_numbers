@@ -11,7 +11,14 @@ find_library(GMP REQUIRED)
 include_directories(${GMP_INCLUDE_DIR})
 include_directories(${GMPXX_INCLUDE_DIR})
 
+#includes our libraries
+include_directories ("${PROJECT_SOURCE_DIR}/primality_proba")
+include_directories ("${PROJECT_SOURCE_DIR}/primality_deter")
+#include_directories ("${PROJECT_SOURCE_DIR}/highly_composite")
+add_subdirectory (primality_proba)
+add_subdirectory (primality_deter)
+#add_subdirectory (highly_composite)
+set (EXTRA_LIBS ${EXTRA_LIBS} primality_proba primality_deter)
 
-add_executable(prime_numbers main.cpp euclide.cpp millerRabin.cpp memory_bound.cpp eratosthene.cpp
-                AKS.cpp pocklington.cpp facteurs.cpp)
-target_link_libraries(prime_numbers ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} gmp gmpxx)
+add_executable(prime_numbers main.cpp)
+target_link_libraries(prime_numbers ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} gmp gmpxx)

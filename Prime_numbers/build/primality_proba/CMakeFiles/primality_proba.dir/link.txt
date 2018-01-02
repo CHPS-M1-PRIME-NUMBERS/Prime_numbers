@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprimality_proba.a  CMakeFiles/primality_proba.dir/millerRabin.cpp.o
+/usr/bin/ranlib libprimality_proba.a

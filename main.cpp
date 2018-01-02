@@ -8,6 +8,7 @@
 #include "millerRabin.hpp"
 #include "pocklington.hpp"
 #include "AKS.hpp"
+#include "highly_composite.hpp"
 
 
 std::ostream& operator<<(std::ostream& out, mpz_class& chiffre){
@@ -17,11 +18,11 @@ std::ostream& operator<<(std::ostream& out, mpz_class& chiffre){
 
 int main(int argc, char** argv){
 
-    unsigned int iter, n, size;
+    unsigned int iter, n, size, hc;
     // On récupère les arguments.
     if (argc == 1){ // Il n'y a pas d'arguments
         iter = 15;
-        n = 7999993;
+        n = 7999993; //Valeur par défaut.
         size = 0;
     }
     else if (argc == 2){ // On connais seulement le nombre d'iérations
@@ -38,7 +39,8 @@ int main(int argc, char** argv){
         iter = atoi(argv[1]);
         n = atoi(argv[2]);
         size = atoi(argv[3]);
-        if (size != (argc-4)) size = argc-4; // Test fait dans le cas ou one n'utilise pas le script bash.
+        if (size != (argc-4-1)) size = argc-4-1; // Test fait dans le cas ou one n'utilise pas le script bash.
+        hc = atoi(argv[argc-1]);
     }
 
     unsigned int tab[size];
@@ -47,7 +49,7 @@ int main(int argc, char** argv){
             tab[i] = atoi(argv[i+4]);
         }
     }
-    
+
     unsigned int avg = 0;
     bool result;
     int elapsed_time;
@@ -60,7 +62,7 @@ int main(int argc, char** argv){
         std::cout << "Test pour N = " << n << std::endl;
 
         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-        std::list<mpz_class> liste;
+        std::list<unsigned int> liste;
         for (int i = 0; i < iter; i ++){
 		          start = std::chrono::system_clock::now();
 		          memory_bound(n, &liste);
@@ -164,22 +166,19 @@ int main(int argc, char** argv){
         file1 << avg << " \n";
     }
 
-
-
     if (size != 0){ // Le tableau n'est pas vide.
         std::cout << "\nTest pour un tableau de nombres premier :"<< std::endl;
         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-        std::list<mpz_class> liste;
-        mpz_class tab2[size];
+        std::list<unsigned int> liste;
         for (int i = 0; i < size; i++){
-            tab2[i] = atoi(argv[i+4]);
+            tab[i] = atoi(argv[i+4]);
         }
         for (int i = 0; i < size; i ++){
     		start = std::chrono::system_clock::now();
-    		memory_bound(tab2[i], &liste);
+    		memory_bound(tab[i], &liste);
     		end = std::chrono::system_clock::now();
     	    elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-    		file2 << tab2[i] << " " << elapsed_time << std::endl;
+    		file2 << tab[i] << " " << elapsed_time << std::endl;
 	    }file2 << std::endl;
 
        std::cout << "==== Pocklington ====" << '\n';
@@ -227,6 +226,47 @@ int main(int argc, char** argv){
            elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
            file2 << tab[i] << " " << elapsed_time << std::endl;
        }file2 << std::endl;
+    }
+
+    { // Nombre Hautement Composé
+        std::cout << "\nTest Nombre Hautement Composé pour K = " << hc << std::endl;
+
+        std::cout << "==== highly_composite_naive ====" << std::endl;
+        avg = 0;
+        for (int i = 0; i < iter; i ++){
+		          start = std::chrono::system_clock::now();
+		          result = highly_composite_naive(hc);
+    		      end = std::chrono::system_clock::now();
+	    	      elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
+		          avg += elapsed_time;
+	    }
+	    avg /= iter;
+        if(result) {
+                file3 << "highly_composite_naive of " << hc << ":" << std::endl << "True" << std::endl;
+        }else{
+                file3 << "highly_composite_naive of " << hc << ":" << std::endl << "False" << std::endl;
+        }
+	    std::cout << "Time elapsed average:"  << avg << " ns" << std::endl;
+        file1 << avg << " ";
+
+
+        std::cout << "==== highly_composite_def ====" << std::endl;
+        avg = 0;
+        for (int i = 0; i < iter; i ++){
+		          start = std::chrono::system_clock::now();
+		          result = highly_composite_def(hc);
+    		      end = std::chrono::system_clock::now();
+	    	      elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
+		          avg += elapsed_time;
+	    }
+	    avg /= iter;
+        if(result) {
+                file3 << "highly_composite_def of " << hc << ":" << std::endl << "True" << std::endl;
+        }else{
+                file3 << "highly_composite_def of " << hc << ":" << std::endl << "False" << std::endl;
+        }
+	    std::cout << "Time elapsed average:"  << avg << " ns" << std::endl;
+        file1 << avg << " ";
     }
         return 0;
 }

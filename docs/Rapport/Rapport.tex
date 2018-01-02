@@ -72,33 +72,30 @@
 		\paragraph{}Ensuite le second outils utilisé est la bibliothèque \textit{NTL}, propose certaines fonctionnalité pour le calcul du PolyModulo\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test} qui nous est indispensable pour l'implémentation du test de primalité AKS. N'ayant aucune connaissance nécessaire dans le domaine mathématique sur le polymodulo, l'utilisation de cette bibliothèque nous permet d'obtenir des fonctions pour ces calculs et de façon optimisée.  
 		\paragraph{}Nous avons également utilisé un service d’hébergement de gestion de développement utilisant le système de gestion de version \textit{Git} qui est \textbf{GitHub}. Ceci nous a permis de travailler en groupe sur un dépôt de façon très facile tout en étant indépendant lorsque chacun devait travailler de son côté sur une fonctionnalité sans pour autant perturber le travail du reste du groupe. GitHub nous permet également de stocker les différentes versions de notre travail.   
 		\paragraph{}Enfin le dernier outilsutilisé est \textit{Cmake}\footnote{https://cmake.org/}. CMake est une famille d'outils multi-plateformes et open source permettant de construire, tester et emballer des logiciels. Nous l'utilisons pour la compilation du projet, la liaison avec plusieurs bibliothèques utilisées et pour la génération d'un makefile. 
-		
-	\section{Fonctionnement du projet}
-
-	\section{Bilan technique du projet}
-	
+			
 	\section{Analyse des résultats}
 	Dans cette partie nous allons donc analyser les résultats obtenus lors des tests et les comparer entres elles. En premier lieu nous avons tester chaque test de primalité sur un nombre N premier très grand, les faires tourner sur un nombre d'itération $iter$ pour obtenir une moyenne sur du temps d'exécution pour chaque algorithme. \\
 	
 		\textbf{METTRE LE PLOT - LE N du test - iter du test - COMMENTAIRE DES RESULTATS}\\ 
 	
-	\section{Coûts(Complexité)(facultatif?)}
-					
+	\section{Bilan Technique du Projet}					
 	\section{Organisation interne du groupe}
 	Pour débuter la programmation de ce projet, il nous fallait en premier lieu établir la répartition du travail de groupe pour que le projet puisse avancer de façon efficace et de manière rapide. Le tableau ci-dessus va ainsi indiquer pour chaque membre du groupe la ou les fonctionnalités pour laquelle il a pu contribuer à l'élaboration: \\
 	
 	\begin{center}\vspace{-1em}\footnotesize\begin{longtable}{|>{\centering}m{4cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering\arraybackslash}m{2cm}|}			
 		\hline \multicolumn{1}{|c|}{\textbf{Tâches}} & \multicolumn{1}{c|}{\textbf{Jean-Didier}} & \multicolumn{1}{ c|}{\textbf{Maxence}} & \multicolumn{1}{ c|}{\textbf{Romain}} & \multicolumn{1}{ c|}{\textbf{Robin}} & \multicolumn{1}{c|}{\textbf{Damien}}\\
 		\hline 	Eratosthène/Memory Bound & x & ~ & ~ & ~ & ~ \\
-		\hline 	Euclide/Computation Bound & ~ & ~ & ~ & ~ & ~ \\
-		\hline 	AKS & ~ & ~ & ~ & ~ & ~ \\
-		\hline 	Pocklington & ~ & ~ & ~ & ~ & ~ \\
-		\hline 	Miller-Rabin & ~ & ~ & ~ & ~ & ~ \\
+		\hline 	Euclide/Computation Bound & ~ & x & ~ & ~ & ~ \\
+		\hline 	AKS & ~ & ~ & x & ~ & ~ \\
+		\hline 	Pocklington & ~ & ~ & ~ & ~ & x \\
+		\hline 	Miller-Rabin & ~ & ~ & ~ & x & ~ \\
 		\hline 	Highly Composite & x & ~ & ~ & ~ & ~ \\
-		\hline 	Cmake  & ~ & ~ & ~ & ~ & ~ \\
+		\hline 	Cmake  & x & ~ & x & ~ & ~ \\
 		\hline  Script & x & ~ & ~ & ~ & ~ \\
 		\hline
 	\end{longtable}\vspace{-2.2em}\end{center}
+	
+	\section{Coût/ Complexité?}
 
 	\section{Conclusion}
 

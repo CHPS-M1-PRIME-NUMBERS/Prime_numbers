@@ -22,7 +22,7 @@ int main(int argc, char** argv){
     // On récupère les arguments.
     if (argc == 1){ // Il n'y a pas d'arguments
         iter = 15;
-        n = 7999993; //Valeur par défaut.
+        n = 7999993;
         size = 0;
     }
     else if (argc == 2){ // On connais seulement le nombre d'iérations

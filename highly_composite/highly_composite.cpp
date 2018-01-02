@@ -1,6 +1,5 @@
-#include <cmath>
-#include <cstdlib>
-#include "memory_bound.hpp"
+#include "highly_composite.hpp"
+
 
 unsigned int nb_dividers(unsigned int number){ // calculates the number of divisors of an integer
     std::list<unsigned int> prime; // List of prime number
@@ -63,15 +62,4 @@ bool highly_composite_def(unsigned int number){ // definition that use the form 
         return false; // The final exponent a_p is always 1, except for the two cases N = 4 and N = 36.
 
     return true;
-}
-
-int main(){
-    int a;
-    std::cin >> a;
-    std::cout << " Nombre de diviseur de " << a << " : " << nb_dividers(a) << std::endl;
-
-    // Test de highly_composite_naive
-    std::cout << " Hautement composé ? " << highly_composite_naive(a) << std::endl;
-    // Test de highly_composite_def
-    std::cout << " Hautement composé ? " << highly_composite_def(a) << std::endl;
 }

@@ -3,7 +3,8 @@
 \title{\vspace{\fill}\textbf{\Huge Rapport}}
 \author{Jean-Didier Pailleux - Maxence Joulin - Damien Thenot - Romain Robert - Robin Feron 
 	\vspace{2em}\\
-	\textit{Test de primalité}
+	\textit{Test de primalité}\\
+	\textcolor{red}{https://github.com/CHPS-M1-PRIME-NUMBERS/Prime\_numbers}
 	\vspace{2em}
 }
 
@@ -37,17 +38,24 @@
 		
 	\section{Architecture du projet}
 		\subsection{Organigramme}
-		L'organigramme suivant va décrire la décomposition du programme du projet:\\ 
+		L'organigramme suivant fait part de la décomposition que va adopter le projet. Le projet se décompose en trois catégories de tests pour les nombres hautement composé, les tests de primalité déterministe et les tests de primalité probabiliste. \\ 
 		\begin{center}\includegraphics[scale=0.5]{organigramme.png}\end{center}
 		
 		\subsection{Tests de primalité}
 		Au cours de ce projet il nous a été demandé d'implémenter plusieurs algorithme pour déterminer si un nombre est premier ou non. Voici les différents tests utilisés pour ce travail:
 		\begin{itemize}
 			\item Méthode naïve le \textbf{crible d’Ératosthène}\footnote{zanotti.univ-tln.fr/ALGO/I51/Crible.html} utilisé pour le memory bound. Cet l'algorithme va procéder à une élimination dans une table d'entiers de 2 à N de tous les multiples de chaque entier présent dans ce tableau. En supprimant tous les multiples à la fin seuls les entiers qui ne sont multiples d'aucun autre resteront, et par conséquent ces nombres seront donc premiers. Le memory bound va donc être une liste des entiers restant à la fin de l'application du crible.\\
-			\item Méthode naïve \textbf{l'algorithme d'Euclide} (Déterministe).
-			\item \textbf{Pocklington} (Déterministe)
-			\item \textbf{AKS}\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test} 2002 (Déterministe)
-			\item \textbf{Miller-Rabin} (Probabiliste).
+			
+			\item Méthode naïve \textbf{l'algorithme d'Euclide} (Déterministe).\\
+			
+			\item \textbf{Pocklington} (Déterministe): Le test de primalité de Pocklington-Lehmer utilise le théorème de Pocklington pour vérifier la primalité d’un nombre.
+L’algorithme consiste à utiliser une factorisation partielle du nombre N-1, où N est le nombre dont on souhaite tester la primalité. Cette factorisation partielle nous permet d’obtenir un nombre que l’on nommera A et qui doit remplir certaines conditions pour qu’on puisse appliquer le théorème.
+Nous avons déjà la factorisation de A qui nous servira pour la suite de l'exécution de l’algorithme. 
+La suite consiste à tester les conditions requises sur tous les facteurs premiers de A, ces conditions sont de trouver un nombre "$a$" qui mis à la puissance N-1 modulo N donne 1 et que le plus grand diviseur commun entre {\Large$\frac{a^{(N-1)}}{p}$} et N soit égal à 1, avec p le facteur premier de A tester en ce moment. Si on a trouvé un "$a$" remplissant les conditions pour chaque “p” alors on peut dire que le nombre N est premier.\\
+
+			\item \textbf{AKS}\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test} 2002 (Déterministe)\\
+			
+			\item \textbf{Miller-Rabin} (Probabiliste): Miller-Rabin, basé sur le petit théorème de Fermat \\ $a^p-1 \equiv 1 \pmod p$, consiste à tirer parti d'une équation ou d'un système d'équations qui sont vraies pour des valeurs premières, et à regarder si elles sont toujours vraies ou non pour un nombre dont nous voulons tester la primalité. La fonction Miller-Rabin prend en paramètre un entier n dont on souhaite vérifier la primalité et un entier k qui représente le nombre d’itération du test de Miller-Rabin plus k est élevé est plus l’analyse est précise (moins de chance d’erreurs).\\
 		\end{itemize}
 		
 		\subsection{Nombres Hautement composés}
@@ -78,7 +86,11 @@
 	
 		\textbf{METTRE LE PLOT - LE N du test - iter du test - COMMENTAIRE DES RESULTATS}\\ 
 	
-	\section{Bilan Technique du Projet}					
+	\section{Bilan Technique du Projet}	
+		\subsection{Limites des tests}
+		
+		\subsection{Complexité}	
+					
 	\section{Organisation interne du groupe}
 	Pour débuter la programmation de ce projet, il nous fallait en premier lieu établir la répartition du travail de groupe pour que le projet puisse avancer de façon efficace et de manière rapide. Le tableau ci-dessus va ainsi indiquer pour chaque membre du groupe la ou les fonctionnalités pour laquelle il a pu contribuer à l'élaboration: \\
 	
@@ -90,12 +102,10 @@
 		\hline 	Pocklington & ~ & ~ & ~ & ~ & x \\
 		\hline 	Miller-Rabin & ~ & ~ & ~ & x & ~ \\
 		\hline 	Highly Composite & x & ~ & ~ & ~ & ~ \\
-		\hline 	Cmake  & x & ~ & x & ~ & ~ \\
+		\hline 	Cmake  & x & x & ~ & ~ & ~ \\
 		\hline  Script & x & ~ & ~ & ~ & ~ \\
 		\hline
-	\end{longtable}\vspace{-2.2em}\end{center}
-	
-	\section{Coût/ Complexité?}
+	\end{longtable}\vspace{-2.2em}\end{center}	
 
 	\section{Conclusion}
 

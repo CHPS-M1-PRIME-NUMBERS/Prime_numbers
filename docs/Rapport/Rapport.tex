@@ -29,11 +29,10 @@
 	\paragraph{}L'objectif de ce projet consiste à implémenter plusieurs de ces tests (déterministes) et ainsi comparer leur vitesse  d'exécution. Ceci et pour une exécution sur le test de primalité pour un nombre premier, et pour une exécution sur le test de n nombres premiers. De plus un test probabiliste sera programmer pour ainsi comparer la fiabilité du résultat et le temps que nécessite de faire cet algorithme.\\ 
 	Une partie bonus nous a été proposé lors de notre entretient avec Monsieur Gougeau qui consiste à implémenter une fonctionnalité pour déterminer si un nombre est hautement composé (c'est à dire que le nombre de ses diviseurs est supérieur strictement à tout les nombres inférieur lui). 
 	
-	\paragraph{}Dans la première partie de ce document, on présentera l'architecture de notre application, illustrée par un organigramme qui a été préalablement établi (A voir si on en fait un).\\
-	Ensuite Le fonctionnement de l'application sera décrit.
-	Après cela, on fera le bilan technique de notre projet, c'est à dire, les outils utilisés (bibliothèque), les difficultés rencontrés et autre.\\
-	Puis dans une autre partie l'analyse des résultats établis lors des tests de l'application.\\
-	Finalement, dans les deux dernières parties, on établira un bilan quant à l'organisation interne au sein du groupe et un bilan comparatif des coûts présumés de chaque test de primalité.
+	\paragraph{}Dans la première partie de ce document, on présentera l'architecture de notre projet (la décomposition), illustrée par un organigramme qui a été préalablement établi.\\
+	Après cela, on mentionnera les différents outils et langages utilisé au cours de la phase l'implémentation.\\
+	Puis dans une autre partie l'analyse des résultats établis lors des tests du projet accompagné d'un comparatif de la performance des tests.\\
+	Finalement, dans les deux dernières parties, on établira un bilan quant à l'organisation interne au sein du groupe et un bilan technique du projet qui mettra en avant les limites de chaque test de primalité.
 	
 		
 	\section{Architecture du projet}
@@ -87,9 +86,12 @@ La suite consiste à tester les conditions requises sur tous les facteurs premie
 		\textbf{METTRE LE PLOT - LE N du test - iter du test - COMMENTAIRE DES RESULTATS}\\ 
 	
 	\section{Bilan Technique du Projet}	
-		\subsection{Limites des tests}
+		Après l'analyse des résultats nous pouvons constater que les différents tests appliqués possèdent chacun des limites.	
+		Tout d'abord, la principale limite du crible d'Eratosthène concerne la taille de son tableau. En effet, pour un nombre N très très grand, le crible va créer un tableau de booléen de taille N+1, ce qui va prendre énormément de place en mémoire. Puis pour la création de la liste contenant les nombres premiers de 2 jusqu'à N, la fonctionnalité de memory\_bound va devoir parcourir toute les cases du tableau du crible pour remplir sa liste, ce qui engendre une complexité de N pour cette opération de remplissage.\\
 		
-		\subsection{Complexité}	
+		Ensuite, pour le test de Pocklington la limite principale est le besoin de factoriser le voisin d’en dessous du nombre dont on cherche à valider la primalité, c’est-à-dire N-1 si N est le nombre dont on met la primalité en question. La factorisation des grands nombres est une lourde tâche de calcul de difficulté exponentielle, ainsi même les programmes les plus efficaces demandent énormément de temps, des années voir plus, pour factoriser certaines nombres très grands.
+En réalité, nous avons la possibilité de factoriser N-1 qu’en partie, il suffit de factoriser N-1 jusqu’à trouver un A créer à partir des facteurs premiers de N-1 qui respecte les conditions nécessaires pour appliquer le théorème.\\
+
 					
 	\section{Organisation interne du groupe}
 	Pour débuter la programmation de ce projet, il nous fallait en premier lieu établir la répartition du travail de groupe pour que le projet puisse avancer de façon efficace et de manière rapide. Le tableau ci-dessus va ainsi indiquer pour chaque membre du groupe la ou les fonctionnalités pour laquelle il a pu contribuer à l'élaboration: \\

@@ -26,7 +26,7 @@ int main(int argc, char** argv){
 
         //Check si il existe des arguments, si oui recupère le nombre n et le nombre d'iterations
         if ( (argc <= 1) || (argv[argc-1] == NULL) || (argv[argc-1][0] == '-') ) {
-                cerr << "No argument provided!" << endl;
+                std::cerr << "No argument provided!" << std::endl;
                 return 1;
         }
         else {
@@ -62,7 +62,7 @@ int main(int argc, char** argv){
                         highly_composite_flag = true;
                         break;
                 case '?': // option inconnue
-                        cerr << "Unknown option: '" << char(optopt) << "'!" << endl;
+                        std::cerr << "Unknown option: '" << char(optopt) << "'!" << std::endl;
                         break;
                 }
         }
@@ -80,8 +80,8 @@ int main(int argc, char** argv){
 
                 if(mem_bound_flag == true || all_test_flag == true) {
                         unsigned int n_temp = n;
-                        if(n_temp>8000000000) {
-                                n_temp = 8000000000;
+                        if(n_temp>1000000000) {
+                                n_temp = 1000000000;
                         }
                         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
                         std::list<unsigned int> liste;

@@ -1,19 +1,27 @@
 #!/bin/bash
 # Si permission non accordé : chmod u+x test.sh
 
-read -p " Comment d'itération pour le test d'un nombre premier ? " iter # Se sera argv[1]
-read -p " Quel est ce nombre ? " nbr # Se sera argv[2]
-read -p 'Combien de nombres (de préférence premier)? ' size # Se sera argv[3]
+echo "== Script de test et d'analyse des nombres premiers =="
+# a : Effectuer chaque test.
+# k : AKS.
+# e : Euclide.
+# m : Cribble d'Eratosthene.
+# p : Pocklington.
+# i : Miller-Rabin.
+# h : Nombre hautement composé.
+read -p " Quels sont les tests que vous voulez lancer ? " options
+read -p " Combien d'itérations pour le test d'un nombre premier ? " iter
+read -p " Combien de nombres (de préférence premier)? " size
+
 if [ $size != 0 ]
 then
     echo "Veuillez les indiquer: "
-    prime_numbers=()  # Se sera argv[4]
+    prime_numbers=()
     for ((i=0; i<$size; i++))
     do
         read prime_numbers[i]
     done
 fi
-read -p " Donné un nombre hautement composé ?" hc # Se sera le dernier argument
 
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
@@ -33,7 +41,11 @@ else   # On efface le contenu
     echo '' | tee result.txt
 fi
 
-./prime_numbers $iter $nbr $size ${prime_numbers[*]} $hc
+for ((i=0; i<$size; i++))
+do
+  ./prime_numbers -$options $iter ${prime_numbers[$i]}
+done
+
 #gnuplot -e "plot 'data.txt'; pause -1" # Affiche le plot du résultat
 #gnuplot -e "plot 'average.txt'; pause -1" # Un histogramme qui compare la vitesse d'éxécution des algos pour un nombre?
 cd ..

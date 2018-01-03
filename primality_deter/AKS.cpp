@@ -80,16 +80,16 @@ bool step_5(unsigned int n, unsigned int r){
 	unsigned int temp = n;
 	ZZ x = conv<ZZ>(temp);
 	ZZ_p::init(x);	//mod n
-	ZZ_pX f(r, 1); 
+	ZZ_pX f(r, 1);
 	f -= 1;	//f=x^r-1
 	const ZZ_pXModulus pf(f);
-	ZZ_pX p1(x%r, 1);	//x^{n%r}=x^n mod(x^r-1)					
+	ZZ_pX p1(x%r, 1);	//x^{n%r}=x^n mod(x^r-1)
 	unsigned int a;
 	for (a = 1; a <= maxi; ++a) {
-		ZZ_pX p2(1, 1);	
-		p2 -= a;	//x-a		
-		PowerMod(p2, p2, x, pf);	//(x-a)^n	
-		p2 += a;	//(x-a)^n+a		
+		ZZ_pX p2(1, 1);
+		p2 -= a;	//x-a
+		PowerMod(p2, p2, x, pf);	//(x-a)^n
+		p2 += a;	//(x-a)^n+a
 		if (p1 != p2) {
 			return false;
 		}
@@ -127,7 +127,7 @@ bool aks(unsigned int n)
 	std::cout<<n<<" prime"<<std::endl;
 	return true;
 }
-
+/*
 int main ()
 {
 	if (aks(31))
@@ -135,3 +135,4 @@ int main ()
 	aks(1039);
 	aks(1001);
 }
+*/

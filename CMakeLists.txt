@@ -11,6 +11,11 @@ find_library(GMP REQUIRED)
 include_directories(${GMP_INCLUDE_DIR})
 include_directories(${GMPXX_INCLUDE_DIR})
 
+find_library(NTL_LIB ntl)
+if(NOT NTL_LIB)
+  message(FATAL_ERROR "ntl library not found.  Rerun cmake with -DCMAKE_PREFIX_PATH=\"<path to lib1>;<path to lib2>\"")
+endif()
+
 #includes our libraries
 include_directories ("${PROJECT_SOURCE_DIR}/primality_proba")
 include_directories ("${PROJECT_SOURCE_DIR}/primality_deter")
@@ -21,4 +26,4 @@ add_subdirectory (highly_composite)
 set (EXTRA_LIBS ${EXTRA_LIBS} primality_proba primality_deter highly_composite)
 
 add_executable(prime_numbers main.cpp)
-target_link_libraries(prime_numbers ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} gmp gmpxx)
+target_link_libraries(prime_numbers ${NTL_LIB} ${M_LIB} ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} ntl gmp gmpxx)

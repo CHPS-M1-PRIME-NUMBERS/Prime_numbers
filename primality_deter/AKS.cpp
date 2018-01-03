@@ -1,5 +1,5 @@
 #include "AKS.hpp"
-
+NTL_CLIENT
 // cette fonction vérifie que n est un "perfect power", si cette fonction renvoie true n est composé sinon aks peut continuer a s'executer
 bool is_perfect_power(unsigned int n)
 {
@@ -16,7 +16,7 @@ bool is_perfect_power(unsigned int n)
 	return false;
 }
 
-unsigned int max ( unsigned int a ,unsigned int b)
+unsigned int maximum ( unsigned int a ,unsigned int b)
 {
 	if ( a > b )
 	{
@@ -30,7 +30,7 @@ unsigned int max ( unsigned int a ,unsigned int b)
 unsigned int find_r(unsigned int n)
 {
 	unsigned int maxk = floor(pow(log2(n),2));
-	unsigned int maxr = max(ceil(pow(log2(n),5)),3);
+	unsigned int maxr = maximum(ceil(pow(log2(n),5)),3);
 	bool nextR = true;
 	unsigned int r,k;
 	for (r=2; nextR && (r < maxr); r++)
@@ -76,16 +76,20 @@ unsigned int EulerPhi(unsigned int n)
 }
 
 bool step_5(unsigned int n, unsigned int r){
-	unsigned int max = floor(sqrt(EulerPhi(r))*log2(n));
-	CPolyMod p1(r, n);	// x
-	p1 = p1.Pow(n);		// x^n
-
+	unsigned int maxi = floor(sqrt(EulerPhi(r))*log2(n));
+	unsigned int temp = n;
+	ZZ x = conv<ZZ>(temp);
+	ZZ_p::init(x);	//mod n
+	ZZ_pX f(r, 1); 
+	f -= 1;	//f=x^r-1
+	const ZZ_pXModulus pf(f);
+	ZZ_pX p1(x%r, 1);	//x^{n%r}=x^n mod(x^r-1)					
 	unsigned int a;
-	for (a = 1; a <= max; ++a) {
-		CPolyMod p2(r, n);		// x
-		p2 -= a;				// x - a
-		p2 = p2.Pow(n);			// (x - a)^n
-		p2 += a;				// (x - a)^n + a
+	for (a = 1; a <= maxi; ++a) {
+		ZZ_pX p2(1, 1);	
+		p2 -= a;	//x-a		
+		PowerMod(p2, p2, x, pf);	//(x-a)^n	
+		p2 += a;	//(x-a)^n+a		
 		if (p1 != p2) {
 			return false;
 		}
@@ -123,10 +127,11 @@ bool aks(unsigned int n)
 	std::cout<<n<<" prime"<<std::endl;
 	return true;
 }
-/*
+
 int main ()
 {
-	aks(31);
+	if (aks(31))
+	std::cout<< "ok"<<std::endl;
 	aks(1039);
 	aks(1001);
-}*/
+}

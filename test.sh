@@ -13,8 +13,8 @@ echo "== Script de test et d'analyse des nombres premiers =="
 # H : Nombre hautement composé def.
 read -p " Quels sont les tests que vous voulez lancer ? " options
 read -p " Combien d'itérations pour le test d'un nombre premier ? " iter
-read -p " Combien de nombres (de préférence premier ou hautement composé)? " size
-
+#read -p " Combien de nombres (de préférence premier ou hautement composé)? " size
+size=0
 if [ $size != 0 ]
 then
     echo "Veuillez les indiquer: "
@@ -24,7 +24,9 @@ then
         read prime_numbers[i]
     done
 fi
-
+    prime_numbers=('3' '97' '1039' '50023' '102013' '1300837' '4301623' '9990887' '15487253')
+    #prime_numbers=('2' '120' '240' '360' '720' '840' '1260' '1680' '2520')
+size=9
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
 
@@ -60,8 +62,10 @@ else # Cas avec l'option différent de "a"
     do
       ./prime_numbers -$options $iter ${prime_numbers[$i]}
     done
-    echo " " >> data.txt
 fi
 
-gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'build/data.gnu' using 1:2 with linespoints title 'Resultats'; pause -1" # Affiche le plot du résultat
+gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'data.txt' using 1:2 with linespoints title 'Resultats'; pause -1" # Affiche le plot du résultat
 cd ..
+
+#gnuplot -e "set format y '10^{%S}';set format x '10^{%S}'; set xlabel 'Number'; set ylabel 'Times (ns)'; plot 'AKS.txt' using 1:2 with linespoints title 'AKS','Euclide.txt' using 1:2 with linespoints title 'Euclide', 'Modulo.txt' using 1:2 with linespoints title 'Modulo','pocklington.txt' using 1:2 with linespoints title 'Pocklington', 'miller.txt' using 1:2 with linespoints title 'Miller-Rabin', 'Eratosthene.txt' using 1:2 with linespoints title 'Eratosthène';pause -1"
+#gnuplot -e "set format y '10^{%S}';set format x '10^{%S}'; set xlabel 'Number'; set ylabel 'Times (ns)'; plot 'Euclide.txt' using 1:2 with linespoints title 'Euclide', 'Modulo.txt' using 1:2 with linespoints title 'Modulo', 'miller.txt' using 1:2 with linespoints title 'Miller-Rabin', 'Eratosthene.txt' using 1:2 with linespoints title 'Eratosthène';pause -1"

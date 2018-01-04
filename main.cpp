@@ -105,7 +105,7 @@ int main(int argc, char** argv){
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
 
                 if(pock_flag == true || all_test_flag == true) {
@@ -125,12 +125,12 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
 
                 if(miller_flag == true || all_test_flag == true) {
                         std::cout << "==== Miller Rabin ====" << '\n';
-                        unsigned int iterations = 50;
+                        unsigned int iterations = 500;
                         avg = 0;
                         for (int i = 0; i < iter; i++) {
                                 start = std::chrono::system_clock::now();
@@ -146,7 +146,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
 
                 if(euclide_flag == true || all_test_flag == true) {
@@ -166,7 +166,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
 
                 if(modulo_flag == true || all_test_flag == true) {
@@ -186,7 +186,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
 
                 if(aks_flag == true || all_test_flag == true) {
@@ -206,7 +206,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
         }
 
@@ -229,7 +229,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
 
                 if(highly_composite_def_flag == true || all_test_flag == true) {
@@ -250,7 +250,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << " " << n << std::endl;
+                        file2 << n << " " << avg << std::endl;
                 }
         }
         //file2 << std::endl;

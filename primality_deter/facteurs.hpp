@@ -5,16 +5,16 @@
 
 class Facteurs {
 private:
-std::vector<int> facteurs;
+std::vector<unsigned long int> facteurs;
 int nbFacteurs;
-int nbFactored;
+unsigned long int nbFactored;
 void factorisation();
 
 public:
-Facteurs(int);
-int& operator[](int i);
-friend std::ostream& operator<<(std::ostream& os, Facteurs& facteur);
-int getNbFactored();
+Facteurs(unsigned long int);
+unsigned long int& operator[](int i);
+friend std ::ostream& operator<<(std::ostream& os, Facteurs& facteur);
+unsigned long int getNbFactored();
 int getNbFacteurs();
 ~Facteurs();
 

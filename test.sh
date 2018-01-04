@@ -4,14 +4,16 @@
 echo "== Script de test et d'analyse des nombres premiers =="
 # a : Effectuer chaque test.
 # k : AKS.
-# e : Euclide.
+# e : Euclide (Computation Bound).
+# o : Modulo (Computation Bound).
 # m : Cribble d'Eratosthene.
 # p : Pocklington.
 # i : Miller-Rabin.
-# h : Nombre hautement composé.
+# h : Nombre hautement composé naive.
+# H : Nombre hautement composé def.
 read -p " Quels sont les tests que vous voulez lancer ? " options
 read -p " Combien d'itérations pour le test d'un nombre premier ? " iter
-read -p " Combien de nombres (de préférence premier)? " size
+read -p " Combien de nombres (de préférence premier ou hautement composé)? " size
 
 if [ $size != 0 ]
 then
@@ -41,11 +43,25 @@ else   # On efface le contenu
     echo '' | tee result.txt
 fi
 
-for ((i=0; i<$size; i++))
-do
-  ./prime_numbers -$options $iter ${prime_numbers[$i]}
-done
+# Dans le cas où l'option choisi est "a" pour faire tout les tests:
+if [ $options = "a" ]
+then
+    options=('k' 'e' 'o' 'm' 'p' 'i' 'h' 'H')
+    for ((j=0; j<8; j++))
+    do
+        for ((i=0; i<$size; i++))
+        do
+          ./prime_numbers -${options[$j]} $iter ${prime_numbers[$i]}
+        done
+        echo " " >> data.txt
+    done
+else # Cas avec l'option différent de "a"
+    for ((i=0; i<$size; i++))
+    do
+      ./prime_numbers -$options $iter ${prime_numbers[$i]}
+    done
+    echo " " >> data.txt
+fi
 
-#gnuplot -e "plot 'data.txt'; pause -1" # Affiche le plot du résultat
-#gnuplot -e "plot 'average.txt'; pause -1" # Un histogramme qui compare la vitesse d'éxécution des algos pour un nombre?
+gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'build/data.gnu' using 1:2 with linespoints title 'Resultats'; pause -1" # Affiche le plot du résultat
 cd ..

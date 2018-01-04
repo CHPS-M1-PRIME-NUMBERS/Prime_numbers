@@ -19,10 +19,12 @@ int main(int argc, char** argv){
         bool all_test_flag = false;
         bool aks_flag = false;
         bool euclide_flag = false;
+        bool modulo_flag = false;
         bool mem_bound_flag = false;
         bool pock_flag = false;
         bool miller_flag = false;
-        bool highly_composite_flag = false;
+        bool highly_composite_def_flag = false;
+        bool highly_composite_naive_flag = false;
 
         //Check si il existe des arguments, si oui recupère le nombre n et le nombre d'iterations
         if ( (argc <= 1) || (argv[argc-1] == NULL) || (argv[argc-1][0] == '-') ) {
@@ -38,7 +40,7 @@ int main(int argc, char** argv){
         opterr = 0;
 
         // On récupère les options
-        while ( (opt = getopt(argc, argv, "akeumpih")) != -1 ) {    // for each option...
+        while ( (opt = getopt(argc, argv, "akeoumpihH")) != -1 ) {    // for each option...
                 switch ( opt ) {
                 case 'a':
                         all_test_flag = true;
@@ -48,6 +50,9 @@ int main(int argc, char** argv){
                         break;
                 case 'e':
                         euclide_flag = true;
+                        break;
+                case 'o':
+                        modulo_flag = true;
                         break;
                 case 'm':
                         mem_bound_flag = true;
@@ -59,7 +64,10 @@ int main(int argc, char** argv){
                         miller_flag = true;
                         break;
                 case 'h':
-                        highly_composite_flag = true;
+                        highly_composite_naive_flag = true;
+                        break;
+                case 'H':
+                        highly_composite_def_flag = true;
                         break;
                 case '?': // option inconnue
                         std::cerr << "Unknown option: '" << char(optopt) << "'!" << std::endl;
@@ -97,7 +105,7 @@ int main(int argc, char** argv){
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
 
                 if(pock_flag == true || all_test_flag == true) {
@@ -117,7 +125,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
 
                 if(miller_flag == true || all_test_flag == true) {
@@ -138,7 +146,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
 
                 if(euclide_flag == true || all_test_flag == true) {
@@ -158,10 +166,10 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
 
-                if(euclide_flag == true || all_test_flag == true) {
+                if(modulo_flag == true || all_test_flag == true) {
                         std::cout << "==== Computation Bound || Modulo ====" << '\n';
                         avg = 0;
                         for (int i = 0; i < iter; i++) {
@@ -178,7 +186,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
 
                 if(aks_flag == true || all_test_flag == true) {
@@ -198,12 +206,12 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
         }
 
         {       // Nombre Hautement Composé
-                if(highly_composite_flag == true || all_test_flag == true) {
+                if(highly_composite_naive_flag == true || all_test_flag == true) {
                         std::cout << "==== highly_composite_naive ====" << std::endl;
                         avg = 0;
                         for (int i = 0; i < iter; i++) {
@@ -219,11 +227,12 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "highly_composite_naive of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average:"  << avg << " ns" << std::endl;
+                        std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
+                }
 
-
+                if(highly_composite_def_flag == true || all_test_flag == true) {
                         std::cout << "==== highly_composite_def ====" << std::endl;
                         avg = 0;
                         for (int i = 0; i < iter; i++) {
@@ -239,12 +248,12 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "highly_composite_def of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average:"  << avg << " ns" << std::endl;
+                        std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << avg << std::endl;
+                        file2 << avg << " " << n << std::endl;
                 }
         }
-        file2 << std::endl;
+        //file2 << std::endl;
         std::cout << std::endl;
         return 0;
 }

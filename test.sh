@@ -13,8 +13,8 @@ echo "== Script de test et d'analyse des nombres premiers =="
 # H : Nombre hautement composé def.
 read -p " Quels sont les tests que vous voulez lancer ? " options
 read -p " Combien d'itérations pour le test d'un nombre premier ? " iter
-#read -p " Combien de nombres (de préférence premier ou hautement composé)? " size
-size=0
+read -p " Combien de nombres (de préférence premier ou hautement composé)? " size
+
 if [ $size != 0 ]
 then
     echo "Veuillez les indiquer: "
@@ -24,9 +24,7 @@ then
         read prime_numbers[i]
     done
 fi
-    prime_numbers=('3' '97' '1039' '50023' '102013' '1300837' '4301623' '9990887' '15487253')
-    #prime_numbers=('2' '120' '240' '360' '720' '840' '1260' '1680' '2520')
-size=9
+
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
 

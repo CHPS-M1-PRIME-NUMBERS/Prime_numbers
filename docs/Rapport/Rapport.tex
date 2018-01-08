@@ -19,15 +19,15 @@
 
 	\section{Introduction}
 % pour l'intro si tu modifies des trucs, garde la meme mise en page malek.
-	\paragraph{}Ce document est le compte-rendu de notre travail qui s'inscrit dans le cadre du module \textit{Projet de Programmation numérique} du master \textit{Calcul Haute Performance Simulation} de l'\textit{\textbf{UVSQ}}. Le sujet de ce projet a été proposé par l'encadrant Sébastien Gougeau.
+	\paragraph{}Ce document est le compte-rendu de notre travail qui s'inscrit dans le cadre du module \textit{Projet de Programmation numérique} du master \textit{Calcul Haute Performance Simulation} de l'\textit{\textbf{UVSQ}}. Le sujet de ce projet a été proposé par l'encadrant Sébastien Gougeaud.
 	
 	\paragraph{}Ce projet découle d'un thème qui est le test de primalité, et consiste à tester si un nombre est bien premier ou non. Un nombre premier est un entier qui admet uniquement deux diviseurs distincts et positifs (1 et lui même). 
 	Les nombres premiers prennent une place importante dans le domaine des mathématiques et ont des propriétés très utiles particulièrement dans le domaine de la cryptographie. La recherche de très grands nombres premiers est devenu de plus en plus captivé par beaucoup, de nombreux tests de primalité ont pu émerger, voir évoluer, devenir plus performants, et de plus en plus rapides.
 	
 	\paragraph{}Il existe actuellement deux types de tests de primalités, les déterministes qui permettent d'établir avec certitude le résultat et les tests probabilistes qui émettent un résultat non fiable avec une certaine probabilité d'erreur mais sont plus rapide que les tests déterministes.
 	
-	\paragraph{}L'objectif de ce projet consiste à implémenter plusieurs de ces tests (déterministes) et ainsi comparer leur vitesse  d'exécution. Ceci et pour une exécution sur le test de primalité pour un nombre premier, et pour une exécution sur le test de n nombres premiers. De plus un test probabiliste sera programmer pour ainsi comparer la fiabilité du résultat et le temps que nécessite de faire cet algorithme.\\ 
-	Une partie bonus nous a été proposé lors de notre entretient avec Monsieur Gougeau qui consiste à implémenter une fonctionnalité pour déterminer si un nombre est hautement composé (c'est à dire que le nombre de ses diviseurs est supérieur strictement à tout les nombres inférieur lui). 
+	\paragraph{}L'objectif de ce projet consiste à implémenter plusieurs de ces tests (déterministes) et ainsi comparer leur vitesse  d'exécution. Ceci pour l'exécution des tests de primalités pour un nombre premier, et pour une exécution sur les tests avec n nombres premiers. De plus un test probabiliste sera programmé pour ainsi comparer la fiabilité du résultat et le temps que nécessite de faire cet algorithme.\\ 
+	Une partie bonus nous a été proposé lors de notre entretient avec Monsieur Gougeaud qui consiste à implémenter une fonctionnalité pour déterminer si un nombre est hautement composé (c'est à dire que le nombre de ses diviseurs est supérieur strictement à tout les nombres inférieur à lui). 
 	
 	\paragraph{}Dans la première partie de ce document, on présentera l'architecture de notre projet (la décomposition), illustrée par un organigramme qui a été préalablement établi.\\
 	Après cela, on mentionnera les différents outils et langages utilisé au cours de la phase l'implémentation.\\
@@ -111,11 +111,11 @@ Pour la version réalisée (2002), la complexité est de l'ordre de $\log(n)^{12
 		\item H : Nombre hautement composé définition.
 	\end{itemize}
 	
-Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obtenir une moyenne sur le temps d'exécution. Puis il sera demandé un nombre "size" pour indiquer au programme combien de nombre premier (ou hautement composé) de préférence doit-il s'attendre à recevoir, puis les indiquer. Le programme va générer trois fichiers, $"data.txt"$ qui contient les résultats pour le temps d'exécution de l'échantillon de nombres donnée, $"result.txt"$ quant à lui contient les retours des tests pour le dernier nombre de l'échantillon et $"average.txt"$ contiendra le temps moyen d'exécution pour le dernier nombre de cet échantillon.
+Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obtenir une moyenne sur le temps d'exécution. Puis il sera demandé un nombre "size" pour indiquer au programme combien de nombre premier (ou hautement composé) doit-il s'attendre à recevoir, puis les indiquer. Le programme va générer trois fichiers, $"data.txt"$ qui contient les résultats pour le temps d'exécution de l'échantillon de nombres donnée, $"result.txt"$ quant à lui contient les retours des tests pour le dernier nombre de l'échantillon et $"average.txt"$ contiendra le temps moyen d'exécution pour le dernier nombre de cet échantillon.
 	
 		\subsection{Résultats}
 	Dans cette partie nous avons réalisé une batterie de tests sur un échantillon de nombres premiers. Cette échantillon de nombres premiers est la suivante : '3', '97', '1039', '50023', '102013', '1300837', '4301623', '9990887' et '15487253'. L’Étude demandé pour ce projet nous impose de faire une comparaison des résultats obtenus pour chaque test de primalité.\\
-	Dans les graphes obtenus ci-dessous, on peux observer l'évolution du temps d'exécution en fonction de du nombre.	
+	Dans les graphes obtenus ci-dessous, on peux observer l'évolution du temps d'exécution en fonction du nombre.	
 	
 		\begin{center}\includegraphics[scale=0.6]{result.png}\end{center}
 	
@@ -171,7 +171,7 @@ Il est également possible que la bibliothèque NTL fausse les résultats de tem
 	
 	Ce document résume tout ce qui a été établi avant, pendant et après la réalisation de notre projet. Ce projet est donc une application de plusieurs algorithmes pour tester la primalité d'un nombre ou si il est hautement composé. Après une étude des tests sur un échantillon de valeurs on a pu faire plusieurs comparaisons entre ces méthodes. On a pu observer que les méthodes naïves sont très utiles pour les petits nombres mais deviennent très lentes pour les très grands nombres. De plus, Miller-Rabin est un test probabiliste qui pour nous n'est pas très intéressant. En effet ce dernier a une exécution rapide mais une probabilité élevé pour obtenir un résultat non conforme.
 		\paragraph{} Dans l'état actuel, on peut revoir avec du recul, la manière avec laquelle notre projet a été réalisé. En effet, nous aurions sûrement revue notre répartition des tâches concernant certains algorithmes comme AKS et Pocklington. Ces derniers ont posés des problèmes pour certains membres du groupe car ces algorithmes ne sont pas faciles à appréhender et demande certaines connaissances notamment en mathématique pour les Polynômes Modulaire pour AKS. Des groupes de 2 pour leur implémentation aurait été préférable.
-		\paragraph{} Ce travail a été réalisé par un groupe de 5 personnes. Le sujet, on suppose a été très bien appréhendé par les membre du groupe et l'entente a été excellente. Grâce aux informations préalablement établies lors de notre entretiens avec Monsieur Gougeau, le travail au sein du groupe a pu être mené de façon assez indépendante, sans générer de conflits ni de problèmes d'organisation.		
+		\paragraph{} Ce travail a été réalisé par un groupe de 5 personnes. Le sujet, on suppose a été très bien appréhendé par les membre du groupe et l'entente a été excellente. Grâce aux informations préalablement établies lors de notre entretiens avec Monsieur Gougeaud, le travail au sein du groupe a pu être mené de façon assez indépendante, sans générer de conflits ni de problèmes d'organisation.		
 		\paragraph{} Pour finir, après observation de nos résultats, nous sommes rentré en phase de réflexion concernant la deuxième étape du projet qui aura lieu pendant le semestre 2. Cette étape consiste à paralléliser l'implémentation faite au cours de ce Semestre. Mais ici tout les tests de primalité ne sont pas forcément parallélisable. Nous pensons actuellement que seul le crible d'Eratosthène est parallélisable et donc il sera de notre ressort de penser à une manière de paralléliser l'implémentation faite ou alors paralléliser les tests fait par le main pour accélérer l'exécution.
 
 \end{document}

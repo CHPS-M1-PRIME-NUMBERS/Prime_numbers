@@ -9,4 +9,4 @@ addons:
     packages:
       - cmake-data
       - cmake
-      -libntl-dev
+      - libntl-dev

@@ -34,10 +34,46 @@
 		
 	\section{Bilan Technique}
 		\begin{frame}
-	Qui ?
+			\begin{itemize}
+			\item \textbf{crible d'Eratosthène/ Mémory Bound:} Création d'un tableau de taille N+1 dans le crible => limité au niveau de la RAM pour N grand sur nos machines. Complexité de N pour le remplissage de la liste memory\_bound. \\
+			\vspace{1em}			
+			\item \textbf{Computation Bound:} Effectue $\sqrt{2^{log_2(n)}}$ divisions euclidiennes => Exécution en temps exponentiel\\
+			\vspace{1em}
+			\item \textbf{Pocklington:} Limite causé par la factorisation du nombre N-1 => facotisation très longues pour N très grand.\\
+			\vspace{1em}
+			
+			\end{itemize}	
+			\end{frame}
+			
+			\begin{frame}
+			\begin{itemize}
+			\item \textbf{Miller-Rabin:} Résultats faux dans certains cas + Nombre d'itérations demandé élevé pour un meilleur résultat => augmentation du temps d'exécution.  \\
+			\vspace{1em}
+			\item \textbf{AKS:} \underline{Avantage:} Sa complexité en $log(n)^{12}$.\\
+						\underline{Inconvénient:} Utilisation de NTL qui effectue des vérifications superflue + Implémentation compliquée.\\
+			\vspace{1em}
+			\item \textbf{Hautement Composé:} N calcul du nombre de diviseurs d'un nombre => exécution très lente pour la méthode naïve.\\
+			\end{itemize}			
 		\end{frame}
-
-	\section{Conclusion}
+		
+	\section{Organisation interne du groupe}
+	\begin{frame}
+\textbf{Tableau de répartition du travail:} \\
+	
+	\begin{center}\vspace{-1em}\footnotesize\begin{longtable}{|>{\centering}m{3.0cm}|>{\centering}m{1.5cm}|>{\centering}m{1.2cm}|>{\centering}m{1.2cm}|>{\centering}m{1.2cm}|>{\centering\arraybackslash}m{1.2cm}|}			
+		\hline \multicolumn{1}{|c|}{\textbf{Tâches}} & \multicolumn{1}{c|}{\textbf{Jean-Didier}} & \multicolumn{1}{ c|}{\textbf{Maxence}} & \multicolumn{1}{ c|}{\textbf{Romain}} & \multicolumn{1}{ c|}{\textbf{Robin}} & \multicolumn{1}{c|}{\textbf{Damien}}\\
+		\hline 	Eratosthène/Memory Bound & x & ~ & ~ & ~ & ~ \\
+		\hline 	Euclide/Computation Bound & ~ & x & ~ & ~ & ~ \\
+		\hline 	AKS & ~ & ~ & x & ~ & ~ \\
+		\hline 	Pocklington & ~ & ~ & ~ & ~ & x \\
+		\hline 	Miller-Rabin & ~ & ~ & ~ & x & ~ \\
+		\hline 	Highly Composite & x & ~ & ~ & ~ & ~ \\
+		\hline 	Cmake  & x & x & ~ & ~ & ~ \\
+		\hline  Script & x & x & ~ & ~ & ~ \\
+		\hline
+	\end{longtable}\vspace{-2.2em}\end{center}
+	\end{frame}
+	\section*{Conclusion}
 		\begin{frame}
 	Qui ?
 		\end{frame}	

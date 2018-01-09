@@ -1,7 +1,7 @@
 \input{../tex/preambuleSlides}
 \usepackage{../tex/myInfolines}
 \usepackage{longtable,array}
-\title{Présentation projet}
+\title{Test de Primalité}
 
 \begin{document}
 	\begin{frame}
@@ -9,9 +9,19 @@
 	\end{frame}
 	
 	\section*{Introduction}
-		\begin{frame}
-		Partie Romain
-		\end{frame}
+        \begin{frame}
+            \begin{itemize}
+            \item \textbf{Nombre Premier:} Entier divisible par 1 et lui-même.\\pause
+            \vspace{1em}            
+            \item \textbf{Test Probabiliste:}Test avec marge d'erreur très faible mais rapide.  \\
+            \vspace{1em}
+            \item \textbf{ Test Deterministe:} Test fiable mais plus lent.    \\
+            \vspace{1em}
+            \item \textbf{$2^{64}$:}Taille maximale des nombre a tester => Unsigned long long int  \\
+            \vspace{1em}
+            \item \textbf{Nombre Hautement Composé:}Entier qui possède strictement plus de diviseur que les nombres qui le précède\\
+            \end{itemize}            
+        \end{frame}
 	
 	\begin{frame}
 		\tableofcontents
@@ -29,7 +39,62 @@
 		
 	\section{Analyse des Résultats}
 		\begin{frame}
-	Qui ?
+		\textbf{Fonctionnement du projet :}
+
+	\begin{itemize}
+		\item Script appelé avec ./test.sh\\
+\textbf{Options :}
+
+
+	\begin{center}\footnotesize\begin{longtable}{l l}		
+	\textbf{a} : Tous les algorithmes  & \textbf{k} : AKS\\
+	\textbf{e} : Euclide (computation bound) & \textbf{o} : Modulo (computation bound)\\
+	\textbf{m} : Crible d'eratosthene & \textbf{p} : Pocklington\\
+	\textbf{i} : Miller-Rabin & \textbf{h} : Nombre hautement composé naive\\
+	\textbf{H} : Nombre hautement composé def\\
+	\end{longtable}\vspace{-2.2em}\end{center}
+
+		\item Lequel utiliser ?\\
+		\item Itération ?\\
+		\item Combien de nombre ?\\
+		\item Donner les nombres\\
+	\end{itemize}
+		\end{frame}
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution de Eratosthène/Memory Bound: }
+		\begin{center}\includegraphics[scale=0.5]{eratosthene.png}\end{center}
+		\end{frame}
+		
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution de Euclide/Computation Bound: }
+		\begin{center}\includegraphics[scale=0.5]{euclide.png}\end{center}
+		\end{frame}
+		
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution de Modulo/Computation Bound: }
+		\begin{center}\includegraphics[scale=0.5]{modulo.png}\end{center}
+		\end{frame}
+		
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution d'AKS: }
+		\begin{center}\includegraphics[scale=0.5]{AKS.png}\end{center}
+		\end{frame}
+		
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution de Pocklington: }
+		\begin{center}\includegraphics[scale=0.5]{pocklington.png}\end{center}
+		\end{frame}
+		
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution de Miller-Rabin: }
+		\begin{center}\includegraphics[scale=0.5]{miller.png}\end{center}
+		\end{frame}
+		
+		\begin{frame}
+		\textbf{Evolution du temps d'exécution de Hautement composé (méthode naïve et définition): }
+			\begin{center}\footnotesize\begin{longtable}{l l}		
+	\includegraphics[scale=0.27]{HC.png}  & \includegraphics[scale=0.27]{HCdef.png}\\
+	\end{longtable}\vspace{-2.2em}\end{center}
 		\end{frame}
 		
 	\section{Bilan Technique}
@@ -73,7 +138,7 @@
 		\hline
 	\end{longtable}\vspace{-2.2em}\end{center}
 	\end{frame}
-	\section*{Conclusion}
+	\section{Conclusion}
 		\begin{frame}
 	Qui ?
 		\end{frame}	

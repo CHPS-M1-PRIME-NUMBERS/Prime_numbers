@@ -2,8 +2,8 @@
 #include <cstdlib>
 #include "memory_bound.hpp"
 
-unsigned int nb_dividers(unsigned int number);
+unsigned long int nb_dividers(unsigned long int number);
 
-bool highly_composite_naive(unsigned int number);
+bool highly_composite_naive(unsigned long int number);
 
-bool highly_composite_def(unsigned int number);
+bool highly_composite_def(unsigned long int number);

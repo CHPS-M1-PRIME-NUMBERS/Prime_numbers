@@ -118,6 +118,7 @@ Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obte
 	Dans les graphes obtenus ci-dessous, on peux observer l'évolution du temps d'exécution en fonction du nombre.	
 	
 		\begin{center}\includegraphics[scale=0.6]{result.png}\end{center}
+		\begin{center}\includegraphics[scale=0.6]{result2.png}\end{center}
 	
 	Pour commencer nous pouvons observer que les courbes d'évolutions du temps d'exécutions pour les méthodes naïve d'Euclide, d'Eratosthène et de Modulo ont des temps d'exécution très faible pour de petits nombre. Mais les nombres utilisés ici sont de taille raisonnable, mais pour des nombres de l'ordre de $2^{50}$ leur temps d'exécution augmente de façon considérable à cause de leur complexité. Pour l'algorithme de $memory\_bound$ l'utilisation de la mémoire devient beaucoup trop importante à cause du tableau de taile N+1 créer par l'algorithme de crible (Exemple pour 97 on utilise 97 bytes, mais pour $2^{50}$ on aura donc $2^{50}$ bytes utilisé en mémoires). Pour les tests nous nous sommes arreté à $15487253$ car nous sommes limité par les machines que nous avons, notamment la RAM disponible sur celles-ci.\\	
 	

@@ -64,6 +64,3 @@ fi
 
 gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'data.txt' using 1:2 with linespoints title 'Resultats'; pause -1" # Affiche le plot du résultat
 cd ..
-
-#gnuplot -e "set format y '10^{%S}';set format x '10^{%S}'; set xlabel 'Number'; set ylabel 'Times (ns)'; plot 'AKS.txt' using 1:2 with linespoints title 'AKS','Euclide.txt' using 1:2 with linespoints title 'Euclide', 'Modulo.txt' using 1:2 with linespoints title 'Modulo','pocklington.txt' using 1:2 with linespoints title 'Pocklington', 'miller.txt' using 1:2 with linespoints title 'Miller-Rabin', 'Eratosthene.txt' using 1:2 with linespoints title 'Eratosthène';pause -1"
-#gnuplot -e "set format y '10^{%S}';set format x '10^{%S}'; set xlabel 'Number'; set ylabel 'Times (ns)'; plot 'Euclide.txt' using 1:2 with linespoints title 'Euclide', 'Modulo.txt' using 1:2 with linespoints title 'Modulo', 'miller.txt' using 1:2 with linespoints title 'Miller-Rabin', 'Eratosthene.txt' using 1:2 with linespoints title 'Eratosthène';pause -1"

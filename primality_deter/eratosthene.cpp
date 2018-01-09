@@ -1,6 +1,6 @@
 #include "eratosthene.hpp"
 
-void multiple(unsigned int i, unsigned int number, bool* prime){ // Function that sets all premium multiples [i] to false.
+void multiple(unsigned long int i, unsigned long int number, bool* prime){ // Function that sets all premium multiples [i] to false.
         int j = 2;
 
         while ( j <= number/i) {
@@ -9,9 +9,9 @@ void multiple(unsigned int i, unsigned int number, bool* prime){ // Function tha
         }
 }
 
-bool* eratosthene(unsigned int number){
+bool* eratosthene(unsigned long int number){
         bool* isPrime = new bool[number+1]; //Boolean array indicating whether the index number i is prime or not.
-        unsigned int i = 0, k;
+        unsigned long int i = 0, k;
 
         // Initialisation du tableau
         while(i <= number) {

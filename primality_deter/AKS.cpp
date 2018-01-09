@@ -1,22 +1,22 @@
 #include "AKS.hpp"
 NTL_CLIENT
 // cette fonction vérifie que n est un "perfect power", si cette fonction renvoie true n est composé sinon aks peut continuer a s'executer
-bool is_perfect_power(unsigned int n)
+bool is_perfect_power(unsigned long int n)
 {
-	unsigned int b, a2;
+	unsigned long int b, a2;
 	double a;
-	unsigned int tmp;
+	unsigned long int tmp;
 	for (b=2;b <= log2(n);b++)
 	{
         a = pow(n,1.0/b);
-		if((a - (unsigned int)a) == 0) {
+		if((a - (unsigned long int)a) == 0) {
 			return true;
 		}
 	}
 	return false;
 }
 
-unsigned int maximum ( unsigned int a ,unsigned int b)
+unsigned long int maximum ( unsigned long int a ,unsigned long int b)
 {
 	if ( a > b )
 	{
@@ -27,12 +27,12 @@ unsigned int maximum ( unsigned int a ,unsigned int b)
 	}
 }
 
-unsigned int find_r(unsigned int n)
+unsigned long int find_r(unsigned long int n)
 {
-	unsigned int maxk = floor(pow(log2(n),2));
-	unsigned int maxr = maximum(ceil(pow(log2(n),5)),3);
+	unsigned long int maxk = floor(pow(log2(n),2));
+	unsigned long int maxr = maximum(ceil(pow(log2(n),5)),3);
 	bool nextR = true;
-	unsigned int r,k;
+	unsigned long int r,k;
 	for (r=2; nextR && (r < maxr); r++)
 	{
 		nextR=false;
@@ -45,8 +45,8 @@ unsigned int find_r(unsigned int n)
 	return r;
 }
 
-unsigned int GCD(unsigned int a, unsigned int b){
-        unsigned int r = 1;
+unsigned long int GCD(unsigned long int a, unsigned long int b){
+        unsigned long int r = 1;
         while(a%b != 0)
          {
                 r = a%b;
@@ -55,10 +55,10 @@ unsigned int GCD(unsigned int a, unsigned int b){
         }
         return r;
 }
-unsigned int EulerPhi(unsigned int n)
+unsigned long int EulerPhi(unsigned long int n)
 {
 	float res=n;
-	unsigned int p;
+	unsigned long int p;
 	for ( p=2; (p*p) <= n; p++)
 	{
 		if(n%p ==0)
@@ -75,16 +75,16 @@ unsigned int EulerPhi(unsigned int n)
 	return res;
 }
 
-bool step_5(unsigned int n, unsigned int r){
-	unsigned int maxi = floor(sqrt(EulerPhi(r))*log2(n));
-	unsigned int temp = n;
+bool step_5(unsigned long int n, unsigned long int r){
+	unsigned long int maxi = floor(sqrt(EulerPhi(r))*log2(n));
+	unsigned long int temp = n;
 	ZZ x = conv<ZZ>(temp);
 	ZZ_p::init(x);	//mod n
 	ZZ_pX f(r, 1);
 	f -= 1;	//f=x^r-1
 	const ZZ_pXModulus pf(f);
 	ZZ_pX p1(x%r, 1);	//x^{n%r}=x^n mod(x^r-1)
-	unsigned int a;
+	unsigned long int a;
 	for (a = 1; a <= maxi; ++a) {
 		ZZ_pX p2(1, 1);
 		p2 -= a;	//x-a
@@ -97,9 +97,9 @@ bool step_5(unsigned int n, unsigned int r){
 	return true;
 }
 
-bool aks(unsigned int n)
+bool aks(unsigned long int n)
 {
-	unsigned int r,i,gcd;
+	unsigned long int r,i,gcd;
 	if (is_perfect_power(n))
 	{
 		return false;

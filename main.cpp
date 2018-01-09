@@ -15,7 +15,7 @@ int main(int argc, char** argv){
 
         int opt;
         int iter;
-        unsigned int n;
+        unsigned long int n;
         bool all_test_flag = false;
         bool aks_flag = false;
         bool euclide_flag = false;
@@ -75,7 +75,7 @@ int main(int argc, char** argv){
                 }
         }
 
-        unsigned int avg = 0;
+        unsigned long int avg = 0;
         bool result;
         int elapsed_time;
         std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -87,12 +87,12 @@ int main(int argc, char** argv){
                 std::cout << "||||||||||||||  Test pour N = " << n << " ||||||||||||||" << std::endl;
 
                 if(mem_bound_flag == true || all_test_flag == true) {
-                        unsigned int n_temp = n;
+                        unsigned long int n_temp = n;
                         if(n_temp>1000000000) {
                                 n_temp = 1000000000;
                         }
                         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-                        std::list<unsigned int> liste;
+                        std::list<unsigned long int> liste;
                         for (int i = 0; i < iter; i++) {
                                 start = std::chrono::system_clock::now();
                                 memory_bound(n_temp, &liste);
@@ -130,7 +130,7 @@ int main(int argc, char** argv){
 
                 if(miller_flag == true || all_test_flag == true) {
                         std::cout << "==== Miller Rabin ====" << '\n';
-                        unsigned int iterations = 500;
+                        unsigned long int iterations = 500;
                         avg = 0;
                         for (int i = 0; i < iter; i++) {
                                 start = std::chrono::system_clock::now();
@@ -253,7 +253,6 @@ int main(int argc, char** argv){
                         file2 << n << " " << avg << std::endl;
                 }
         }
-        //file2 << std::endl;
         std::cout << std::endl;
         return 0;
 }

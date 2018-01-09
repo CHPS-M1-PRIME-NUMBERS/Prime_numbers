@@ -5,7 +5,7 @@
 #include <list>
 #include "eratosthene.hpp"
 
-void memory_bound(unsigned int nbr, std::list<unsigned int>* l);
-std::ostream& operator<<(std::ostream& flux, std::list<unsigned int>& l);
+void memory_bound(unsigned long int nbr, std::list<unsigned long int>* l);
+std::ostream& operator<<(std::ostream& flux, std::list<unsigned long int>& l);
 
 #endif

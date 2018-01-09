@@ -1,13 +1,13 @@
 #include "highly_composite.hpp"
 
 
-unsigned int nb_dividers(unsigned int number){ // calculates the number of divisors of an integer
-    std::list<unsigned int> prime; // List of prime number
+unsigned long int nb_dividers(unsigned long int number){ // calculates the number of divisors of an integer
+    std::list<unsigned long int> prime; // List of prime number
     memory_bound(number, &prime);
 
-    unsigned int res = 1;
+    unsigned long int res = 1;
     int expo = 0;
-    unsigned int head = prime.front();
+    unsigned long int head = prime.front();
 
     while ( (number >= head) && (number != 1) && (head != 0)){
         while ( (number%head == 0) && (number != 1)){
@@ -23,7 +23,7 @@ unsigned int nb_dividers(unsigned int number){ // calculates the number of divis
     return res;
 }
 
-bool highly_composite_naive(unsigned int number){ // Check if the number is highly composed (naive method)
+bool highly_composite_naive(unsigned long int number){ // Check if the number is highly composed (naive method)
 
     for (auto i = 0; i < number; i++){
         if (nb_dividers(i) >= nb_dividers(number)) return false;
@@ -38,14 +38,14 @@ The prime factorization of a highly composite number, then:
     3. The final exponent a_p is always 1, except for the two cases N=4=2^2 and N=36=2^2·3^2, where it is 2.
 */
 
-bool highly_composite_def(unsigned int number){ // definition that use the form of a highly composite
-    std::list<unsigned int> prime; // List of prime number
+bool highly_composite_def(unsigned long int number){ // definition that use the form of a highly composite
+    std::list<unsigned long int> prime; // List of prime number
     memory_bound(number, &prime);
 
-    unsigned int nbr = number;
-    unsigned int tmp = 0;
-    unsigned int expo = number; // It's a defautl expo (everytime is wrong but after the first test will be true)
-    unsigned int head = prime.front();
+    unsigned long int nbr = number;
+    unsigned long int tmp = 0;
+    unsigned long int expo = number; // It's a defautl expo (everytime is wrong but after the first test will be true)
+    unsigned long int head = prime.front();
 
     while ( (number >= head) && (number != 1) && (head != 0)){
         while ( (number%head == 0) && (number != 1)){

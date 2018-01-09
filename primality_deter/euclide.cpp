@@ -1,6 +1,6 @@
 #include "euclide.hpp"
 
-unsigned int pgcd(unsigned int a, unsigned int b){
+unsigned long int pgcd(unsigned long int a, unsigned long int b){
         int r = 1;
         while(a%b != 0) {
                 r = a%b;
@@ -10,7 +10,7 @@ unsigned int pgcd(unsigned int a, unsigned int b){
         return r;
 }
 
-bool computation_bound_euclide(unsigned int number){
+bool computation_bound_euclide(unsigned long int number){
         int i;
         for ( i = 2; i*i <= number; i++) {
                 if (pgcd(i, number) != 1) return false;
@@ -18,7 +18,7 @@ bool computation_bound_euclide(unsigned int number){
         return true;
 }
 
-bool computation_bound_modulo(unsigned int number){
+bool computation_bound_modulo(unsigned long int number){
         int i;
         for ( i = 2; i*i <= number; i++) {
                 if (number%i == 0) return false;

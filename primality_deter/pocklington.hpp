@@ -6,8 +6,8 @@
 #include <vector>
 #include "facteurs.hpp"
 
-bool pocklington(int candidatPrime);
-int gcd(int a, int b);
+bool pocklington(unsigned long int candidatPrime);
+unsigned long int gcd(unsigned long int a, unsigned long int b);
 int rechercherCandidat(int N);
 
 #endif

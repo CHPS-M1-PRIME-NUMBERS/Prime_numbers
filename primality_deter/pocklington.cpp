@@ -12,7 +12,7 @@ T modpow(T base, T exp, T modulus){
         return result;
 }
 
-int gcd(int a, int b) {
+unsigned long int gcd(unsigned long int a, unsigned long int b) {
         return b == 0 ? a : gcd(b, a % b);
 }
 
@@ -26,7 +26,7 @@ int rechercherCandidat(int N){
         return a;
 }
 
-bool pocklington(int candidatPrime){
+bool pocklington(unsigned long int candidatPrime){
         //Trouver un a, on a f un facteur de a et on a n - 1 = f * r
         //Et PGDC(f, r) = 1
         Facteurs facteurs(candidatPrime - 1); // Factorisation de N-1
@@ -47,9 +47,9 @@ bool pocklington(int candidatPrime){
 
 
 
-        int A = facteurs[0]; int i = 1;
-        int B;
-        std::vector<int> facteursA;
+        unsigned long int A = facteurs[0]; unsigned long int i = 1;
+        unsigned long int B;
+        std::vector<unsigned long int> facteursA;
         facteursA.push_back(facteurs[0]);
         //On récupère un A depuis les facteurs premier de candidatPrime
         //Optimisation possible si on factorise en même temps qu'on cherche un A répondant aux besoins et qu'on arrête quand on a trouver.
@@ -60,9 +60,9 @@ bool pocklington(int candidatPrime){
         }
 
         if(A > std::sqrt(candidatPrime) && A*B == candidatPrime-1 && gcd(A, B) == 1) {
-                for(int a = 2; a<candidatPrime-1; a++) {
+                for(unsigned long int a = 2; a<candidatPrime-1; a++) {
                         for(i = 0; i < facteursA.size(); i++) {
-                                int w = modpow(a, (candidatPrime-1)/facteursA[i], candidatPrime)-1;
+                                unsigned long int w = modpow(a, (candidatPrime-1)/facteursA[i], candidatPrime)-1;
 
                                 if(modpow(a, candidatPrime-1, candidatPrime) == 1 && gcd(w, candidatPrime) == 1) {
                                         return true;

@@ -1,12 +1,12 @@
 #include "facteurs.hpp"
 
-Facteurs::Facteurs(int n){
+Facteurs::Facteurs(unsigned long int n){
         this->nbFactored = n;
         this->factorisation();
 }
 
 void Facteurs::factorisation(){
-        int N = this->nbFactored;
+        unsigned long int N = this->nbFactored;
         if(N<0) {
                 std::cerr << "Erreur : le nombre à vérifier est négatif." << std::endl;
                 exit(EXIT_FAILURE);
@@ -20,7 +20,7 @@ void Facteurs::factorisation(){
                 this->nbFacteurs = facteurs.size();
         }
         else{
-                for(int j = 2; j<= N; j++) {
+                for(unsigned long int j = 2; j<= N; j++) {
                         while( N % j == 0) {
                                 facteurs.push_back(j);
                                 N = N / j;
@@ -31,11 +31,11 @@ void Facteurs::factorisation(){
 
 }
 
-int Facteurs::getNbFactored(){
+unsigned long int Facteurs::getNbFactored(){
         return this->nbFactored;
 }
 
-int& Facteurs::operator[](int i){
+unsigned long int& Facteurs::operator[](int i){
         return facteurs[i];
 }
 

@@ -29,7 +29,7 @@
 	Une partie bonus nous a été proposé lors de notre entretien avec Monsieur Gougeaud qui consiste à implémenter une fonctionnalité pour déterminer si un nombre est hautement composé (c'est à dire que le nombre de ses diviseurs est supérieur strictement à tout les nombres inférieur à lui). 
 	
 	\paragraph{}Dans la première partie de ce document, on présentera l'état de l'art de notre projet.
-	Après cela, on mentionnera les différents outils et langages de programmation utilisés au cours de la phase d'implémentation. Puis dans une autre partie l'analyse des résultats établis lors des tests du projet accompagné d'un comparatif de la performance des tests.
+	Après cela, on mentionnera les différents outils et langages de programmation utilisés au cours de la phase d'implémentation dans une partie implémentation. Puis dans une autre partie l'analyse des résultats établis lors des tests du projet accompagné d'un comparatif de la performance des tests.
 	Finalement, dans les deux dernières parties, on établira un bilan quant à l'organisation interne au sein du groupe et un bilan technique du projet qui mettra en avant les limites de chaque test de primalité.
 	
 		
@@ -55,9 +55,7 @@ La suite consiste à tester les conditions requises sur tous les facteurs premie
 			\item \textbf{AKS} Version 2002 (Déterministe) :\\
 			L'algorithme AKS est l’acronyme de ses créateurs (Agrawal-Kayal-Saxena). AKS est un algorithme déterministe, inconditionnel (il fonctionne peut importe l'entrée) et polynomiale c'est l'un des rares algorithmes à vérifier toutes ces propriétés. Cet Algorithme se base sur une généralisation du petit théorème de Fermat\footnote{https://fr.wikipedia.org/wiki/Test\_de\_primalit\%C3\%A9\_AKS} qui est : "Pour tout entier $n \geq 2$ et tout entier $a$ premier avec $n$, $n$ est un nombre premier si et seulement si : $(X + a)^n \equiv X^n + a$ $mod$ $n$".\\
 
-En ce qui concerne l’algorithme il est effectuée en 5 étapes\href{AKS}.
-\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test}:\\
-
+En ce qui concerne l’algorithme il est effectuée en 5 étapes\href{AKS}\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test}.
 Pour la version réalisée (2002), la complexité est de l'ordre de $\log(n)^{12}$ cependant il existe beaucoup de variantes qui améliorent l'algorithme (exemple en 2005 une nouvelle variante d'AKS s’exécute en $\log(n)^6$ ce qui représente une belle optimisation comparée à la version initiale). La plupart des optimisations concernent l'étape 5 qui occupe une grande partie de l'exécution de l'algorithme.\\
 			
 			\item \textbf{Miller-Rabin} (Probabiliste):\\
@@ -103,40 +101,98 @@ Pour la version réalisée (2002), la complexité est de l'ordre de $\log(n)^{12
 	
 Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obtenir une moyenne sur le temps d'exécution. Puis il sera demandé un nombre "size" pour indiquer au programme combien de nombre premier (ou hautement composé) doit-il s'attendre à recevoir, puis les indiquer. Le programme va générer trois fichiers. Le fichier $"data.txt"$ contient les résultats pour le temps d'exécution de l'échantillon de nombres donnée. Le fichier $"result.txt"$ quant à lui contient les retours des tests pour le dernier nombre de l'échantillon. Le dernier fichier $"average.txt"$ contiendra le temps moyen d'exécution pour le dernier nombre de cet échantillon.
 		\subsection{Matériel et logiciels utilisés}
-		Pour l'exécution des tests, nous avons utilisé une machine doté du système Debian8, avec la configuration suivante :....\\
+		Pour l'exécution des tests, nous avons utilisé une machine doté de la configuration suivante:
+		\begin{itemize}
+		\item Windows 10 Professionnel.
+		\item Intel(R) Core(TM) i5-6600K CPU @ 3.50GHz 3.50GHz.
+		\item 16.0 Go de RAM.
+		\item Système d'exploitation 64 bits, processeurx64
+		\end{itemize}
+		
+Le programme est exécuté sur une machine virtuelle présente sur la machine qui est oracle VM VirtualBox version 5.2.4 et l'OS debian64bits\_ufr\_sciences\_2017 fournis par l'UVSQ. La VM est lancé avec 4 CPUs et 10 240 Mo de RAM.\\
 		Concernant les logiciels, pour la compilation du code C++ nous avons utilisé le compilateur g++ avec la version 7.2.0. Pour les librairies utilisées, la version de NTL est 10.5.0 et la version de GMP utilisé est 6.1.2. Enfin la version utilisé pour $CMake$ est 3.9.4.
 			
 		\subsection{Résultats} 		
-		\subsubsection{Tests de Primalité}
-	Dans cette partie nous avons réalisé une batterie de tests sur un échantillon de nombres premiers. Cet échantillon de nombres premiers est la suivante : '3', '97', '1039', '50023', '102013', '1300837', '4301623', '9990887' et '15487253'. L’Étude demandé pour ce projet nous impose de faire une comparaison des résultats obtenus pour chaque test de primalité.\\
-	Dans les graphes \ref{fg:fig1} on peux observer l'évolution du temps d'exécution en fonction du nombre.
+		\subsubsection{Tests de primalité sur un échantillon}
+	Tout d'abord nous avons réalisé une première batterie de tests sur un échantillon de nombres premiers avec 10 itérations pour établir une moyenne du temps d'exécution pour chaque membre de cet échantillon. Cet échantillon de nombres premiers est la suivante : '3', '97', '1039', '50023', '102013', '1300837', '4301623', '9990887', '15487253', '25003151', '33083221', '40003387', '110003329', '520002179', '720001787' et '1073741857'. L’Étude demandé pour ce projet nous impose de faire une comparaison des résultats obtenus pour chaque test de primalité.\\
+	
+	Dans les graphes \ref{fg:fig1}, \ref{fg:fig2}, \ref{fg:fig3} et \ref{fg:fig4} on peux observer l'évolution du temps d'exécution en fonction du nombre.
 \begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.6]{result.png}\end{center}
-		\caption{Figure que moi j'ai vu}
+		\caption{Évolution du temps d'exécution pour les 6 tests de primalité (AKS, Pocklington, Miller-Rabin, Euclide, Ératosthène et Modulo). }
 		\label{fg:fig1}
-	\end{figure}
-		\begin{center}\includegraphics[scale=0.6]{result2.png}\end{center}
+\end{figure}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.6]{Zoom1.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Pocklington, Miller-Rabin, Euclide et Modulo).}
+		\label{fg:fig2}
+\end{figure}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.5]{Zoom2.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin, Euclide et Modulo).}
+		\label{fg:fig3}
+\end{figure}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.5]{Zoom3.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin et Modulo).}
+		\label{fg:fig4}
+\end{figure}
 	
-	Pour commencer nous pouvons observer que les courbes d'évolutions du temps d'exécutions pour les méthodes naïve d'Euclide, d'Eratosthène et de Modulo ont des temps d'exécution très faible pour de petits nombre. Mais les nombres utilisés ici sont de taille raisonnable, mais pour des nombres de l'ordre de $2^{50}$ leur temps d'exécution augmente de façon considérable à cause de leur complexité. Pour l'algorithme de $memory\_bound$ l'utilisation de la mémoire devient beaucoup trop importante à cause du tableau de taile N+1 créer par l'algorithme de crible (Exemple pour 97 on utilise 97 bytes, mais pour $2^{50}$ on aura donc $2^{50}$ bytes utilisé en mémoires). Pour les tests nous nous sommes arreté à $15487253$ car nous sommes limité par les machines que nous avons, notamment la RAM disponible sur celles-ci.\\	
+	Pour commencer nous pouvons observer que les courbes d'évolutions du temps d'exécutions pour les méthodes naïve d'Euclide et du Modulo ont des temps d'exécution très faible pour de petits nombre. Mais les nombres utilisés ici sont de taille raisonnable, mais pour des nombres de l'ordre de $2^{50}$ leur temps d'exécution augmenteront de façon considérable à cause de leur complexité. Pour l'algorithme de $memory\_bound$/Ératosthène l'utilisation de la mémoire devient beaucoup trop importante à cause du tableau de taile N+1 créer par l'algorithme de crible (Exemple pour 97 on utilise 97 bytes, mais pour $2^{50}$ on aura donc $2^{50}$ bytes utilisé en mémoires). Nous pouvons donc ainsi observer que la courbe pour cet algorithme accroît de manière très rapide. De plus la courbe d'évolution d’Ératosthène se fini avant par rapport aux autres tests de primalité, cela est causé par une limitation de nos machines au niveau de la RAM nous empêchant ainsi d'obtenir des résultats pour des nombres supérieurs. Pour les autres tests nous nous sommes arrêté à $1073741857$ également limité par la RAM disponible sur la machine utilisé.\\	
 	
-	En observant la courbe de Miller Rabin on remarque que le temps d'exécution est très élevé pour les premiers résultats et qu'il accélère grandement pour les derniers, or en regardant les résultats fourni on s'aperçoit que ces derniers sont faux l'algorithme malgré des tests avec un plus grand nombre d'itération renvoie des résultats souvent incorrects lorsque le nombre étudié devient assez grand.\\		
+	En observant les résultats de l’algorithme de Miller Rabin, on observe que le temps d’exécution pour les petits nombres est bien au dessus des algorithmes plus naïfs mais qu’il devient très rapidement plus efficace que tous les autres algorithmes utilisés. \\		
 		
 		Concernant le test de Pocklington, la courbe ne nous permet pas de définir une évolution précise du temps d'exécution en fonction de la taille du nombre. En effet, la factorisation est la partie théoriquement la plus lourde de cet algorithme, elle est plus ou moins longue en fonction du N en entrée, il est en effet difficile de déduire le temps d’exécution à partir de la taille de N mais le temps d'exécution a quand même tendance a augmenter avec la taille du nombre. Des optimisations de cette partie lourde existe tel que le crible quadratique ou encore le crible algébrique.\\		
-		
-		En ce qui concerne la courbe pour AKS on peut observer deux ensembles de points qui correspondent a l'étape de détection de la primalité du nombre. En effet, le nombre peut être  détecté comme étant premier à l'étape 4 ou à l'étape 5 de l'algorithme. L'étape 5 est la dernière étape effectué, et celle-ci met un certain temps à se faire, on observe donc cette différence de temps. Passé un certain rang cette différence de temps disparaît ($n > 5690034$)\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test}).
-Sinon la courbe est légèrement croissante, elle va croître doucement compte tenu de la complexité de l’algorithme (O $\log(n)^{12}$).\\
+	%REFAIRE
+		En ce qui concerne le test AKS, conformément à nos attentes, nous pouvons voir que le temps d’exécution est long pour de petits nombres. La courbe croit de façon rapide au début et commence à se rapprocher $1.5x10^7 \mu s$ (compte tenu de la complexité de l’algorithme (O $\log(n)^{12}$)). Seulement Ératosthène devient plus lent que AKS à partir de nombres de taille un peu inférieur à $3x10^8$. \\
+Les résultats nous laisse penser que pour des nombres très grand (supérieur à $2^{64}$) le temps d'exécution de tous les algorithmes devraient passer au dessus d’AKS.\\
 
+	\subsubsection{Tests de primalité sur une plage de données}
+Pour continuer, nous avons effectué de nouveaux tests sur une plage de données. Les figures \ref{fg:fig5}, \ref{fg:fig6}, \ref{fg:fig7} et \ref{fg:fig8} représentent les variations du temps d'exécution sur la plage [1:10 000].
+\begin{figure}[!ht]
+		\begin{center}\includegraphics[scale=0.5]{RANGE.png}\end{center}
+		\caption{Évolution du temps d'exécution pour les 6 tests de primalité (AKS, Pocklington, Miller-Rabin, Euclide, Ératosthène et Modulo). }
+		\label{fg:fig5}
+\end{figure}
+\begin{figure}[!ht]
+		\begin{center}\includegraphics[scale=0.5]{RZoom1.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Pocklington, Miller-Rabin, Euclide et Modulo).}
+		\label{fg:fig6}
+\end{figure}
+\begin{figure}[!ht]
+		\begin{center}\includegraphics[scale=0.6]{RZoom2.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin, Euclide et Modulo).}
+		\label{fg:fig7}
+\end{figure}
+\begin{figure}[!ht]
+		\begin{center}\includegraphics[scale=0.5]{RZoom4.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin et Modulo).}
+		\label{fg:fig8}
+\end{figure}
+
+Après avoir exécuté les tests sur la plage de donnée, nous avons établir une moyenne du temps d'exécution global de la plage de données. Ces temps sont indiqués ci-dessous:
+\begin{itemize}
+	\item L'algorithme AKS met en moyenne 118064433 $\mu s$ soit environ 118,06s
+	\item L'algorithme d'Euclide met en moyenne 11937 $\mu s$ soit environ 0,012s
+	\item L'algorithme appliquant le modulo met en moyenne 389 $\mu s$ soit environ 0,0004s
+	\item L'algorithme de Pocklington met en moyenne 41178556 $\mu s$ soit environ 41,17s
+	\item L'algorithme d'Eratosthène met en moyenne 2674942 $\mu s$ soit environ 2,67s
+	\item L'algorithme de Miller-Rabin met en moyenne 163611 $\mu s$ soit environ 0,163s
+\end{itemize}
+
+ Une étude statistique sur le test de Miller-Rabin a pu être fait pour cette plage de données. On a pu voir que pour les 100 000 premiers nombres (entre $2^{16}$ et $2^{17}$) l’algorithme a un taux de réussite de 100\% même avec un faible nombre d’itérations (ici testé avec 5). Les tests on été poussé jusqu’à $2^{27}$ sans trouver d’erreurs avec une plage de données de 100 000 nombres, le temps d’exécution commence alors à atteindre plus d’une dizaine de minutes, ici encore pour un faible nombre d’itérations.\\
+ 
 	\subsubsection{Hautement Composé}
 	Pour les deux fonctionnalités sur les nombres hautement composés, l'échantillon suivant : ['2' '120' '240' '360' '720' '840' '1260' '1680' '2520'] a été utilisé pour comparer les deux procédures et observer l'évolution du temps d'exécution dans les figures \ref{fg:HC} et \ref{fg:HCdef}.\\
 	\begin{figure}[!ht]	
-		\begin{center}\includegraphics[scale=0.6]{HC.png}\end{center}
+		\begin{center}\includegraphics[scale=0.5]{HC.png}\end{center}
 		\caption{Évolution du temps d'exécution pour les nombres Hautement Composés.}
 		\label{fg:HC}
 	\end{figure}
 	
 Nous pouvons observer que la méthode naïve prend énormément de temps pour s'exécuter en comparaison à la méthode appliquant la définition de ce type de nombre. En effet, pour un nombre N donné, la fonction va devoir calculer le nombre de diviseurs pour les N-1 nombres inférieur à N et effectuer N comparaison ce qui engendre beaucoup de latence. Et le temps pour le nombre 1680 est déjà assez élevé  pour un nombre supérieur à $2^{10}$. On peux donc imaginer la courbe accroître plus rapidement pour de très grand nombre. Mais étant limité par notre matériel, nous nous sommes contenté de ce type de nombre. Le décrochage que l'on peux observer peut-être justifier par le temps que l'algorithme a mis pour trouver la factorisation de ce nombre pour le calcul du nombre de diviseur. En effet, pour certains nombres il est possible de trouver plus rapidement la factorisation en nombre premier, ce qui peux justifier le fait que 2520 s'exécute plus rapidement que 1680.
 	\begin{figure}[!ht]	
-		\begin{center}\includegraphics[scale=0.6]{HCdef.png}\end{center}
+		\begin{center}\includegraphics[scale=0.5]{HCdef.png}\end{center}
 		\caption{Zoom sur la courbe pour la méthode appliquant la définition.}
 		\label{fg:HCdef}
 	\end{figure}
@@ -159,7 +215,7 @@ Il est également possible que la bibliothèque NTL fausse les résultats de tem
 	\section{Organisation interne du groupe}
 	Pour débuter la programmation de ce projet, il nous fallait en premier lieu établir la répartition du travail de groupe pour que le projet puisse avancer de façon efficace et de manière rapide. Le tableau ci-dessus va ainsi indiquer pour chaque membre du groupe la ou les fonctionnalités pour laquelle il a pu contribuer à l'élaboration: \\
 	
-	\begin{center}\vspace{-1em}\footnotesize\begin{longtable}{|>{\centering}m{4cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering}m{2cm}|>{\centering\arraybackslash}m{2cm}|}			
+	\begin{center}\vspace{-1em}\footnotesize\begin{longtable}{|>{\centering}m{4cm}|>{\centering}m{1.5cm}|>{\centering}m{1.5cm}|>{\centering}m{1.5cm}|>{\centering}m{1.5cm}|>{\centering\arraybackslash}m{1.5cm}|}			
 		\hline \multicolumn{1}{|c|}{\textbf{Tâches}} & \multicolumn{1}{c|}{\textbf{Jean-Didier}} & \multicolumn{1}{ c|}{\textbf{Maxence}} & \multicolumn{1}{ c|}{\textbf{Romain}} & \multicolumn{1}{ c|}{\textbf{Robin}} & \multicolumn{1}{c|}{\textbf{Damien}}\\
 		\hline 	Eratosthène/Memory Bound & x & ~ & ~ & ~ & ~ \\
 		\hline 	Euclide/Computation Bound & ~ & x & ~ & ~ & ~ \\
@@ -176,7 +232,7 @@ Il est également possible que la bibliothèque NTL fausse les résultats de tem
 
 	\section{Conclusion}
 	
-	Ce document résume tout ce qui a été établi avant, pendant et après la réalisation de notre projet. Ce projet est donc une application de plusieurs algorithmes pour tester la primalité d'un nombre ou si il est hautement composé. Après une étude des tests sur un échantillon de valeurs on a pu faire plusieurs comparaisons entre ces méthodes et on a pu observer que les méthodes naïves sont très utiles pour les petits nombres mais deviennent très lentes pour les très grands nombres. De plus, Miller-Rabin est un test probabiliste qui pour nous n'est pas très intéressant. En effet ce dernier a une exécution rapide mais une probabilité élevé pour obtenir un résultat non conforme.
+	Ce document résume tout ce qui a été établi avant, pendant et après la réalisation de notre projet. Ce projet est donc une application de plusieurs algorithmes pour tester la primalité d'un nombre ou si il est hautement composé. Après une étude des tests sur un échantillon de valeurs on a pu faire plusieurs comparaisons entre ces méthodes et on a pu observer que les méthodes naïves sont très utiles pour les petits nombres mais deviennent très lentes pour les très grands nombres. De plus, Miller-Rabin est un test probabiliste qui pour nous serait intéressant. En effet ce dernier a une exécution rapide mais avec une probabilité très très faible probabilité d'obtenir un résultat non conforme.
 		\paragraph{} Dans l'état actuel, on peut revoir avec du recul, la manière avec laquelle notre projet a été réalisé. En effet, nous aurions sûrement revue notre répartition des tâches concernant certains algorithmes comme AKS et Pocklington. Ces derniers ont posés des problèmes pour certains membres du groupe car ces algorithmes ne sont pas faciles à appréhender et demande certaines connaissances notamment en mathématique pour les Polynômes Modulaire pour AKS. Des groupes de 2 pour leur implémentation aurait été préférable.
 		\paragraph{} Ce travail a été réalisé par un groupe de 5 personnes. Le sujet a été très bien appréhendé par les membre du groupe et l'entente a été excellente. Grâce aux informations préalablement établies lors de notre entretien avec Monsieur Gougeaud, le travail au sein du groupe a pu être mené de façon assez indépendante, sans générer de conflits ni de problèmes d'organisation.		
 		\paragraph{} Pour finir, après observation de nos résultats, nous sommes rentré en phase de réflexion concernant la deuxième étape du projet qui aura lieu pendant le semestre 2. Cette étape consiste à paralléliser l'implémentation faite au cours de ce Semestre. Mais ici tout les tests de primalité ne sont pas forcément parallélisable. Nous pensons actuellement que seul le crible d'Eratosthène est parallélisable et donc il sera de notre ressort de penser à une manière de paralléliser l'implémentation faite ou alors paralléliser les tests comme ceux réalisés sur des grands ensembles de nombres pour accélérer l'exécution et de réussir les enjeux posés par la l'égalisation de charges sur les différents processeurs.

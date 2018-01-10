@@ -62,5 +62,5 @@ else # Cas avec l'option différent de "a"
     done
 fi
 
-gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'data.txt' using 1:2 with linespoints title 'Resultats'; pause -1" # Affiche le plot du résultat
+gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'data.txt' using 1:2 with yerrorlines title 'Resultats'; pause -1" # Affiche le plot du résultat
 cd ..

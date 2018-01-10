@@ -15,7 +15,8 @@ int main(int argc, char** argv){
 
         int opt;
         int iter;
-        unsigned long int n;
+        unsigned long int n, max, min;
+        bool first_time = false;
         bool all_test_flag = false;
         bool aks_flag = false;
         bool euclide_flag = false;
@@ -98,6 +99,13 @@ int main(int argc, char** argv){
                                 memory_bound(n_temp, &liste);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         avg /= iter;
@@ -105,7 +113,7 @@ int main(int argc, char** argv){
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
                 if(pock_flag == true || all_test_flag == true) {
@@ -116,6 +124,13 @@ int main(int argc, char** argv){
                                 result = pocklington(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         if(result) {
@@ -125,7 +140,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
                 if(miller_flag == true || all_test_flag == true) {
@@ -137,6 +152,13 @@ int main(int argc, char** argv){
                                 result = millerRabin(n, iterations);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         if(result) {
@@ -146,7 +168,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
                 if(euclide_flag == true || all_test_flag == true) {
@@ -157,6 +179,13 @@ int main(int argc, char** argv){
                                 result = computation_bound_euclide(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         if(result) {
@@ -166,7 +195,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
                 if(modulo_flag == true || all_test_flag == true) {
@@ -177,6 +206,13 @@ int main(int argc, char** argv){
                                 result = computation_bound_modulo(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         if(result) {
@@ -186,7 +222,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
                 if(aks_flag == true || all_test_flag == true) {
@@ -197,6 +233,13 @@ int main(int argc, char** argv){
                                 result = aks(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         if(result) {
@@ -206,7 +249,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
         }
 
@@ -219,6 +262,13 @@ int main(int argc, char** argv){
                                 result = highly_composite_naive(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         avg /= iter;
@@ -229,7 +279,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
                 if(highly_composite_def_flag == true || all_test_flag == true) {
@@ -240,6 +290,13 @@ int main(int argc, char** argv){
                                 result = highly_composite_def(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                if (!first_time){
+                                    first_time = true;
+                                    max = elapsed_time;
+                                    min = max;
+                                }
+                                if (max < elapsed_time) max = elapsed_time;
+                                if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         avg /= iter;
@@ -250,7 +307,7 @@ int main(int argc, char** argv){
                         }
                         std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
-                        file2 << n << " " << avg << std::endl;
+                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
         }
         std::cout << std::endl;

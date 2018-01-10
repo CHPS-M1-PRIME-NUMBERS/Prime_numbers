@@ -16,7 +16,7 @@ Nous avons également implementé la recherche des nombres hautements composés.
 ## Installation
 
 ### Exigences
-* g++ 7.2.0 (ou tout autre compilateur de >=C++11)
+* g++ 7.2.0 (ou tout autre compilateur de >=C++14)
 * GMP 6.1.2
 * NTL 10.5.0
 * CMAKE 3.9.4

@@ -1,6 +1,6 @@
 #include "millerRabin.hpp"
 
-// Modular exponentiation (x^y) % p
+// Exponentiation modulaire (x^y) % p
 unsigned long int expPower(unsigned long int x, unsigned long int y, unsigned long int p){
 								unsigned long int res = 1;
 								x = x % p;
@@ -14,8 +14,8 @@ unsigned long int expPower(unsigned long int x, unsigned long int y, unsigned lo
 								return res;
 }
 
-// Returns false if n is composite or
-// true if n is probably prime.
+// Retourne faux si n est composé ou
+// vrai si n est probablement premier
 bool millerTest(unsigned long int d, unsigned long int n){
 								unsigned long int a = 2 + rand() % (n - 4);
 								unsigned long int x = expPower(a, d, n);
@@ -32,10 +32,11 @@ bool millerTest(unsigned long int d, unsigned long int n){
 								return false;
 }
 
-// Returns false if n is composite or true if n
-// is probably prime
+// Retourne faux si n est composé ou
+// vrai si n est probablement premier
 bool millerRabin(unsigned long int n, unsigned long int k)
 {
+								// Initialisation du générateur des nombres aléatoires
 								srand (time(NULL));
 								unsigned long int d = n - 1;
 

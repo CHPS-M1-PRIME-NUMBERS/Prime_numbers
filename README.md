@@ -23,7 +23,7 @@ Nous avons également implementé la recherche des nombres hautements composés.
 
 ### Construction de l'executable
 `$ cmake ..`
-Une fois placé dans un dossier d'installation créer à l'interieur du dossier source.
+Une fois placé dans un dossier d'installation créé à l'interieur du dossier source.
 
 ## Usage
 

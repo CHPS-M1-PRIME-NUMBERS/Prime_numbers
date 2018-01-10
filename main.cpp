@@ -80,6 +80,8 @@ int main(int argc, char** argv){
         bool result;
         int elapsed_time;
         std::chrono::time_point<std::chrono::system_clock> start, end;
+
+        //On ouvre les flux des différents fichiers
         std::ofstream file1("memory.txt", std::ios::out | std::ios::trunc);
         std::ofstream file2("data.txt", std::ios::out | std::ios::app);
         std::ofstream file3("result.txt", std::ios::out | std::ios::app);
@@ -88,6 +90,8 @@ int main(int argc, char** argv){
         {
                 std::cout << "||||||||||||||  Test pour N = " << n << " ||||||||||||||" << std::endl;
 
+
+                //Lance le crible d'Eratosthene si l'option est choisie
                 if(mem_bound_flag == true || all_test_flag == true) {
                         unsigned long int n_temp = n;
                         if(n_temp>1000000000) {
@@ -96,26 +100,29 @@ int main(int argc, char** argv){
                         std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
                         std::list<unsigned long int> liste;
                         for (int i = 0; i < iter; i++) {
+                                // Entoure la fonction des indications temporelles de début et de fin d'execution (de même pour les autres algorithmes)
                                 start = std::chrono::system_clock::now();
                                 memory_bound(n_temp, &liste);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
                                 avg += elapsed_time;
                         }
                         avg /= iter;
+                        //Affichage et incription des résultats dans les fichiers (de même pour les autres algorithmes)
                         file1 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
+                //Lance le test de Pocklington si l'option est choisie
                 if(pock_flag == true || all_test_flag == true) {
                         std::cout << "==== Pocklington ====" << '\n';
                         avg = 0;
@@ -124,10 +131,10 @@ int main(int argc, char** argv){
                                 result = pocklington(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -143,6 +150,7 @@ int main(int argc, char** argv){
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
+                //Lance le test de Miller-Rabin si l'option est choisie
                 if(miller_flag == true || all_test_flag == true) {
                         std::cout << "==== Miller Rabin ====" << '\n';
                         unsigned long int iterations = 500;
@@ -152,10 +160,10 @@ int main(int argc, char** argv){
                                 result = millerRabin(n, iterations);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -171,6 +179,7 @@ int main(int argc, char** argv){
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
+                //Lance le test d'Euclide si l'option est choisie
                 if(euclide_flag == true || all_test_flag == true) {
                         std::cout << "==== Computation Bound || Euclide ====" << '\n';
                         avg = 0;
@@ -179,10 +188,10 @@ int main(int argc, char** argv){
                                 result = computation_bound_euclide(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -198,6 +207,7 @@ int main(int argc, char** argv){
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
+                //Lance le test de Modulo si l'option est choisie
                 if(modulo_flag == true || all_test_flag == true) {
                         std::cout << "==== Computation Bound || Modulo ====" << '\n';
                         avg = 0;
@@ -206,10 +216,10 @@ int main(int argc, char** argv){
                                 result = computation_bound_modulo(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -225,6 +235,7 @@ int main(int argc, char** argv){
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
+                //Lance le test d'AKS si l'option est choisie
                 if(aks_flag == true || all_test_flag == true) {
                         std::cout << "==== AKS ====" << '\n';
                         avg = 0;
@@ -233,10 +244,10 @@ int main(int argc, char** argv){
                                 result = aks(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -253,7 +264,7 @@ int main(int argc, char** argv){
                 }
         }
 
-        {       // Nombre Hautement Composé
+        {       //Lance le test de Nombre hautement composé naive si l'option est choisie
                 if(highly_composite_naive_flag == true || all_test_flag == true) {
                         std::cout << "==== highly_composite_naive ====" << std::endl;
                         avg = 0;
@@ -262,10 +273,10 @@ int main(int argc, char** argv){
                                 result = highly_composite_naive(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -280,7 +291,7 @@ int main(int argc, char** argv){
                         std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
-
+                //Lance le test de Nombre hautement composé définition si l'option est choisie
                 if(highly_composite_def_flag == true || all_test_flag == true) {
                         std::cout << "==== highly_composite_def ====" << std::endl;
                         avg = 0;
@@ -289,10 +300,10 @@ int main(int argc, char** argv){
                                 result = highly_composite_def(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time){
-                                    first_time = true;
-                                    max = elapsed_time;
-                                    min = max;
+                                if (!first_time) {
+                                        first_time = true;
+                                        max = elapsed_time;
+                                        min = max;
                                 }
                                 if (max < elapsed_time) max = elapsed_time;
                                 if (min > elapsed_time) min = elapsed_time;
@@ -309,5 +320,7 @@ int main(int argc, char** argv){
                 }
         }
         std::cout << std::endl;
+
+        //Fin du programme
         return 0;
 }

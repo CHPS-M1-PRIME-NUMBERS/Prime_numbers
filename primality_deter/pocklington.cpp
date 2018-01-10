@@ -1,5 +1,7 @@
 #include "pocklington.hpp"
 
+
+// Exponentiation modulaire avec template
 template <typename T>
 T modpow(T base, T exp, T modulus){
         base %= modulus;
@@ -12,11 +14,12 @@ T modpow(T base, T exp, T modulus){
         return result;
 }
 
+// Retourne le PGCD de deux nombres
 unsigned long int gcd(unsigned long int a, unsigned long int b) {
         return b == 0 ? a : gcd(b, a % b);
 }
 
-
+// Recherche d'un candidat à l'algorithme de Pocklington
 int rechercherCandidat(int N){
         int a = 2;
         while(modpow(a, N-1, N) != 1) {
@@ -26,6 +29,8 @@ int rechercherCandidat(int N){
         return a;
 }
 
+// Retourne faux si n est composé ou
+// vrai si n est premier
 bool pocklington(unsigned long int candidatPrime){
         //Trouver un a, on a f un facteur de a et on a n - 1 = f * r
         //Et PGDC(f, r) = 1

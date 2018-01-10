@@ -1,5 +1,6 @@
 #include "facteurs.hpp"
 
+// Classe permettant la decomposition d'un nombre en ses facteurs et de les stocker.
 Facteurs::Facteurs(unsigned long int n){
         this->nbFactored = n;
         this->factorisation();
@@ -47,6 +48,7 @@ Facteurs::~Facteurs(){
 
 }
 
+// Surcharge de l'operateur de flux sortant pour afficher les facteurs.
 std::ostream& operator<<(std::ostream& os, Facteurs& facteur){
         for(int i = 0; i < facteur.getNbFacteurs(); i++) {
                 os << facteur[i] << " ";

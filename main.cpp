@@ -99,7 +99,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 memory_bound(n_temp, &liste);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -111,7 +111,7 @@ int main(int argc, char** argv){
                         }
                         avg /= iter;
                         file3 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
-                        std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
+                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
@@ -124,7 +124,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = pocklington(n);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -139,7 +139,8 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "Pocklington " << n << " False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
+                        avg /= iter;
+                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
@@ -152,7 +153,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = millerRabin(n, iterations);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -167,7 +168,8 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "Miller_Rabin " << n << " False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
+                        avg /= iter;
+                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
@@ -179,7 +181,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = computation_bound_euclide(n);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -194,7 +196,8 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "Computation Bound || Euclide of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
+                        avg /= iter;
+                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
@@ -206,7 +209,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = computation_bound_modulo(n);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -221,7 +224,8 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "Computation Bound || Modulo of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
+                        avg /= iter;
+                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
@@ -233,7 +237,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = aks(n);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -248,7 +252,8 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "AKS of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
+                        avg /= iter;
+                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
@@ -262,7 +267,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = highly_composite_naive(n);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -278,7 +283,7 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "highly_composite_naive of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
+                        std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
@@ -290,7 +295,7 @@ int main(int argc, char** argv){
                                 start = std::chrono::system_clock::now();
                                 result = highly_composite_def(n);
                                 end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
+                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time){
                                     first_time = true;
                                     max = elapsed_time;
@@ -306,7 +311,7 @@ int main(int argc, char** argv){
                         }else{
                                 file3 << "highly_composite_def of " << n << ":" << std::endl << "False" << std::endl;
                         }
-                        std::cout << "Time elapsed average: "  << avg << " ns" << std::endl;
+                        std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
                         file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }

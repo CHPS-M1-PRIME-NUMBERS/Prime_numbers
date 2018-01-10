@@ -37,33 +37,33 @@
 		\subsection{Tests de primalité}
 		Au cours de ce projet il nous a été demandé d'implémenter plusieurs algorithmes pour déterminer si un nombre est premier ou non. Voici les différents tests utilisés pour ce travail:
 		\begin{itemize}
-			\item Méthode naïve le \textbf{Crible d’Ératosthène}\footnote{zanotti.univ-tln.fr/ALGO/I51/Crible.html} (Déterministe): \\
+			\item Méthode naïve le \textbf{Crible d’Ératosthène}\cite{eratosthene}(Déterministe) : \\
 			Cette méthode est utilisée pour le memory bound. Cet algorithme va procéder à une élimination dans une table d'entiers de 2 à N de tous les multiples de chaque entier présent dans ce tableau. En supprimant tous les multiples à la fin, seuls les entiers qui ne sont multiples d'aucun autre resteront et par conséquent ces nombres seront donc premiers. Le memory bound va donc être une liste des entiers restant à la fin de l'application du crible.\\
 			
-			\item Méthode naïve \textbf{l'algorithme d'Euclide} (Déterministe):\\ 
+			\item Méthode naïve \textbf{l'algorithme d'Euclide}\cite{euclide}(Déterministe) :\\ 
 			Les premiers algorithmes naïfs sont très simples mais coûteux en temps de calcul. Un nombre est en effet premier si aucun nombre qui lui est inférieur le divise. Cet algorithme va donc essayer de diviser le nombre n dont on souhaite tester la primalité par tout ces nombres. Si l'un d'entre eux donne pour reste de la division 0, alors n n'est pas premier. Afin de limiter le nombre de calculs nécessaires on peut se limiter à tester uniquement tout les nombres inférieurs à $\sqrt{n}$. En effet, si un nombre a > $\sqrt{n}$ divise n, alors a x b = n où b est forcement plus petit que $\sqrt{n}$. Donc n aura été prouvé non premier par b avant d'essayer a.\\
 On peut également utiliser l'algorithme d'Euclide qui permet de trouver de manière itérative le plus grand diviseur commun de deux nombres (PGCD). Or on dit que a et b sont premiers entre eux lorsque leur PGCD est égal à 1. Il suffit donc de prouver que chaque nombre inférieur à $\sqrt{n}$ a pour PGCD 1 avec n pour dire que n est premier.
 \\
 Ces deux méthodes sont très simples à implémenter mais deviennent très rapidement coûteuses en temps de calcul pour des nombres très grands, s'approchant de $2^{64}$ par exemple.\\
 			
-			\item \textbf{Pocklington} (Déterministe) :\\
+			\item \textbf{Pocklington}\cite{pocklington}(Déterministe) :\\
 			 Le test de primalité de Pocklington-Lehmer utilise le théorème de Pocklington pour vérifier la primalité d’un nombre.
 L’algorithme consiste à utiliser une factorisation partielle du nombre N-1, où N est le nombre dont on souhaite tester la primalité. Cette factorisation partielle nous permet d’obtenir un nombre que l’on nommera A et qui doit remplir certaines conditions pour qu’on puisse appliquer le théorème.
 Nous avons déjà la factorisation de A qui nous servira pour la suite de l'exécution de l’algorithme. 
 La suite consiste à tester les conditions requises sur tous les facteurs premiers de A, ces conditions sont de trouver un nombre $a$ qui mis à la puissance N-1 modulo N donne 1 et que le plus grand diviseur commun entre {\Large$\frac{a^{(N-1)}}{p}$} et N soit égal à 1, avec p le facteur premier de A tester en ce moment. Si on a trouvé un $a$ remplissant les conditions pour chaque $p$ alors on peut dire que le nombre N est premier.\\
 
-			\item \textbf{AKS} Version 2002 (Déterministe) :\\
-			L'algorithme AKS est l’acronyme de ses créateurs (Agrawal-Kayal-Saxena). AKS est un algorithme déterministe, inconditionnel (il fonctionne peut importe l'entrée) et polynomiale c'est l'un des rares algorithmes à vérifier toutes ces propriétés. Cet Algorithme se base sur une généralisation du petit théorème de Fermat\footnote{https://fr.wikipedia.org/wiki/Test\_de\_primalit\%C3\%A9\_AKS} qui est : "Pour tout entier $n \geq 2$ et tout entier $a$ premier avec $n$, $n$ est un nombre premier si et seulement si : $(X + a)^n \equiv X^n + a$ $mod$ $n$".\\
+			\item \textbf{AKS} Version 2002\cite{AKS1}\cite{agrawal2004primes}(Déterministe) :\\
+			L'algorithme AKS est l’acronyme de ses créateurs (Agrawal-Kayal-Saxena). AKS est un algorithme déterministe, inconditionnel (il fonctionne peut importe l'entrée) et polynomiale c'est l'un des rares algorithmes à vérifier toutes ces propriétés. Cet Algorithme se base sur une généralisation du petit théorème de Fermat\cite{AKS1} qui est : "Pour tout entier $n \geq 2$ et tout entier $a$ premier avec $n$, $n$ est un nombre premier si et seulement si : $(X + a)^n \equiv X^n + a$ $mod$ $n$".\\
 
-En ce qui concerne l’algorithme il est effectuée en 5 étapes\href{AKS}\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test}.
+En ce qui concerne l’algorithme il est effectuée en 5 étapes\cite{AKS2}.
 Pour la version réalisée (2002), la complexité est de l'ordre de $\log(n)^{12}$ cependant il existe beaucoup de variantes qui améliorent l'algorithme (exemple en 2005 une nouvelle variante d'AKS s’exécute en $\log(n)^6$ ce qui représente une belle optimisation comparée à la version initiale). La plupart des optimisations concernent l'étape 5 qui occupe une grande partie de l'exécution de l'algorithme.\\
 			
-			\item \textbf{Miller-Rabin} (Probabiliste):\\
+			\item \textbf{Miller-Rabin}\cite{millerrabin}(Probabiliste) :\\
 			Miller-Rabin, basé sur le petit théorème de Fermat \\ $a^p-1 \equiv 1 \pmod p$, consiste à tirer parti d'une équation ou d'un système d'équations qui soient vraies pour des valeurs premières et à regarder si elles sont toujours vraies pour un nombre dont nous voulons tester la primalité. L'algorithme Miller-Rabin prend en entrée un entier n dont on souhaite vérifier la primalité et un entier k qui représente le nombre d’itération du test de Miller-Rabin, plus k est élevé et plus l’analyse est précise (moins de chance d’erreurs). Il fait partie des tests probabiliste et est donc plus rapide que les tests déterministe.\\
 		\end{itemize}
 		
 		\subsection{Nombres Hautement composés}
-		Deux algorithmes ont été étudiées pour les nombres hautement composés. 
+		Deux algorithmes ont été étudiées pour les nombres hautement composés\cite{highlycomposed}. 
 		Le premier est une méthode naïve qui consiste à calculer le nombre de diviseur d'un nombre n et de comparer ce nombre avec le nombre de diviseurs pour tout entier k compris entre $1$ et $n-1$.\\
 		Le deuxième algorithme utilise la propriété sur la forme qu'un nombre hautement composé doit avoir. Un nombre hautement composé possède des facteurs premiers qui sont les plus petits possible. Si l'on doit prendre en considération que la décomposition d'un entier $n > 1$ en produit de facteurs premiers comme suit  $n = p_1^{c_1} * p_2^{c_2} * ... * p_k^{c_k}$ où $p_1 = 2 < p_2 = 3 < … < p_k$ sont les $k$ plus petits nombres premiers, avec $c_k$ le dernier exposant non nul.
 		\paragraph{}En conséquence, pour que n soit hautement composé, il faut que $c_1 \ge c_2 \ge ... \ge c_k$. En cas de non respect de cette règle si nous échangeons deux exposants on diminue le nombre n tout en conservant exactement le même nombre de diviseurs. Un exemple pour illustrer : $18 = 2^1 * 3^2$ peut être remplacé par $12 = 2^2 * 3^1$, ces deux nombres ont tout les deux 6 diviseurs. De plus il a été montré que le dernier exposant $c_k = 1$, sauf dans deux cas particuliers $n = 4$ et $n = 36$.
@@ -79,27 +79,37 @@ Pour la version réalisée (2002), la complexité est de l'ordre de $\log(n)^{12
 		Deuxièmement le langage Shell. Celui-ci faisant partie du système d'exploitation UNIX, va nous permettre d'établir un script \textit{test.sh} avec l’enchaînement de plusieurs lignes de commandes pour l'exécution de tests.
 		
 		\subsection{Outils}
-		Pour ainsi produire le projet certains outils ont été utilisés pour obtenir le résultat présenté. En premier lieu nous avons installé la bibliothèque \textit{GMP}. Cette dernière est une bibliothèque nécessaire pour utiliser NTL, de plus elle pourrait nous être utile dans le cas où l'on voudrait générer de très grands nombre car les types de base proposés par le C++ nous limite à l'utilisation de nombres de 64 bits maximum.
-		\paragraph{}La deuxième bibliothèque utilisé est donc la bibliothèque \textit{NTL}, qui propose certaines fonctionnalités pour le calcul du PolyModulo\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test} qui nous est indispensable pour l'implémentation du test de primalité AKS. N'ayant aucune connaissances nécessaire dans le domaine des mathématiques sur l'algèbre modulaire, l'utilisation de cette bibliothèque nous permet d'obtenir des fonctions pour ces calculs et de façon optimisée.  
+		Pour ainsi produire le projet certains outils ont été utilisés pour obtenir le résultat présenté. En premier lieu nous avons installé la bibliothèque \textit{GMP}\cite{gmp}. Cette dernière est une bibliothèque nécessaire pour utiliser NTL, de plus elle pourrait nous être utile dans le cas où l'on voudrait générer de très grands nombre car les types de base proposés par le C++ nous limite à l'utilisation de nombres de 64 bits maximum.
+		\paragraph{}La deuxième bibliothèque utilisé est donc la bibliothèque \textit{NTL}\cite{ntl}, qui propose certaines fonctionnalités pour le calcul du PolyModulo\cite{AKS} qui nous est indispensable pour l'implémentation du test de primalité AKS. N'ayant aucune connaissances nécessaire dans le domaine des mathématiques sur l'algèbre modulaire, l'utilisation de cette bibliothèque nous permet d'obtenir des fonctions pour ces calculs et de façon optimisée.  
 		\paragraph{}Nous avons également utilisé un service d’hébergement de gestion de développement utilisant le système de gestion de version \textit{Git} qui est \textbf{GitHub}. Ceci nous a permis de travailler en groupe sur un dépôt de façon très facile tout en étant indépendant lorsque chacun devait travailler de son côté sur une fonctionnalité sans pour autant perturber le travail du reste du groupe. GitHub nous permet également de stocker les différentes versions de notre travail.   
-		\paragraph{}Enfin le dernier outil utilisé est \textit{CMake}\footnote{https://cmake.org/}. \textit{CMake} est une famille d'outils multi-plateformes et open source permettant de construire, tester et emballer des logiciels. Nous l'utilisons pour la compilation du projet, la liaison avec plusieurs bibliothèques utilisées et pour la génération d'un makefile. 
+		\paragraph{}Enfin le dernier outil utilisé est \textit{CMake}\cite{cmake}. \textit{CMake} est une famille d'outils multi-plateformes et open source permettant de construire, tester et emballer des logiciels. Nous l'utilisons pour la compilation du projet, la liaison avec plusieurs bibliothèques utilisées et pour la génération d'un makefile. 
 			
 	\section{Analyse des résultats}
-		\subsection{Lancement d'un test}
-	Pour lancer un test il faut exécuter le script $"test.sh"$ qui va tout d'abord demander une option pour connaître le ou les tests que l'on veux exécuter. Pour cela nous avons à disposition les arguments suivants : 
-	\begin{itemize}
-		\item a : Effectue chaque test
-		\item k : AKS
-		\item e : Euclide (Computation Bound)
-		\item o : Modulo (Computation Bound)
-		\item m : Crible d'Eratosthène
-		\item p : Pocklington
-		\item i : Miller-Rabin
-		\item h : Nombre hautement composé naïve
-		\item H : Nombre hautement composé définition.
-	\end{itemize}
-	
-Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obtenir une moyenne sur le temps d'exécution. Puis il sera demandé un nombre "size" pour indiquer au programme combien de nombre premier (ou hautement composé) doit-il s'attendre à recevoir, puis les indiquer. Le programme va générer trois fichiers. Le fichier $"data.txt"$ contient les résultats pour le temps d'exécution de l'échantillon de nombres donnée. Le fichier $"result.txt"$ quant à lui contient les retours des tests pour le dernier nombre de l'échantillon. Le dernier fichier $"average.txt"$ contiendra le temps moyen d'exécution pour le dernier nombre de cet échantillon.
+		 \subsection{Lancement d'un test depuis l'execution en ligne de commande}
+Pour lancer un test depuis la console il suffit d'entrer la commande suivante dans le terminal situé au niveau du dossier racine du projet.
+\begin{lstlisting}
+./prime_numbers -options nb_iterations nbs_a_tester \end{lstlisting}
+
+Les options permettent de connaître le ou les tests que l'on veux exécuter. Pour cela nous avons à disposition les arguments suivants :
+\begin{itemize}
+\item a : Effectue chaque test çi-dessous
+\item k : AKS
+\item e : Euclide (Computation Bound)
+\item o : Modulo (Computation Bound)
+\item m : Crible d'Eratosthène
+\item p : Pocklington
+\item i : Miller-Rabin
+\item h : Nombre hautement composé naïve
+\item H : Nombre hautement composé définition.
+\end{itemize}
+
+Cette commande est également composée d'un argument qui permet de préciser le nombre d'itérations d'un même test de nombre premier afin d'obtenir une moyenne du temps d’exécution de celui-çi. Enfin le dernier argument est composé d'autant de nombre dont on souhaite  la primalité séparés par un espace.\\
+Le programme va ainsi afficher dans le terminal les moyennes en temps d’exécution pour chaque test et nombre. Le programme va générer trois fichiers. Le fichier $"data.txt"$ contient les résultats pour le temps d'exécution de l'échantillon de nombres donnée. Le fichier $"result.txt"$ quant à lui contient les retours des tests pour le dernier nombre de l'échantillon. Le dernier fichier $"memory.txt"$ contiendra la liste modifié par la fonctionnalité de $memory\_bound$.
+
+\subsection{Lancement d'un test depuis le script SHELL}
+Pour lancer un (voir une série de) test on peut aussi utiliser le script $"test.sh"$. \\
+Le programme va ensuite demander différents paramètres afin de définir avec précision les tests que l'utilisateur souhaite effectuer. \\
+
 		\subsection{Matériel et logiciels utilisés}
 		Pour l'exécution des tests, nous avons utilisé une machine doté de la configuration suivante:
 		\begin{itemize}
@@ -114,9 +124,9 @@ Le programme est exécuté sur une machine virtuelle présente sur la machine qu
 			
 		\subsection{Résultats} 		
 		\subsubsection{Tests de primalité sur un échantillon}
-	Tout d'abord nous avons réalisé une première batterie de tests sur un échantillon de nombres premiers avec 10 itérations pour établir une moyenne du temps d'exécution pour chaque membre de cet échantillon. Cet échantillon de nombres premiers est la suivante : '3', '97', '1039', '50023', '102013', '1300837', '4301623', '9990887', '15487253', '25003151', '33083221', '40003387', '110003329', '520002179', '720001787' et '1073741857'. L’Étude demandé pour ce projet nous impose de faire une comparaison des résultats obtenus pour chaque test de primalité.\\
+	Tout d'abord nous avons réalisé une première batterie de tests sur un échantillon de nombres premiers avec 10 itérations pour établir une moyenne du temps d'exécution pour chaque membre de cet échantillon. Cet échantillon de nombres premiers est le suivant : '3', '97', '1039', '50023', '102013', '1300837', '4301623', '9990887', '15487253', '25003151', '33083221', '40003387', '110003329', '520002179', '720001787' et '1073741857'. L’Étude demandé pour ce projet nous impose de faire une comparaison des résultats obtenus pour chaque test de primalité.\\
 	
-	Dans les graphes \ref{fg:fig1}, \ref{fg:fig2}, \ref{fg:fig3} et \ref{fg:fig4} on peux observer l'évolution du temps d'exécution en fonction du nombre.
+	Dans les graphes \ref{fg:fig1}, \ref{fg:fig2}, \ref{fg:fig3} et \ref{fg:fig4} on peux observer l'évolution du temps d'exécution en fonction du nombre. Pour chaque courbe, la marge d'erreur sur le temps d'exécution d'un nombre est indiqué par une barre. Celle-ci nous permet d'observer la stabilité du temps d'exécution d'une exécution à une autre.
 \begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.6]{result.png}\end{center}
 		\caption{Évolution du temps d'exécution pour les 6 tests de primalité (AKS, Pocklington, Miller-Rabin, Euclide, Ératosthène et Modulo). }
@@ -138,7 +148,7 @@ Le programme est exécuté sur une machine virtuelle présente sur la machine qu
 		\label{fg:fig4}
 \end{figure}
 	
-	Pour commencer nous pouvons observer que les courbes d'évolutions du temps d'exécutions pour les méthodes naïve d'Euclide et du Modulo ont des temps d'exécution très faible pour de petits nombre. Mais les nombres utilisés ici sont de taille raisonnable, mais pour des nombres de l'ordre de $2^{50}$ leur temps d'exécution augmenteront de façon considérable à cause de leur complexité. Pour l'algorithme de $memory\_bound$/Ératosthène l'utilisation de la mémoire devient beaucoup trop importante à cause du tableau de taile N+1 créer par l'algorithme de crible (Exemple pour 97 on utilise 97 bytes, mais pour $2^{50}$ on aura donc $2^{50}$ bytes utilisé en mémoires). Nous pouvons donc ainsi observer que la courbe pour cet algorithme accroît de manière très rapide. De plus la courbe d'évolution d’Ératosthène se fini avant par rapport aux autres tests de primalité, cela est causé par une limitation de nos machines au niveau de la RAM nous empêchant ainsi d'obtenir des résultats pour des nombres supérieurs. Pour les autres tests nous nous sommes arrêté à $1073741857$ également limité par la RAM disponible sur la machine utilisé.\\	
+	Pour commencer nous pouvons observer que les courbes d'évolutions du temps d'exécutions pour les méthodes naïve d'Euclide et du Modulo ont des temps d'exécution très faibles pour de petits nombre. Mais les nombres utilisés ici sont de taille raisonnable, mais pour des nombres de l'ordre de $2^{50}$ leur temps d'exécution augmenteront de façon considérable à cause de leur complexité. Pour l'algorithme de $memory\_bound$/Ératosthène l'utilisation de la mémoire devient beaucoup trop importante à cause du tableau de taile N+1 créer par l'algorithme de crible (Exemple pour 97 on utilise 97 bytes, mais pour $2^{50}$ on aura donc $2^{50}$ bytes utilisé en mémoires). Nous pouvons donc ainsi observer que la courbe pour cet algorithme accroît de manière très rapide. De plus la courbe d'évolution d’Ératosthène se fini avant par rapport aux autres tests de primalité, cela est causé par une limitation de nos machines au niveau de la RAM nous empêchant ainsi d'obtenir des résultats pour des nombres supérieurs. Pour les autres tests nous nous sommes arrêté à $1073741857$ également limité par la RAM disponible sur la machine utilisé.\\	
 	
 	En observant les résultats de l’algorithme de Miller Rabin, on observe que le temps d’exécution pour les petits nombres est bien au dessus des algorithmes plus naïfs mais qu’il devient très rapidement plus efficace que tous les autres algorithmes utilisés. \\		
 		
@@ -151,26 +161,26 @@ Les résultats nous laisse penser que pour des nombres très grand (supérieur �
 Pour continuer, nous avons effectué de nouveaux tests sur une plage de données. Les figures \ref{fg:fig5}, \ref{fg:fig6}, \ref{fg:fig7} et \ref{fg:fig8} représentent les variations du temps d'exécution sur la plage [1:10 000].
 \begin{figure}[!ht]
 		\begin{center}\includegraphics[scale=0.5]{RANGE.png}\end{center}
-		\caption{Évolution du temps d'exécution pour les 6 tests de primalité (AKS, Pocklington, Miller-Rabin, Euclide, Ératosthène et Modulo). }
+		\caption{Évolution du temps d'exécution pour les 6 tests de primalité sur une plage de données(AKS, Pocklington, Miller-Rabin, Euclide, Ératosthène et Modulo). }
 		\label{fg:fig5}
 \end{figure}
 \begin{figure}[!ht]
 		\begin{center}\includegraphics[scale=0.5]{RZoom1.png}\end{center}
-		\caption{Zoom de la figure \ref{fg:fig1} sur (Pocklington, Miller-Rabin, Euclide et Modulo).}
+		\caption{Zoom de la figure \ref{fg:fig6} sur (Pocklington, Miller-Rabin, Euclide et Modulo).}
 		\label{fg:fig6}
 \end{figure}
 \begin{figure}[!ht]
 		\begin{center}\includegraphics[scale=0.6]{RZoom2.png}\end{center}
-		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin, Euclide et Modulo).}
+		\caption{Zoom de la figure \ref{fg:fig6} sur (Miller-Rabin, Euclide et Modulo).}
 		\label{fg:fig7}
 \end{figure}
 \begin{figure}[!ht]
 		\begin{center}\includegraphics[scale=0.5]{RZoom4.png}\end{center}
-		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin et Modulo).}
+		\caption{Zoom de la figure \ref{fg:fig6} sur (Miller-Rabin et Modulo).}
 		\label{fg:fig8}
 \end{figure}
 
-Après avoir exécuté les tests sur la plage de donnée, nous avons établir une moyenne du temps d'exécution global de la plage de données. Ces temps sont indiqués ci-dessous:
+Après avoir exécuté les tests sur la plage de données, nous avons pu établir une moyenne du temps d'exécution global de la plage de données. Ces temps sont indiqués ci-dessous:
 \begin{itemize}
 	\item L'algorithme AKS met en moyenne 118064433 $\mu s$ soit environ 118,06s
 	\item L'algorithme d'Euclide met en moyenne 11937 $\mu s$ soit environ 0,012s
@@ -180,7 +190,15 @@ Après avoir exécuté les tests sur la plage de donnée, nous avons établir un
 	\item L'algorithme de Miller-Rabin met en moyenne 163611 $\mu s$ soit environ 0,163s
 \end{itemize}
 
- Une étude statistique sur le test de Miller-Rabin a pu être fait pour cette plage de données. On a pu voir que pour les 100 000 premiers nombres (entre $2^{16}$ et $2^{17}$) l’algorithme a un taux de réussite de 100\% même avec un faible nombre d’itérations (ici testé avec 5). Les tests on été poussé jusqu’à $2^{27}$ sans trouver d’erreurs avec une plage de données de 100 000 nombres, le temps d’exécution commence alors à atteindre plus d’une dizaine de minutes, ici encore pour un faible nombre d’itérations.\\
+ Une étude statistique sur le test de Miller-Rabin a pu être fait pour cette plage de données. On a pu voir que pour les 100 000 premiers nombres (entre $2^{16}$ et $2^{17}$) l’algorithme a un taux de réussite de 100\% même avec un faible nombre d’itérations (ici testé avec 5). Les tests ont été poussé jusqu’à $2^{27}$ sans trouver d’erreurs avec une plage de données de 100 000 nombres, le temps d’exécution commence alors à atteindre plus d’une dizaine de minutes, ici encore pour un faible nombre d’itérations.\\
+ 
+ Le graphe \ref{fg:fig9} est la réalisation du test sur la plage [10 000:100 000] pour obtenir une meilleur vision de l'évolution de la moyenne du temps d'exécution global sur une plus grande plage de données.
+ \begin{figure}[!ht]
+ 		\begin{center}\includegraphics[scale=0.5]{RANGE2.png}\end{center}
+		\caption{Évolution du temps d'exécution pour les 6 tests de primalité sur [10 000:100 000]. }
+		\label{fg:fig9}
+	\end{figure}
+	On peut remarquer que le temps d’exécution de AKS reste relativement haut mais Pocklington s'approche plus rapidement de AKS.
  
 	\subsubsection{Hautement Composé}
 	Pour les deux fonctionnalités sur les nombres hautement composés, l'échantillon suivant : ['2' '120' '240' '360' '720' '840' '1260' '1680' '2520'] a été utilisé pour comparer les deux procédures et observer l'évolution du temps d'exécution dans les figures \ref{fg:HC} et \ref{fg:HCdef}.\\
@@ -189,13 +207,13 @@ Après avoir exécuté les tests sur la plage de donnée, nous avons établir un
 		\caption{Évolution du temps d'exécution pour les nombres Hautement Composés.}
 		\label{fg:HC}
 	\end{figure}
-	
-Nous pouvons observer que la méthode naïve prend énormément de temps pour s'exécuter en comparaison à la méthode appliquant la définition de ce type de nombre. En effet, pour un nombre N donné, la fonction va devoir calculer le nombre de diviseurs pour les N-1 nombres inférieur à N et effectuer N comparaison ce qui engendre beaucoup de latence. Et le temps pour le nombre 1680 est déjà assez élevé  pour un nombre supérieur à $2^{10}$. On peux donc imaginer la courbe accroître plus rapidement pour de très grand nombre. Mais étant limité par notre matériel, nous nous sommes contenté de ce type de nombre. Le décrochage que l'on peux observer peut-être justifier par le temps que l'algorithme a mis pour trouver la factorisation de ce nombre pour le calcul du nombre de diviseur. En effet, pour certains nombres il est possible de trouver plus rapidement la factorisation en nombre premier, ce qui peux justifier le fait que 2520 s'exécute plus rapidement que 1680.
 	\begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.5]{HCdef.png}\end{center}
 		\caption{Zoom sur la courbe pour la méthode appliquant la définition.}
 		\label{fg:HCdef}
 	\end{figure}
+Nous pouvons observer que la méthode naïve prend énormément de temps pour s'exécuter en comparaison à la méthode appliquant la définition de ce type de nombre. En effet, pour un nombre N donné, la fonction va devoir calculer le nombre de diviseurs pour les N-1 nombres inférieur à N et effectuer N comparaison ce qui engendre beaucoup de latence. Et le temps pour le nombre 1680 est déjà assez élevé  pour un nombre supérieur à $2^{10}$. On peux donc imaginer la courbe accroître plus rapidement pour de très grand nombre. Mais étant limité par notre matériel, nous nous sommes contenté de ce type de nombre. Le décrochage que l'on peux observer peut-être justifier par le temps que l'algorithme a mis pour trouver la factorisation de ce nombre pour le calcul du nombre de diviseur. En effet, pour certains nombres il est possible de trouver plus rapidement la factorisation en nombre premier, ce qui peux justifier le fait que 2520 s'exécute plus rapidement que 1680.
+	
 	\section{Bilan Technique du Projet}	
 		Après l'analyse des résultats nous pouvons constater que les différents tests appliqués possèdent chacun des limites.	
 		Tout d'abord, la principale limite du crible d'Eratosthène concerne la taille de son tableau. En effet, pour un nombre N très très grand, le crible va créer un tableau de booléen de taille N+1, ce qui va prendre énormément de place en mémoire, et avec les machines que nous avons à disposition nous sommes très vite limité à cause de la RAM. Puis pour la création de la liste contenant les nombres premiers de 2 jusqu'à N, la fonctionnalité de memory\_bound va devoir parcourir toutes les cases du tableau du crible pour remplir sa liste, ce qui engendre une complexité de N pour cette opération de remplissage.\\
@@ -205,7 +223,7 @@ Nous pouvons observer que la méthode naïve prend énormément de temps pour s'
 		Ensuite, pour le test de Pocklington la limite principale est le besoin de factoriser le voisin d’en dessous du nombre dont on cherche à valider la primalité, c’est-à-dire N-1 si N est le nombre dont on met la primalité en question. La factorisation des grands nombres est une lourde tâche de calcul de difficulté exponentielle, ainsi même les programmes les plus efficaces demandent énormément de temps, des années voir plus, pour factoriser certaines nombres très grands.
 En réalité, nous avons la possibilité de factoriser N-1 qu’en partie, il suffit de factoriser N-1 jusqu’à trouver un A, créé à partir des facteurs premiers de N-1, qui respecte les conditions nécessaires pour appliquer le théorème.\\
 
-		Pour Miller-Rabin, les limites concernent le retour de l'algorithme auquel ils nous faut s'assurer que ce dernier ne renvoie pas "premier" pour un nombre composé ou inversement. Pour cela il faut faire plusieurs itérations de l'algorithme, et ce nombre d'itérations est difficile à déterminer et si on veut être sûr que le résultat soit correcte le nombre d'itérations peut être très élevé ce qui augmente le temps d'exécution nécessaire pour avoir des données correctes.\\	
+		Pour Miller-Rabin, les limites concernent le retour de l'algorithme auquel ils nous faut s'assurer que ce dernier ne renvoie pas "premier" pour un nombre composé ou inversement (lors de l'étude de très grand nombres). Pour cela il faut faire plusieurs itérations de l'algorithme, et ce nombre d'itérations est difficile à déterminer et si on veut être sûr que le résultat soit correcte le nombre d'itérations peut être très élevé ce qui augmente le temps d'exécution nécessaire pour avoir des données correctes.\\	
 		
 		Concernant l'implémentation de AKS, ce dernier pourrait être sûrement amélioré avec une plus grande connaissance de la bibliothèques NTL utilisé pour l'arithmétique modulaire ou même avec l'utilisation d'autres bibliothèques. De plus une plus grande connaissance en mathématiques aurait permis d'offrir une optimisation pour certaines lignes de code, notamment dans l'étape 5 de l’algorithme. Il aurait aussi été possible d'implémenter une variante de l’algorithme AKS de base qui est plus récente et donc plus optimisé pour un gain de performance certain.
 Il est également possible que la bibliothèque NTL fausse les résultats de temps pour l'algorithme AKS. En effet, la bibliothèque effectue certaines vérifications superflues qui ralentiraient le temps d’exécution du test.\\
@@ -237,4 +255,6 @@ Il est également possible que la bibliothèque NTL fausse les résultats de tem
 		\paragraph{} Ce travail a été réalisé par un groupe de 5 personnes. Le sujet a été très bien appréhendé par les membre du groupe et l'entente a été excellente. Grâce aux informations préalablement établies lors de notre entretien avec Monsieur Gougeaud, le travail au sein du groupe a pu être mené de façon assez indépendante, sans générer de conflits ni de problèmes d'organisation.		
 		\paragraph{} Pour finir, après observation de nos résultats, nous sommes rentré en phase de réflexion concernant la deuxième étape du projet qui aura lieu pendant le semestre 2. Cette étape consiste à paralléliser l'implémentation faite au cours de ce Semestre. Mais ici tout les tests de primalité ne sont pas forcément parallélisable. Nous pensons actuellement que seul le crible d'Eratosthène est parallélisable et donc il sera de notre ressort de penser à une manière de paralléliser l'implémentation faite ou alors paralléliser les tests comme ceux réalisés sur des grands ensembles de nombres pour accélérer l'exécution et de réussir les enjeux posés par la l'égalisation de charges sur les différents processeurs.
 
+\bibliography{references}
+\bibliographystyle{unsrt}
 \end{document}

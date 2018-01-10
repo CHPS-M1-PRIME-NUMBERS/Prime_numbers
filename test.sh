@@ -5,10 +5,12 @@ echo "== Script de test et d'analyse des nombres premiers =="
 # a : Effectuer chaque test.
 # k : AKS.
 # e : Euclide.
+# o : Modulo.
 # m : Cribble d'Eratosthene.
 # p : Pocklington.
 # i : Miller-Rabin.
-# h : Nombre hautement composé.
+# h : Nombre hautement composé naïve.
+# H : Nombre hautement composé définition.
 echo "Quel type de test voulez-vous effectuer?" type_test
 echo "txt: Analyse une liste de nombres présents dans un fichier."
 echo "range: Analyse tout les nombres présents entre A et B."

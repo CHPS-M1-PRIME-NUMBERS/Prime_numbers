@@ -102,12 +102,12 @@ Pour la version réalisée (2002), la complexité est de l'ordre de $\log(n)^{12
 	\end{itemize}
 	
 Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obtenir une moyenne sur le temps d'exécution. Puis il sera demandé un nombre "size" pour indiquer au programme combien de nombre premier (ou hautement composé) doit-il s'attendre à recevoir, puis les indiquer. Le programme va générer trois fichiers. Le fichier $"data.txt"$ contient les résultats pour le temps d'exécution de l'échantillon de nombres donnée. Le fichier $"result.txt"$ quant à lui contient les retours des tests pour le dernier nombre de l'échantillon. Le dernier fichier $"average.txt"$ contiendra le temps moyen d'exécution pour le dernier nombre de cet échantillon.
-		\subsection{Matériel et logiciel utilisé}
-			CONFIGURATION PC.\\
-			COMPILATEUR, CMAKE version, NTL version, GMP version, C++ version.
-	
+		\subsection{Matériel et logiciels utilisés}
+		Pour l'exécution des tests, nous avons utilisé une machine doté du système Debian8, avec la configuration suivante :....\\
+		Concernant les logiciels, pour la compilation du code C++ nous avons utilisé le compilateur g++ avec la version 7.2.0. Pour les librairies utilisées, la version de NTL est 10.5.0 et la version de GMP utilisé est 6.1.2. Enfin la version utilisé pour $CMake$ est 3.9.4.
+			
 		\subsection{Résultats} 		
-		(INDIQUER LE NOMBRE D'ITERATIONS)
+		\subsubsection{Tests de Primalité}
 	Dans cette partie nous avons réalisé une batterie de tests sur un échantillon de nombres premiers. Cet échantillon de nombres premiers est la suivante : '3', '97', '1039', '50023', '102013', '1300837', '4301623', '9990887' et '15487253'. L’Étude demandé pour ce projet nous impose de faire une comparaison des résultats obtenus pour chaque test de primalité.\\
 	Dans les graphes \ref{fg:fig1} on peux observer l'évolution du temps d'exécution en fonction du nombre.
 \begin{figure}[!ht]	
@@ -126,13 +126,20 @@ Un nombre d'itérations sera demandé pour le test d'un nombre premier pour obte
 		En ce qui concerne la courbe pour AKS on peut observer deux ensembles de points qui correspondent a l'étape de détection de la primalité du nombre. En effet, le nombre peut être  détecté comme étant premier à l'étape 4 ou à l'étape 5 de l'algorithme. L'étape 5 est la dernière étape effectué, et celle-ci met un certain temps à se faire, on observe donc cette différence de temps. Passé un certain rang cette différence de temps disparaît ($n > 5690034$)\footnote{https://en.wikipedia.org/wiki/AKS\_primality\_test}).
 Sinon la courbe est légèrement croissante, elle va croître doucement compte tenu de la complexité de l’algorithme (O $\log(n)^{12}$).\\
 
-	Pour les deux fonctionnalités sur les nombres hautement composés, l'échantillon suivant : ['2' '120' '240' '360' '720' '840' '1260' '1680' '2520'] a été utilisé pour comparer les deux procédures et observer l'évolution du temps d'exécution.\\
-	\begin{center}\includegraphics[scale=0.5]{HC.png}\end{center}
+	\subsubsection{Hautement Composé}
+	Pour les deux fonctionnalités sur les nombres hautement composés, l'échantillon suivant : ['2' '120' '240' '360' '720' '840' '1260' '1680' '2520'] a été utilisé pour comparer les deux procédures et observer l'évolution du temps d'exécution dans les figures \ref{fg:HC} et \ref{fg:HCdef}.\\
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.6]{HC.png}\end{center}
+		\caption{Évolution du temps d'exécution pour les nombres Hautement Composés.}
+		\label{fg:HC}
+	\end{figure}
 	
-Nous pouvons observer que la méthode naïve prend énormément de temps pour s'exécuter en comparaison à la méthode appliquant la définition de ce type de nombre. En effet, pour un nombre N donné, la fonction va devoir calculer le nombre de diviseurs pour les N-1 nombres inférieur à N et effectuer N comparaison ce qui engendre beaucoup de latence. Et le temps pour le nombre 2520 est déjà assez élevé  pour un nombre supérieur à $2^{10}$. On peux donc imaginer la courbe accroître plus rapidement pour de très grand nombre. Mais étant limité par notre matériel, nous nous sommes contenté de ce type de nombre.
-	\begin{center}\includegraphics[scale=0.5]{HCdef.png}\end{center}
-	 \textit{Zoom sur la courbe pour la méthode appliquant la définition.}
-	
+Nous pouvons observer que la méthode naïve prend énormément de temps pour s'exécuter en comparaison à la méthode appliquant la définition de ce type de nombre. En effet, pour un nombre N donné, la fonction va devoir calculer le nombre de diviseurs pour les N-1 nombres inférieur à N et effectuer N comparaison ce qui engendre beaucoup de latence. Et le temps pour le nombre 1680 est déjà assez élevé  pour un nombre supérieur à $2^{10}$. On peux donc imaginer la courbe accroître plus rapidement pour de très grand nombre. Mais étant limité par notre matériel, nous nous sommes contenté de ce type de nombre. Le décrochage que l'on peux observer peut-être justifier par le temps que l'algorithme a mis pour trouver la factorisation de ce nombre pour le calcul du nombre de diviseur. En effet, pour certains nombres il est possible de trouver plus rapidement la factorisation en nombre premier, ce qui peux justifier le fait que 2520 s'exécute plus rapidement que 1680.
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.6]{HCdef.png}\end{center}
+		\caption{Zoom sur la courbe pour la méthode appliquant la définition.}
+		\label{fg:HCdef}
+	\end{figure}
 	\section{Bilan Technique du Projet}	
 		Après l'analyse des résultats nous pouvons constater que les différents tests appliqués possèdent chacun des limites.	
 		Tout d'abord, la principale limite du crible d'Eratosthène concerne la taille de son tableau. En effet, pour un nombre N très très grand, le crible va créer un tableau de booléen de taille N+1, ce qui va prendre énormément de place en mémoire, et avec les machines que nous avons à disposition nous sommes très vite limité à cause de la RAM. Puis pour la création de la liste contenant les nombres premiers de 2 jusqu'à N, la fonctionnalité de memory\_bound va devoir parcourir toutes les cases du tableau du crible pour remplir sa liste, ce qui engendre une complexité de N pour cette opération de remplissage.\\

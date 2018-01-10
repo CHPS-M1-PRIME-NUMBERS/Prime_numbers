@@ -20,7 +20,7 @@ read -p "Combien d'itérations pour le test d'un nombre premier ? " iter
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
 
-if  [ ! -e 'average.txt' ]
+if  [ ! -e 'memory.txt' ]
 then
     touch average.txt # Si le fichier existe on le créé.
 elif [ ! -e 'data.txt'  ]

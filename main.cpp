@@ -80,7 +80,7 @@ int main(int argc, char** argv){
         bool result;
         int elapsed_time;
         std::chrono::time_point<std::chrono::system_clock> start, end;
-        std::ofstream file1("average.txt", std::ios::out | std::ios::trunc);
+        std::ofstream file1("memory.txt", std::ios::out | std::ios::trunc);
         std::ofstream file2("data.txt", std::ios::out | std::ios::app);
         std::ofstream file3("result.txt", std::ios::out | std::ios::app);
 
@@ -110,10 +110,9 @@ int main(int argc, char** argv){
                                 avg += elapsed_time;
                         }
                         avg /= iter;
-                        file3 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
+                        file1 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
                         std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
@@ -141,7 +140,6 @@ int main(int argc, char** argv){
                         }
                         avg /= iter;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
@@ -170,7 +168,6 @@ int main(int argc, char** argv){
                         }
                         avg /= iter;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
@@ -192,13 +189,12 @@ int main(int argc, char** argv){
                                 avg += elapsed_time;
                         }
                         if(result) {
-                                file3 << "Computation Bound || Euclide of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "Computation_Bound_Euclide " << n << " True" << std::endl;
                         }else{
-                                file3 << "Computation Bound || Euclide of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "Computation_Bound_Euclide " << n << " False" << std::endl;
                         }
                         avg /= iter;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
@@ -220,13 +216,12 @@ int main(int argc, char** argv){
                                 avg += elapsed_time;
                         }
                         if(result) {
-                                file3 << "Computation Bound || Modulo of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "Computation_Bound_Modulo " << n << " True" << std::endl;
                         }else{
-                                file3 << "Computation Bound || Modulo of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "Computation_Bound_Modulo " << n << " False" << std::endl;
                         }
                         avg /= iter;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
@@ -248,13 +243,12 @@ int main(int argc, char** argv){
                                 avg += elapsed_time;
                         }
                         if(result) {
-                                file3 << "AKS of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "AKS " << n << " True" << std::endl;
                         }else{
-                                file3 << "AKS of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "AKS " << n << " False" << std::endl;
                         }
                         avg /= iter;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
         }
@@ -279,12 +273,11 @@ int main(int argc, char** argv){
                         }
                         avg /= iter;
                         if(result) {
-                                file3 << "highly_composite_naive of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "highly_composite_naive " << n << " True" << std::endl;
                         }else{
-                                file3 << "highly_composite_naive of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "highly_composite_naive " << n << " False" << std::endl;
                         }
                         std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 
@@ -307,12 +300,11 @@ int main(int argc, char** argv){
                         }
                         avg /= iter;
                         if(result) {
-                                file3 << "highly_composite_def of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "highly_composite_def " << n << " True" << std::endl;
                         }else{
-                                file3 << "highly_composite_def of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "highly_composite_def " << n << " False" << std::endl;
                         }
                         std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
-                        file1 << avg << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
         }

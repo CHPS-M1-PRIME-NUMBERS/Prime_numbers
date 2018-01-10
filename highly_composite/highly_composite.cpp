@@ -59,7 +59,7 @@ bool highly_composite_def(unsigned long int number){ // Renvoie true si un nombr
                 head = prime.front();
         }
         if ((nbr != 4) && (nbr != 36) && (expo != 1))
-                return false; L'exposant final p_a est toujours 1, sauf pour deux cas N=4=2^2 et N=36=2^2·3^2, où c'est 2.
+                return false; //L'exposant final p_a est toujours 1, sauf pour deux cas N=4=2^2 et N=36=2^2·3^2, où c'est 2.
 
         return true;
 }

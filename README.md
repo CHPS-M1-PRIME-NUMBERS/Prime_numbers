@@ -23,8 +23,11 @@ Nous avons également implementé la recherche des nombres hautements composés.
 
 ### Construction de l'executable
 `$ cmake ..`
+
 puis
+
 `$ make`
+
 Une fois placé dans un dossier d'installation créé à l'interieur du dossier source.
 
 ## Usage

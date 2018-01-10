@@ -4,26 +4,18 @@
 echo "== Script de test et d'analyse des nombres premiers =="
 # a : Effectuer chaque test.
 # k : AKS.
-# e : Euclide (Computation Bound).
-# o : Modulo (Computation Bound).
+# e : Euclide.
 # m : Cribble d'Eratosthene.
 # p : Pocklington.
 # i : Miller-Rabin.
-# h : Nombre hautement composé naive.
-# H : Nombre hautement composé def.
-read -p " Quels sont les tests que vous voulez lancer ? " options
-read -p " Combien d'itérations pour le test d'un nombre premier ? " iter
-read -p " Combien de nombres (de préférence premier ou hautement composé)? " size
-
-if [ $size != 0 ]
-then
-    echo "Veuillez les indiquer: "
-    prime_numbers=()
-    for ((i=0; i<$size; i++))
-    do
-        read prime_numbers[i]
-    done
-fi
+# h : Nombre hautement composé.
+echo "Quel type de test voulez-vous effectuer?" type_test
+echo "txt: Analyse une liste de nombres présents dans un fichier."
+echo "range: Analyse tout les nombres présents entre A et B."
+echo "normal: Analyse une liste de nombre donnés par l'utlisateur."
+read type_test
+read -p "Quels sont les tests que vous voulez lancer ? " options
+read -p "Combien d'itérations pour le test d'un nombre premier ? " iter
 
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
@@ -43,24 +35,51 @@ else   # On efface le contenu
     echo '' | tee result.txt
 fi
 
-# Dans le cas où l'option choisi est "a" pour faire tout les tests:
-if [ $options = "a" ]
+if [ "$type_test" = "txt" ]
 then
-    options=('k' 'e' 'o' 'm' 'p' 'i' 'h' 'H')
-    for ((j=0; j<8; j++))
-    do
-        for ((i=0; i<$size; i++))
-        do
-          ./prime_numbers -${options[$j]} $iter ${prime_numbers[$i]}
-        done
-        echo " " >> data.txt
-    done
-else # Cas avec l'option différent de "a"
-    for ((i=0; i<$size; i++))
+cd ..
+    read -p "A partir de quel fichier souhaitez-vous faire l'analyse?" inputfile
+    while read line; do
+      prime_numbers[index]="${line}"
+      ((++index))
+    done < $inputfile
+    cd build/
+    for ((i=0; i<$index; i++))
     do
       ./prime_numbers -$options $iter ${prime_numbers[$i]}
     done
 fi
 
-gnuplot -e "set xlabel 'Number'; set ylabel 'Times'; plot 'data.txt' using 1:2 with yerrorlines title 'Resultats'; pause -1" # Affiche le plot du résultat
+
+if [ "$type_test" = "range" ]
+then
+      read -p "A partir de quel nombre souhaitez-vous commencer l'intervalle d'analyse?" A
+      read -p "Par quel nombre souhaitez-vous finir l'intervalle d'analyse?" B
+      for ((i=$A; i<=$B; i++))
+      do
+        ./prime_numbers -$options $iter $i
+      done
+fi
+
+if [ "$type_test" = "normal" ]
+then
+    read -p "Combien de nombres (de préférence premier)? " size
+    if [ $size != 0 ]
+    then
+        echo "Veuillez indiquer les nombres à analyser: "
+        prime_numbers=()
+        for ((i=0; i<$size; i++))
+        do
+            read prime_numbers[i]
+        done
+
+        for ((i=0; i<$size; i++))
+        do
+          ./prime_numbers -$options $iter ${prime_numbers[$i]}
+        done
+    fi
+fi
+
+#gnuplot -e "plot 'data.txt'; pause -1" # Affiche le plot du résultat
+#gnuplot -e "plot 'average.txt'; pause -1" # Un histogramme qui compare la vitesse d'éxécution des algos pour un nombre?
 cd ..

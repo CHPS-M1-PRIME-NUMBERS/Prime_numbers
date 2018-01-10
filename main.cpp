@@ -82,7 +82,8 @@ int main(int argc, char** argv){
         std::chrono::time_point<std::chrono::system_clock> start, end;
         std::ofstream file1("average.txt", std::ios::out | std::ios::trunc);
         std::ofstream file2("data.txt", std::ios::out | std::ios::app);
-        std::ofstream file3("result.txt", std::ios::out | std::ios::trunc);
+        std::ofstream file3("result.txt", std::ios::out | std::ios::app);
+
 
         {
                 std::cout << "||||||||||||||  Test pour N = " << n << " ||||||||||||||" << std::endl;
@@ -134,9 +135,9 @@ int main(int argc, char** argv){
                                 avg += elapsed_time;
                         }
                         if(result) {
-                                file3 << "Pocklington of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "Pocklington " << n << " True" << std::endl;
                         }else{
-                                file3 << "Pocklington of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "Pocklington " << n << " False" << std::endl;
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;
@@ -162,9 +163,9 @@ int main(int argc, char** argv){
                                 avg += elapsed_time;
                         }
                         if(result) {
-                                file3 << "Miller Rabin of " << n << ":" << std::endl << "True" << std::endl;
+                                file3 << "Miller_Rabin " << n << " True" << std::endl;
                         }else{
-                                file3 << "Miller Rabin of " << n << ":" << std::endl << "False" << std::endl;
+                                file3 << "Miller_Rabin " << n << " False" << std::endl;
                         }
                         std::cout << "Time elapsed average: " << avg << " ns" << std::endl;
                         file1 << avg << std::endl;

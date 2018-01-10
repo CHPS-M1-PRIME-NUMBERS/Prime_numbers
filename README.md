@@ -2,7 +2,7 @@
 
 Prime Numbers est un projet réalisé au sein du Master M1 CHPS de l'Université de Versailles/Saint-Quentin.
 Il a pour but de tester la primalité d'un nombre N via plusieurs algorithmes:
-* Des algorithmes naifs (Crible d'Ératosthène, Trial Error)
+* Des algorithmes naifs (Crible d'Ératosthène, Euclide)
 * Des algorithmes probabilistes (Miller-Rabin)
 * Des algorithmes déterministes (Pocklington, AKS)
 

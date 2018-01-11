@@ -28,26 +28,66 @@
 	\end{frame}
 	
 	\section{Etat de l'art}
-		\begin{frame}
-	Qui ?
-		\end{frame}
-		
+\begin{frame}{Les tests de primalit\'e d\'eterministes}
+\begin{block}{Les m\'ethodes na\"ives}
+ \begin{itemize}
+ \item {
+   Le Crible d'Eratosth\`ene: efficace mais co\^uteux en terme de m\'emoire (Memory Bound)
+ }
+ \item {  
+   Les divisions euclidienne et PGCD: simples mais coute\^uses en calculs (Computation Bound)
+ }
+ \end{itemize}
+\end{block} \pause
+
+\begin{block}{Les m\'ethodes modernes}
+ \begin{itemize}
+ \item {
+   Pocklington: Factorisation partielle en nombres premiers
+ }
+ \item {
+   AKS: R\'esolution d'inconnues selon le petit th\'eor\`eme de Fermat: complexit\'e polynomiale tr\`es interressante pour les grands nombres
+ }
+ \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Un test de primalit\'e probabiliste et Nombres hautement compos\'es}
+\begin{block}{Miller Rabin}
+ Utilisation du petit th\'eor\`eme de Fermat: \\ $a^p-1 \equiv 1 \pmod p$.\\
+ Ne permet que d'affirmer qu'un nombre est probablement premier. Un nombre d'iteration suffisant peut permettre d'atteindre des taux d'erreurs infimes pour un temps de calcul tr\`es faible.
+\end{block} \pause
+
+\begin{block}{Les nombres hautement compos\'es}
+ \begin{itemize}
+ \item {
+   M\'ethode naive: Chercher le nombre de diviseurs de tout les nombres inferieurs à N
+ }
+ \item {
+   M\'ethode utilisant une propri\'et\'e de leur forme: une d\'ecomposition en nombres premiers à facteurs d\'ecroissants.
+ }
+ \end{itemize}
+\end{block}
+\end{frame}
+
 	\section{Implémentation}
 		\begin{frame}
-		\textbf{Langages de programmation : } \\
+		\begin{block}{Langages de programmation } 
 		\begin{itemize}
-		\item Le langage C++ : langage adapté pour la programmation procédurale et pour la programmation orientée objet +  bibliothèques pour les grands entiers supérieur , chronométrer et autre.\\
-		\item Le langage Shell
+		\item Le langage C++ : langage adapté pour la programmation procédurale et orientée objet +  bibliothèques pour les grands entiers supérieur , chronométrer et autre.\\
+		\item Le langage Shell : enchaînement de commandes pour les tests.
 		\end{itemize} \pause
 		\vspace{2em}		
+		\end{block}
 		
-		\textbf{Outils}
+		\begin{block}{Outils}
 		\begin{itemize}
 			\item La bibliothèque GMP : manipulation de nombres supérieur à $2^{64}$.
 			\item La bibliothèque NTL : fonctions pour l'arithmétique modulaire disponible.
 			\item CMkake : pour la compilation du projet.
 			\item Github : dépôt du projet + travail collaboratif.
 		\end{itemize}
+		\end{block}
 		\end{frame}
 	\section{Analyse des Résultats}
 		\begin{frame}
@@ -56,16 +96,15 @@
 	\begin{itemize}
 		\item Appel d'un script bash ou lancement en ligne de commande.\\
 		\item Script bash => test sur un fichier ou plage de valeurs ou test normal.
-		\item \textbf{Options :}
-
+		\begin{block}{Options}\vspace{-1em}
 	\begin{center}\footnotesize\begin{longtable}{l l}		
 	\textbf{a} : Tous les algorithmes  & \textbf{k} : AKS\\
 	\textbf{e} : Euclide (computation bound) & \textbf{o} : Modulo (computation bound)\\
 	\textbf{m} : Crible d'eratosthene & \textbf{p} : Pocklington\\
 	\textbf{i} : Miller-Rabin & \textbf{h} : Nombre hautement composé naive\\
 	\textbf{H} : Nombre hautement composé def\\
-	\end{longtable}\vspace{-2.2em}\end{center}
-
+	\end{longtable}\end{center}
+	\end{block}
 		\item Lequel utiliser ?\\
 		\item Itération ?\\
 		\item Combien de nombre ?\\

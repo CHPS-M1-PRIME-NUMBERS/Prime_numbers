@@ -13,13 +13,13 @@
             \begin{itemize}
             \item \textbf{Nombre Premier:} Entier divisible par 1 et lui-même.\\pause
             \vspace{1em}            
-            \item \textbf{Test Probabiliste:}Test avec marge d'erreur très faible mais rapide.  \\
+            \item \textbf{Test Probabiliste :} Test avec marge d'erreur très faible mais rapide.  \\
             \vspace{1em}
-            \item \textbf{ Test Deterministe:} Test fiable mais plus lent.    \\
+            \item \textbf{ Test Deterministe :} Test fiable mais plus lent.    \\
             \vspace{1em}
-            \item \textbf{$2^{64}$:}Taille maximale des nombre a tester => Unsigned long long int  \\
+            \item \textbf{$2^{64}$ :} Taille maximale des nombre a tester => Unsigned long long int  \\
             \vspace{1em}
-            \item \textbf{Nombre Hautement Composé:}Entier qui possède strictement plus de diviseur que les nombres qui le précède\\
+            \item \textbf{Nombre Hautement Composé :} Entier qui possède strictement plus de diviseur que les nombres qui le précède\\
             \end{itemize}            
         \end{frame}
 	
@@ -27,24 +27,36 @@
 		\tableofcontents
 	\end{frame}
 	
-	\section{Architecture}
+	\section{Etat de l'art}
 		\begin{frame}
 	Qui ?
 		\end{frame}
 		
-	\section{{\small Outils et Langage de Programmation}}
+	\section{Implémentation}
 		\begin{frame}
-	Qui ?
-		\end{frame}
+		\textbf{Langages de programmation : } \\
+		\begin{itemize}
+		\item Le langage C++ : langage adapté pour la programmation procédurale et pour la programmation orientée objet +  bibliothèques pour les grands entiers supérieur , chronométrer et autre.\\
+		\item Le langage Shell
+		\end{itemize} \pause
+		\vspace{2em}		
 		
+		\textbf{Outils}
+		\begin{itemize}
+			\item La bibliothèque GMP : manipulation de nombres supérieur à $2^{64}$.
+			\item La bibliothèque NTL : fonctions pour l'arithmétique modulaire disponible.
+			\item CMkake : pour la compilation du projet.
+			\item Github : dépôt du projet + travail collaboratif.
+		\end{itemize}
+		\end{frame}
 	\section{Analyse des Résultats}
 		\begin{frame}
-		\textbf{Fonctionnement du projet :}
+		\textbf{Lancement d'une phase de test :}
 
 	\begin{itemize}
-		\item Script appelé avec ./test.sh\\
-\textbf{Options :}
-
+		\item Appel d'un script bash ou lancement en ligne de commande.\\
+		\item Script bash => test sur un fichier ou plage de valeurs ou test normal.
+		\item \textbf{Options :}
 
 	\begin{center}\footnotesize\begin{longtable}{l l}		
 	\textbf{a} : Tous les algorithmes  & \textbf{k} : AKS\\
@@ -59,74 +71,81 @@
 		\item Combien de nombre ?\\
 		\item Donner les nombres\\
 	\end{itemize}
-		\end{frame}
-		\begin{frame}
-		\textbf{Evolution du temps d'exécution de Eratosthène/Memory Bound: }
-		\begin{center}\includegraphics[scale=0.6]{eratosthene.png}\end{center}
-		\end{frame}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.55]{result.png}\end{center}
+		\caption{Évolution du temps d'exécution pour les 6 tests de primalité (AKS, Pocklington, Miller-Rabin, Euclide, Ératosthène et Modulo). }
+		\label{fg:fig1}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.5]{Zoom1.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Pocklington, Miller-Rabin, Euclide et Modulo).}
+		\label{fg:fig2}
+\end{figure}
+\end{frame}
 		
+\begin{frame}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.5]{Zoom2.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin, Euclide et Modulo).}
+		\label{fg:fig3}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.5]{Zoom3.png}\end{center}
+		\caption{Zoom de la figure \ref{fg:fig1} sur (Miller-Rabin et Modulo).}
+		\label{fg:fig4}
+	\end{figure}
+\end{frame}
+	
 		\begin{frame}
-		\textbf{Evolution du temps d'exécution de Euclide/Computation Bound: }
-		\begin{center}\includegraphics[scale=0.6]{euclide.png}\end{center}
-		\end{frame}
+		\color{blue} Figures - \color{black}\textit{Évolution du temps d'exécution pour les 6 tests de primalité sur une plage de données}
 		
-		\begin{frame}
-		\textbf{Evolution du temps d'exécution de Modulo/Computation Bound: }
-		\begin{center}\includegraphics[scale=0.6]{modulo.png}\end{center}
-		\end{frame}
-		
-		\begin{frame}
-		\textbf{Evolution du temps d'exécution d'AKS: }
-		\begin{center}\includegraphics[scale=0.6]{AKS.png}\end{center}
-		\end{frame}
-		
-		\begin{frame}
-		\textbf{Evolution du temps d'exécution de Pocklington: }
-		\begin{center}\includegraphics[scale=0.6]{pocklington.png}\end{center}
-		\end{frame}
-		
-		\begin{frame}
-		\textbf{Evolution du temps d'exécution de Miller-Rabin: }
-		\begin{center}\includegraphics[scale=0.6]{miller.png}\end{center}
-		\end{frame}
-		
-		\begin{frame}
-		\textbf{Evolution du temps d'exécution de Hautement composé (méthode naïve et définition): }
-		
-		\footnotesize\begin{longtable}{l l}		
-	\hspace{-2em}\includegraphics[scale=0.27]{HC.png}  & \includegraphics[scale=0.27]{HCdef.png}\\
+		\footnotesize\begin{longtable}{l r}		
+	\hspace{-2em} 
+ 		\includegraphics[scale=0.3]{RANGE.png}  & \includegraphics[scale=0.3]{RANGE2.png}\\
+		 \textit{Plage $[1:10 000]$} & \textit{Plage $[10 000:100 000]$} \\
+		 100\% de réussite pour Miller-Rabin &  100\% de réussite pour Miller-Rabin\\
 	\end{longtable}
 		\end{frame}
-		
-		\begin{frame}
-		\begin{center}\includegraphics[scale=0.6]{result.png}\end{center}
-		\end{frame}
-		
+
 	\section{Bilan Technique}
 		\begin{frame}
 			\begin{itemize}
-			\item \textbf{crible d'Eratosthène/ Mémory Bound:} Création d'un tableau de taille N+1 dans le crible => limité au niveau de la RAM pour N grand sur nos machines. Complexité de N pour le remplissage de la liste memory\_bound. \\
+			\item \textbf{Eratosthène:} Création d'un tableau de taille N+1 dans le crible => limité au niveau de la RAM pour N grand sur nos machines. Complexité de N pour le remplissage de la liste memory\_bound. \\
 			\vspace{1em}			
-			\item \textbf{Computation Bound:} Effectue $\sqrt{2^{log_2(n)}}$ divisions euclidiennes => Exécution en temps exponentiel\\
+			\item \textbf{Euclide:} Effectue $\sqrt{2^{log_2(n)}}$ divisions euclidiennes => Exécution en temps exponentiel\\
 			\vspace{1em}
-			\item \textbf{Pocklington:} Limite causé par la factorisation du nombre N-1 => facotisation très longues pour N très grand.\\
+			\item \textbf{Pocklington:} Limite causé par la factorisation du nombre N-1 => factorisation très longues pour N très grand.\\
 			\vspace{1em}
-			
-			\end{itemize}	
-			\end{frame}
-			
-			\begin{frame}
-			\begin{itemize}
 			\item \textbf{Miller-Rabin:} Résultats faux dans certains cas + Nombre d'itérations demandé élevé pour un meilleur résultat => augmentation du temps d'exécution.  \\
 			\vspace{1em}
 			\item \textbf{AKS:} \underline{Avantage:} Sa complexité en $log(n)^{12}$.\\
 						\underline{Inconvénient:} Utilisation de NTL qui effectue des vérifications superflue + Implémentation compliquée.\\
-			\vspace{1em}
-			\item \textbf{Hautement Composé:} N calcul du nombre de diviseurs d'un nombre => exécution très lente pour la méthode naïve.\\
-			\end{itemize}			
-		\end{frame}
+			
+			\end{itemize}	
+			\end{frame}
 		
-	\section{Organisation interne du groupe}
+		
+
+	\section{Conclusion}
+		\begin{frame}
+	\begin{itemize}
+        \item De grands temps de calculs pour les tests déterministes. \vspace{1em}
+        \item Méthodes naïves efficaces pour les petits nombres. \vspace{1em}
+        \item Tests probabiliste une bonne idée? \vspace{1em}
+        \item \textbf{Possibilités de parallélisation :} Une ouverture sur des techniques de calcul en parallèle pourrait être appliqués.
+     \end{itemize}
+		\end{frame}	
+		
+		\section*{Organisation interne du groupe}
 	\begin{frame}
 \textbf{Tableau de répartition du travail:} \\
 	
@@ -139,17 +158,8 @@
 		\hline 	Miller-Rabin & ~ & ~ & ~ & x & ~ \\
 		\hline 	Highly Composite & x & ~ & ~ & ~ & ~ \\
 		\hline 	Cmake  & x & x & ~ & ~ & ~ \\
-		\hline  Script & x & x & ~ & ~ & ~ \\
+		\hline  Script/main & x & x & ~ & ~ & ~ \\
 		\hline
 	\end{longtable}\vspace{-2.2em}\end{center}
 	\end{frame}
-	\section{Conclusion}
-		\begin{frame}
-	 \begin{itemize}
-        \item De gros temps de calculs \vspace{2em}
-        \item Difficultés d'implémentations \vspace{2em}
-        \item Possibilités de parallélisation \vspace{2em}
-     \end{itemize}
-		\end{frame}	
-		
 \end{document}

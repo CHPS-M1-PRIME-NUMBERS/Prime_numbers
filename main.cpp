@@ -1,326 +1,100 @@
 #include <iostream>
-#include <fstream>
-#include <chrono>
 
-#include "memory_bound.hpp"
-#include "euclide.hpp"
-#include "millerRabin.hpp"
+#include <mpi.h>
+
 #include "pocklington.hpp"
-#include "AKS.hpp"
-#include "highly_composite.hpp"
 
-#include <unistd.h>
+#define MASTER 0
 
-int main(int argc, char** argv){
+#define CONTINUE 100
+#define STOP 99
+#define READY 98
 
-        int opt;
-        int iter;
-        unsigned long int n, max, min;
-        bool first_time = false;
-        bool all_test_flag = false;
-        bool aks_flag = false;
-        bool euclide_flag = false;
-        bool modulo_flag = false;
-        bool mem_bound_flag = false;
-        bool pock_flag = false;
-        bool miller_flag = false;
-        bool highly_composite_def_flag = false;
-        bool highly_composite_naive_flag = false;
+#define MAX 1000
 
-        //Check si il existe des arguments, si oui recupère le nombre n et le nombre d'iterations
-        if ( (argc <= 1) || (argv[argc-1] == NULL) || (argv[argc-1][0] == '-') ) {
-                std::cerr << "No argument provided!" << std::endl;
-                return 1;
+void master();
+void slave(int rang);
+int test(int nombre);
+void read_data(int * donnees, int * taille);
+
+int main(int argc, char ** argv){
+        MPI_Init(&argc, &argv);
+        int rang, nproc;
+
+        MPI_Comm_rank(MPI_COMM_WORLD, &rang);
+        MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+
+        if(rang == MASTER) {
+                std::cout << nproc << " process." << std::endl;
         }
-        else {
-                iter = atoi(argv[argc-2]);
-                n = strtoul(argv[argc-1], NULL, 0);
+        MPI_Barrier(MPI_COMM_WORLD);
+
+
+        if(rang == MASTER) {
+                master();
         }
-
-        // Empeche GetOpt d'afficher des erreurs:
-        opterr = 0;
-
-        // On récupère les options
-        while ( (opt = getopt(argc, argv, "akeoumpihH")) != -1 ) {    // for each option...
-                switch ( opt ) {
-                case 'a':
-                        all_test_flag = true;
-                        break;
-                case 'k':
-                        aks_flag = true;
-                        break;
-                case 'e':
-                        euclide_flag = true;
-                        break;
-                case 'o':
-                        modulo_flag = true;
-                        break;
-                case 'm':
-                        mem_bound_flag = true;
-                        break;
-                case 'p':
-                        pock_flag = true;
-                        break;
-                case 'i':
-                        miller_flag = true;
-                        break;
-                case 'h':
-                        highly_composite_naive_flag = true;
-                        break;
-                case 'H':
-                        highly_composite_def_flag = true;
-                        break;
-                case '?': // option inconnue
-                        std::cerr << "Unknown option: '" << char(optopt) << "'!" << std::endl;
-                        break;
-                }
+        else{
+                slave(rang);
         }
 
-        unsigned long int avg = 0;
-        bool result;
-        int elapsed_time;
-        std::chrono::time_point<std::chrono::system_clock> start, end;
+        MPI_Finalize();
+}
 
-        //On ouvre les flux des différents fichiers
-        std::ofstream file1("memory.txt", std::ios::out | std::ios::trunc);
-        std::ofstream file2("data.txt", std::ios::out | std::ios::app);
-        std::ofstream file3("result.txt", std::ios::out | std::ios::app);
+void master(){
+        std::cout << "P" << MASTER << " : ready." << std::endl;
+        int rangEsclave;
+        int * donnees = NULL;
+        int taille;
+        int i;
 
+        int nproc;
+        MPI_Comm_size(MPI_COMM_WORLD, &nproc);
 
-        {
-                std::cout << "||||||||||||||  Test pour N = " << n << " ||||||||||||||" << std::endl;
+        read_data(donnees, &taille);
 
-
-                //Lance le crible d'Eratosthene si l'option est choisie
-                if(mem_bound_flag == true || all_test_flag == true) {
-                        unsigned long int n_temp = n;
-                        if(n_temp>1000000000) {
-                                n_temp = 1000000000;
-                        }
-                        std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
-                        std::list<unsigned long int> liste;
-                        for (int i = 0; i < iter; i++) {
-                                // Entoure la fonction des indications temporelles de début et de fin d'execution (de même pour les autres algorithmes)
-                                start = std::chrono::system_clock::now();
-                                memory_bound(n_temp, &liste);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        avg /= iter;
-                        //Affichage et incription des résultats dans les fichiers (de même pour les autres algorithmes)
-                        file1 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
-                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
-
-                //Lance le test de Pocklington si l'option est choisie
-                if(pock_flag == true || all_test_flag == true) {
-                        std::cout << "==== Pocklington ====" << '\n';
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = pocklington(n);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        if(result) {
-                                file3 << "Pocklington " << n << " True" << std::endl;
-                        }else{
-                                file3 << "Pocklington " << n << " False" << std::endl;
-                        }
-                        avg /= iter;
-                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
-
-                //Lance le test de Miller-Rabin si l'option est choisie
-                if(miller_flag == true || all_test_flag == true) {
-                        std::cout << "==== Miller Rabin ====" << '\n';
-                        unsigned long int iterations = 500;
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = millerRabin(n, iterations);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        if(result) {
-                                file3 << "Miller_Rabin " << n << " True" << std::endl;
-                        }else{
-                                file3 << "Miller_Rabin " << n << " False" << std::endl;
-                        }
-                        avg /= iter;
-                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
-
-                //Lance le test d'Euclide si l'option est choisie
-                if(euclide_flag == true || all_test_flag == true) {
-                        std::cout << "==== Computation Bound || Euclide ====" << '\n';
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = computation_bound_euclide(n);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        if(result) {
-                                file3 << "Computation_Bound_Euclide " << n << " True" << std::endl;
-                        }else{
-                                file3 << "Computation_Bound_Euclide " << n << " False" << std::endl;
-                        }
-                        avg /= iter;
-                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
-
-                //Lance le test de Modulo si l'option est choisie
-                if(modulo_flag == true || all_test_flag == true) {
-                        std::cout << "==== Computation Bound || Modulo ====" << '\n';
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = computation_bound_modulo(n);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        if(result) {
-                                file3 << "Computation_Bound_Modulo " << n << " True" << std::endl;
-                        }else{
-                                file3 << "Computation_Bound_Modulo " << n << " False" << std::endl;
-                        }
-                        avg /= iter;
-                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
-
-                //Lance le test d'AKS si l'option est choisie
-                if(aks_flag == true || all_test_flag == true) {
-                        std::cout << "==== AKS ====" << '\n';
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = aks(n);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        if(result) {
-                                file3 << "AKS " << n << " True" << std::endl;
-                        }else{
-                                file3 << "AKS " << n << " False" << std::endl;
-                        }
-                        avg /= iter;
-                        std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
+        while(taille > 0) {
+                MPI_Recv(&rangEsclave, 1, MPI_INT, MPI_ANY_SOURCE, READY, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Send(donnees, taille, MPI_INT, rangEsclave, CONTINUE, MPI_COMM_WORLD);
+                read_data(donnees, &taille);
         }
 
-        {       //Lance le test de Nombre hautement composé naive si l'option est choisie
-                if(highly_composite_naive_flag == true || all_test_flag == true) {
-                        std::cout << "==== highly_composite_naive ====" << std::endl;
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = highly_composite_naive(n);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
+        for(i = 1; i<nproc; i++) {
+                MPI_Recv(&rangEsclave, 1, MPI_INT, MPI_ANY_SOURCE, READY, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+                MPI_Send(NULL, 0, MPI_INT, rangEsclave, STOP, MPI_COMM_WORLD);
+        }
+        delete[] donnees;
+        std::cout << "Master (" << MASTER << ") : done." << std::endl;
+}
+
+void slave(int rang){
+        std::cout << "P" << rang << " : ready." << std::endl;
+        int tag = CONTINUE; int taille = 0; int * nombreAVerifier = NULL; int i;
+        MPI_Status status;
+        MPI_Send(&rang, 1, MPI_INT, MASTER, READY, MPI_COMM_WORLD);
+
+        while(tag >= CONTINUE) {
+                MPI_Probe(MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+                tag = status.MPI_TAG;
+                if(status.MPI_TAG >= CONTINUE) {
+                        MPI_Get_count(&status, MPI_INT, &taille);
+                        nombreAVerifier = new int[taille]();
+                        MPI_Recv(nombreAVerifier, taille, MPI_INT, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+
+                        for(i = 0; i < taille; i++) {
+                                std::cout << nombreAVerifier[i] << " : " << pocklington(nombreAVerifier[i]) << "." << std::endl;
                         }
-                        avg /= iter;
-                        if(result) {
-                                file3 << "highly_composite_naive " << n << " True" << std::endl;
-                        }else{
-                                file3 << "highly_composite_naive " << n << " False" << std::endl;
-                        }
-                        std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
-                }
-                //Lance le test de Nombre hautement composé définition si l'option est choisie
-                if(highly_composite_def_flag == true || all_test_flag == true) {
-                        std::cout << "==== highly_composite_def ====" << std::endl;
-                        avg = 0;
-                        for (int i = 0; i < iter; i++) {
-                                start = std::chrono::system_clock::now();
-                                result = highly_composite_def(n);
-                                end = std::chrono::system_clock::now();
-                                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                                if (!first_time) {
-                                        first_time = true;
-                                        max = elapsed_time;
-                                        min = max;
-                                }
-                                if (max < elapsed_time) max = elapsed_time;
-                                if (min > elapsed_time) min = elapsed_time;
-                                avg += elapsed_time;
-                        }
-                        avg /= iter;
-                        if(result) {
-                                file3 << "highly_composite_def " << n << " True" << std::endl;
-                        }else{
-                                file3 << "highly_composite_def " << n << " False" << std::endl;
-                        }
-                        std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
-                        file2 << n << " " << avg << " " << min << " " << max << std::endl;
+                        MPI_Ssend(&rang, 1, MPI_INT, MASTER, READY, MPI_COMM_WORLD);
+                        tag = status.MPI_TAG;
+                        delete[] nombreAVerifier;
                 }
         }
-        std::cout << std::endl;
+        printf("P%d : done.\n", rang);
+}
 
-        //Fin du programme
-        return 0;
+void read_data(int * donnees, int * taille){
+        *taille = MAX;
+        donnees = new int[*taille]();
+        for(int i = 0; i < MAX; i++) {
+                donnees[i] = i;
+        }
 }

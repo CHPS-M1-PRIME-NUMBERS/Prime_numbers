@@ -1,32 +1,65 @@
-#include <QApplication>
-#include <QWidget>
-#include <QPushButton>
+#include <QtWidgets>
+#include <QtCharts>
 
-class MyButton : public QWidget {
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
- public:
-     MyButton(QWidget *parent = 0);
-};
-
-MyButton::MyButton(QWidget *parent)
-    : QWidget(parent) {
-
-  QPushButton *quitBtn = new QPushButton("Quit", this);
-  quitBtn->setGeometry(50, 40, 75, 30);
-
-  connect(quitBtn, &QPushButton::clicked, qApp, &QApplication::quit);
-}
+using namespace QtCharts;
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
 
-QApplication app(argc, argv);
+    QLineSeries *series = new QLineSeries();
 
-MyButton window;
+    std::string str;
+    std::ifstream myfile ("Prime.txt");
 
-window.setFixedSize(800,600);
-window.setWindowTitle("Prime Numbers");
-window.show();
+    int i;
+    int j;
+    if (myfile.is_open())
+    {
+      while (myfile >> str)
+      {
+        std::istringstream buffer1(str);
+        buffer1 >> i;
+        myfile >> str;
+        std::istringstream buffer2(str);
+        buffer2 >> j;
+        series->append(i, j);
+      }
+      myfile.close();
+    }
 
-return app.exec();
+    else std::cout << "Unable to open file";
+
+    QChart *chart = new QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    //chart->createDefaultAxes();
+
+    QValueAxis *axisX = new QValueAxis;
+    axisX->setTickCount(5);
+    chart->addAxis(axisX, Qt::AlignBottom);
+
+    QValueAxis *axisY = new QValueAxis;
+    axisY->setTickCount(7);
+    chart->addAxis(axisY, Qt::AlignLeft);
+
+    series->attachAxis(axisX);
+    series->attachAxis(axisY);
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QMainWindow window;
+    window.setCentralWidget(chartView);
+    window.resize(400, 300);
+    window.show();
+
+    return a.exec();
+
+    return 0;
 }

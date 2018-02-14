@@ -33,6 +33,7 @@
 
 # Cmake build directory
 /build
+/Gui/build
 
 # Latex
 *.aux

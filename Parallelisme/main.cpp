@@ -118,7 +118,7 @@ int main(int argc, char** argv){
                         //Affichage et incription des résultats dans les fichiers (de même pour les autres algorithmes)
                         file1 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
                         std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-                        std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
+                        std::cout << "Memory used: " << (n_temp/2) * sizeof(bool) << " bytes" << std::endl;
                         file2 << n << " " << avg << " " << min << " " << max << std::endl;
                 }
 

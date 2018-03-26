@@ -9,7 +9,7 @@
 bool* eratosthene(unsigned long int number){
     unsigned long int i, memory_size = number/2;
     bool* isPrime = new bool[memory_size]; //Tableau indiquant si un nombre i est premier ou non, true si premier, false sinon.
-    unsigned long double sqrtNumber = sqrt(number); // Cette variable est là car Open MP n'accepte pas i*i <= number
+    const long int NumberSqrt = (long int)sqrt((long double)number); // Cette variable est là car Open MP n'accepte pas i*i <= number
 
     // Initialisation du tableau
     #pragma omp parallel for
@@ -17,7 +17,7 @@ bool* eratosthene(unsigned long int number){
         isPrime[i] = true;
 
     #pragma omp parallel for schedule(dynamic)
-    for(i = 3; i <= sqrtNumber; i+=2){
+    for(i = 3; i <= NumberSqrt; i+=2){
         // On avance si la case actuel n'est pas à vraie.
         while( (i <= number) && !(isPrime[i/2]) )
             i += 2;
@@ -27,6 +27,7 @@ bool* eratosthene(unsigned long int number){
     }
     return isPrime;
 }
+/*
 int main(){
     unsigned long int nb = 9990887, memory_size=nb/2;
     bool* isPrime = new bool[memory_size];
@@ -41,4 +42,4 @@ int main(){
     std::cout << "Time elapsed average: " << elapsed_time << " µs" << std::endl;
 
     return 0;
-}
+}*/

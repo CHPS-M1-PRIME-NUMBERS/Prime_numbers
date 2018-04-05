@@ -47,7 +47,7 @@ bool conjecture(unsigned long int n) {
     }
   }
 }
-
+/*
 int main() {
   int a = 5;
   int elapsed_time;
@@ -63,3 +63,4 @@ int main() {
   printf("res de %d => %d\n", a, res);
   std::cout << "Time elapsed average: " << elapsed_time << " µs" << std::endl;
 }
+*/

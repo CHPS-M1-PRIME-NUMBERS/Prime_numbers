@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/prime_numbers.dir/main.cpp.o  -o prime_numbers /usr/local/lib/libntl.a primality_proba/libprimality_proba.a primality_deter/libprimality_deter.a highly_composite/libhighly_composite.a -lntl -lgmp -lgmpxx 

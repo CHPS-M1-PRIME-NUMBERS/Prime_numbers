@@ -7,6 +7,7 @@
 #include "millerRabin.hpp"
 #include "pocklington.hpp"
 #include "AKS.hpp"
+#include "AKS_CONJECTURE.cpp"
 #include "highly_composite.hpp"
 
 #include <unistd.h>
@@ -241,7 +242,7 @@ int main(int argc, char** argv){
                         avg = 0;
                         for (int i = 0; i < iter; i++) {
                                 start = std::chrono::system_clock::now();
-                                result = aks(n);
+                                result = conjecture(n);//aks(n);
                                 end = std::chrono::system_clock::now();
                                 elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
                                 if (!first_time) {

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libprimality_deter.a  CMakeFiles/primality_deter.dir/AKS.cpp.o CMakeFiles/primality_deter.dir/eratosthene.cpp.o CMakeFiles/primality_deter.dir/euclide.cpp.o CMakeFiles/primality_deter.dir/facteurs.cpp.o CMakeFiles/primality_deter.dir/memory_bound.cpp.o CMakeFiles/primality_deter.dir/pocklington.cpp.o
-/usr/bin/ranlib libprimality_deter.a

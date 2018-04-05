@@ -6,7 +6,6 @@ project(Prime_numbers VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
 find_library(NTL_LIB ntl)
 if(NOT NTL_LIB)
   message(FATAL_ERROR "ntl library not found.  Rerun cmake with -DCMAKE_PREFIX_PATH=\"<path to lib1>;<path to lib2>\"")
@@ -21,5 +20,20 @@ add_subdirectory (primality_deter)
 add_subdirectory (highly_composite)
 set (EXTRA_LIBS ${EXTRA_LIBS} primality_proba primality_deter highly_composite)
 
+find_package(MPI REQUIRED)
+include_directories(${MPI_INCLUDE_PATH})
+
+if(MPI_COMPILE_FLAGS)
+  set_target_properties(prime_numbers PROPERTIES
+    COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
+endif()
+
+if(MPI_LINK_FLAGS)
+  set_target_properties(prime_numbers PROPERTIES
+    LINK_FLAGS "${MPI_LINK_FLAGS}")
+endif()
+
 add_executable(prime_numbers main.cpp)
-target_link_libraries(prime_numbers ${NTL_LIB} ${M_LIB} ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} ntl gmp gmpxx)
+target_link_libraries(prime_numbers ${MPI_LIBRARIES} ${NTL_LIB} ${M_LIB} ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} ntl gmp gmpxx)
+
+# cmake ..  cmake .. -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_CC_COMPILER=mpicc

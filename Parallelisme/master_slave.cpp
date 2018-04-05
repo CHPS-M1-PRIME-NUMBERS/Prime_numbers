@@ -17,19 +17,22 @@
 #define TAG_READY   1000
 #define TAG_END     2000
 #define TAG_DATA    3000
-/*
-void highly_composite_main(int iter, unsigned long int val, std::ofstream file1, std::ofstream file2, std::ofstream file3,
-    bool highly_composite_def_flag, bool highly_composite_naive_flag)
+
+void highly_composite_main(int iter, unsigned long int val, std::ofstream& file1, std::ofstream& file2, std::ofstream& file3,
+    bool first_time, bool all_test_flag, bool highly_composite_def_flag, bool highly_composite_naive_flag)
 {
-    unsigned long int n, max, min;
+    unsigned long int max, min, avg = 0;
+    bool result;
+    int elapsed_time;
+    std::chrono::time_point<std::chrono::system_clock> start, end;
 
     //Lance le test de Nombre hautement composé naive si l'option est choisie
     if(highly_composite_naive_flag == true || all_test_flag == true) {
-        std::cout << "==== highly_composite_naive ====" << std::endl;
+        //std::cout << "==== highly_composite_naive ====" << std::endl;
         avg = 0;
         for (int i = 0; i < iter; i++) {
             start = std::chrono::system_clock::now();
-            result = highly_composite_naive(n);
+            result = highly_composite_naive(val);
             end = std::chrono::system_clock::now();
             elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
             if (!first_time) {
@@ -43,20 +46,20 @@ void highly_composite_main(int iter, unsigned long int val, std::ofstream file1,
         }
         avg /= iter;
         if(result) {
-            file3 << "highly_composite_naive " << n << " True" << std::endl;
+            file3 << "highly_composite_naive " << val << " True" << std::endl;
         }else{
-            file3 << "highly_composite_naive " << n << " False" << std::endl;
+            file3 << "highly_composite_naive " << val << " False" << std::endl;
         }
-        std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
-        file2 << n << " " << avg << " " << min << " " << max << std::endl;
+        std::cout << "highly_composite_naive " << val << " === Time elapsed average: "  << avg << " µs" << std::endl;
+        file2 << val << " " << avg << " " << min << " " << max << std::endl;
     }
     //Lance le test de Nombre hautement composé définition si l'option est choisie
     if(highly_composite_def_flag == true || all_test_flag == true) {
-        std::cout << "==== highly_composite_def ====" << std::endl;
+        //std::cout << "==== highly_composite_def ====" << std::endl;
         avg = 0;
         for (int i = 0; i < iter; i++) {
             start = std::chrono::system_clock::now();
-            result = highly_composite_def(n);
+            result = highly_composite_def(val);
             end = std::chrono::system_clock::now();
             elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
             if (!first_time) {
@@ -70,16 +73,16 @@ void highly_composite_main(int iter, unsigned long int val, std::ofstream file1,
         }
         avg /= iter;
         if(result) {
-            file3 << "highly_composite_def " << n << " True" << std::endl;
+            file3 << "highly_composite_def " << val << " True" << std::endl;
         }else{
-            file3 << "highly_composite_def " << n << " False" << std::endl;
+            file3 << "highly_composite_def " << val << " False" << std::endl;
         }
-        std::cout << "Time elapsed average: "  << avg << " µs" << std::endl;
-        file2 << n << " " << avg << " " << min << " " << max << std::endl;
+        std::cout << "highly_composite_def " << val << " === Time elapsed average: "  << avg << " µs" << std::endl;
+        file2 << val << " " << avg << " " << min << " " << max << std::endl;
     }
 
 }
-*/
+
 void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::ofstream& file2, std::ofstream& file3,
     bool first_time, bool all_test_flag, bool aks_flag, bool euclide_flag, bool modulo_flag, bool mem_bound_flag,
     bool pock_flag, bool miller_flag)
@@ -90,8 +93,7 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
         int elapsed_time;
         std::chrono::time_point<std::chrono::system_clock> start, end;
 
-        std::cout << "||||||||||||||  Test pour N = " << val << " ||||||||||||||" << std::endl;
-
+        //std::cout << "||||||||||||||  Test pour N = " << val << " ||||||||||||||" << std::endl;
 
         //Lance le crible d'Eratosthene si l'option est choisie
         if(mem_bound_flag == true || all_test_flag == true) {
@@ -99,7 +101,7 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
             if(n_temp>1000000000) {
                 n_temp = 1000000000;
             }
-            std::cout << "==== Memory Bound || Eratosthene sieve ====" << std::endl;
+            //std::cout << "==== Memory Bound || Eratosthene sieve pour N = " << val << " ====" << std::endl;
             std::list<unsigned long int> liste;
             for (int i = 0; i < iter; i++) {
                 // Entoure la fonction des indications temporelles de début et de fin d'execution (de même pour les autres algorithmes)
@@ -119,14 +121,13 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
             avg /= iter;
             //Affichage et incription des résultats dans les fichiers (de même pour les autres algorithmes)
             file1 << "Eratosthene sieve from 2 to " << n_temp << ":" << std::endl << liste << std::endl;
-            std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
-            std::cout << "Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
+            std::cout << "Eratosthene : " << val << " === Time elapsed average: " << avg << " µs"  << " and Memory used: " << n_temp * sizeof(bool) << " bytes" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
 
         //Lance le test de Pocklington si l'option est choisie
         if(pock_flag == true || all_test_flag == true) {
-            std::cout << "==== Pocklington ====" << '\n';
+            //std::cout << "==== Pocklington  pour N = " << val << " ====" << '\n';
             avg = 0;
             for (int i = 0; i < iter; i++) {
                 start = std::chrono::system_clock::now();
@@ -148,13 +149,13 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
                 file3 << "Pocklington " << val << " False" << std::endl;
             }
             avg /= iter;
-            std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
+            std::cout << "Pocklington : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
 
         //Lance le test de Miller-Rabin si l'option est choisie
         if(miller_flag == true || all_test_flag == true) {
-            std::cout << "==== Miller Rabin ====" << '\n';
+            //std::cout << "==== Miller Rabin pour N = " << val << " ====" << '\n';
             unsigned long int iterations = 500;
             avg = 0;
             for (int i = 0; i < iter; i++) {
@@ -177,13 +178,13 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
                 file3 << "Miller_Rabin " << val << " False" << std::endl;
             }
             avg /= iter;
-            std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
+            std::cout << "Miller Rabin : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
 
         //Lance le test d'Euclide si l'option est choisie
         if(euclide_flag == true || all_test_flag == true) {
-            std::cout << "==== Computation Bound || Euclide ====" << '\n';
+            //std::cout << "==== Computation Bound || Euclide pour N = " << val << " ====" << '\n';
             avg = 0;
             for (int i = 0; i < iter; i++) {
                 start = std::chrono::system_clock::now();
@@ -205,13 +206,13 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
                 file3 << "Computation_Bound_Euclide " << val << " False" << std::endl;
             }
             avg /= iter;
-            std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
+            std::cout << "Computation_Bound_Euclide : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
 
         //Lance le test de Modulo si l'option est choisie
         if(modulo_flag == true || all_test_flag == true) {
-            std::cout << "==== Computation Bound || Modulo ====" << '\n';
+            //std::cout << "==== Computation Bound || Modulo pour N = " << val << " ====" << '\n';
             avg = 0;
             for (int i = 0; i < iter; i++) {
                 start = std::chrono::system_clock::now();
@@ -233,13 +234,13 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
                 file3 << "Computation_Bound_Modulo " << val << " False" << std::endl;
             }
             avg /= iter;
-            std::cout << "Time elapsed average: " << avg << " µs" << std::endl;
+            std::cout << "Computation_Bound_Modulo : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
 
         //Lance le test d'AKS si l'option est choisie
         if(aks_flag == true || all_test_flag == true) {
-            std::cout << "==== AKS ====" << '\n';
+            //std::cout << "==== AKS pour N = " << val << " ====" << '\n';
             avg = 0;
             for (int i = 0; i < iter; i++) {
                 start = std::chrono::system_clock::now();
@@ -261,7 +262,7 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
                 file3 << "AKS " << val << " False" << std::endl;
             }
             avg /= iter;
-            std::cout << "AKS : " << val << " || Time elapsed average: " << avg << " µs" << std::endl;
+            std::cout << "AKS : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
     }
@@ -276,8 +277,8 @@ void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bo
 
     //On ouvre les flux des différents fichiers
     std::ofstream file1("memory.txt", std::ios::out | std::ios::trunc);
-    std::ofstream file2("data.txt", std::ios::out | std::ios::app);
-    std::ofstream file3("result.txt", std::ios::out | std::ios::app);
+    std::ofstream file2("data.txt", std::ios::out | std::ios::trunc);
+    std::ofstream file3("result.txt", std::ios::out | std::ios::trunc);
 
     do
     {
@@ -291,6 +292,8 @@ void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bo
             MPI_Recv(&val, 1, MPI_UNSIGNED_LONG, MASTER_RANK, sta.MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             primality_test(iter, val, file1, file2, file3, first_time, all_test_flag, aks_flag, euclide_flag,
                 modulo_flag, mem_bound_flag, pock_flag, miller_flag);
+            highly_composite_main(iter, val, file1, file2, file3, first_time, all_test_flag,
+                highly_composite_def_flag, highly_composite_naive_flag);
         }
         else
         {
@@ -347,35 +350,3 @@ void run_master(int nslaves, unsigned long int data[], int size)
         MPI_Send(NULL, 0, MPI_BYTE, slave_rank, TAG_END, MPI_COMM_WORLD);
     }
 }
-/*
-int main(int argc, char **argv)
-{
-    int rank, size;
-    double t1, t2;
-
-    MPI_Init(&argc, &argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-    if (rank == MASTER_RANK) t1 = MPI_Wtime();
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    if (rank == MASTER_RANK)
-    {
-        unsigned long int data[8] = {3, 97, 1097, 50023, 9990887, 25003151, 33083221, 40003387};
-        run_master(size-1, data, 8);
-    }
-    else
-    {
-        run_slave(rank);
-    }
-
-    MPI_Barrier(MPI_COMM_WORLD);
-    if (rank == MASTER_RANK){
-        t2 = MPI_Wtime();
-        std::cout << "TEMPS TOTAL : " << t2 - t1 << "s\n";
-    }
-    MPI_Finalize();
-
-    return 0;
-}*/

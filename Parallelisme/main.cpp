@@ -100,7 +100,12 @@ int main(int argc, char** argv){
             t2 = MPI_Wtime();
             std::cout << "\nTotal execution time :" << t2-t1 << "s for the process " << rank << "\n";
         }
-
+        if (rank == MASTER_RANK){
+            system("rm Result.txt Data.txt Memory.txt");
+            system("cat result*.txt >> Result.txt && rm result*.txt");
+            system("cat memory*.txt >> Memory.txt && rm memory*.txt");
+            system("cat data*.txt >> Data.txt && rm data*.txt");
+        }
         MPI_Finalize();
         //Fin du programme
         return 0;

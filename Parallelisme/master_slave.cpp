@@ -93,8 +93,6 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
         int elapsed_time;
         std::chrono::time_point<std::chrono::system_clock> start, end;
 
-        //std::cout << "||||||||||||||  Test pour N = " << val << " ||||||||||||||" << std::endl;
-
         //Lance le crible d'Eratosthene si l'option est choisie
         if(mem_bound_flag == true || all_test_flag == true) {
             unsigned long int n_temp = val;
@@ -275,10 +273,14 @@ void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bo
     int over = 0;
     unsigned long int val;
 
+	char mem[32], data[32], result[32]; // make sure it's big enough
+    snprintf(mem, sizeof(mem), "memory%d.txt", slave_rank);
+    snprintf(data, sizeof(data), "data%d.txt", slave_rank);
+    snprintf(result, sizeof(result), "result%d.txt", slave_rank);
     //On ouvre les flux des différents fichiers
-    std::ofstream file1("memory.txt", std::ios::out | std::ios::trunc);
-    std::ofstream file2("data.txt", std::ios::out | std::ios::trunc);
-    std::ofstream file3("result.txt", std::ios::out | std::ios::trunc);
+    std::ofstream file1(mem, std::ios::out | std::ios::trunc);
+    std::ofstream file2(data, std::ios::out | std::ios::trunc);
+    std::ofstream file3(result, std::ios::out | std::ios::trunc);
 
     do
     {

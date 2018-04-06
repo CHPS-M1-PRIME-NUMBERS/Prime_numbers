@@ -11,13 +11,24 @@
 #include "millerRabin.hpp"
 #include "pocklington.hpp"
 #include "AKS.hpp"
-#include "AKS_CONJECTURE.hpp"
 #include "highly_composite.hpp"
 
 #define MASTER_RANK 0
 #define TAG_READY   1000
 #define TAG_END     2000
 #define TAG_DATA    3000
+
+#define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+#define PBWIDTH 60
+
+void printProgress (double percentage)
+{
+    int val = (int) (percentage * 100);
+    int lpad = (int) (percentage * PBWIDTH);
+    int rpad = PBWIDTH - lpad;
+    printf ("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
+    std::cout.flush();
+}
 
 void highly_composite_main(int iter, unsigned long int val, std::ofstream& file1, std::ofstream& file2, std::ofstream& file3,
     bool first_time, bool all_test_flag, bool highly_composite_def_flag, bool highly_composite_naive_flag)
@@ -85,7 +96,7 @@ void highly_composite_main(int iter, unsigned long int val, std::ofstream& file1
 }
 
 void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::ofstream& file2, std::ofstream& file3,
-    bool first_time, bool all_test_flag, bool aks_flag,  bool aks_conj_flag, bool euclide_flag, bool modulo_flag, bool mem_bound_flag,
+    bool first_time, bool all_test_flag, bool aks_flag, bool euclide_flag, bool modulo_flag, bool mem_bound_flag,
     bool pock_flag, bool miller_flag)
     {
 
@@ -205,7 +216,7 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
                 file3 << "Computation_Bound_Euclide " << val << " False" << std::endl;
             }
             avg /= iter;
-            std::cout << "Computation_Bound_Euclide : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
+            //std::cout << "Computation_Bound_Euclide : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
 
@@ -264,36 +275,9 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
             std::cout << "AKS : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
-
-        //Lance le test d'AKS conjecture si l'option est choisie
-        if(aks_conj_flag == true || all_test_flag == true) {
-            avg = 0;
-            for (int i = 0; i < iter; i++) {
-                start = std::chrono::system_clock::now();
-                result = conjecture(val);
-                end = std::chrono::system_clock::now();
-                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-                if (!first_time) {
-                    first_time = true;
-                    max = elapsed_time;
-                    min = max;
-                }
-                if (max < elapsed_time) max = elapsed_time;
-                if (min > elapsed_time) min = elapsed_time;
-                avg += elapsed_time;
-            }
-            if(result) {
-                file3 << "AKS conjecture" << val << " True" << std::endl;
-            }else{
-                file3 << "AKS Conjecture" << val << " False" << std::endl;
-            }
-            avg /= iter;
-            std::cout << "AKS Conjecture : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
-            file2 << val << " " << avg << " " << min << " " << max << std::endl;
-        }
     }
 
-void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bool aks_flag, bool aks_conj_flag, bool euclide_flag,
+void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bool aks_flag, bool euclide_flag,
     bool modulo_flag, bool mem_bound_flag, bool pock_flag, bool miller_flag, bool highly_composite_def_flag,
     bool highly_composite_naive_flag)
 {
@@ -320,7 +304,7 @@ void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bo
         if (sta.MPI_TAG >= TAG_DATA)
         {
             MPI_Recv(&val, 1, MPI_UNSIGNED_LONG, MASTER_RANK, sta.MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            primality_test(iter, val, file1, file2, file3, first_time, all_test_flag, aks_flag, aks_conj_flag, euclide_flag,
+            primality_test(iter, val, file1, file2, file3, first_time, all_test_flag, aks_flag, euclide_flag,
                 modulo_flag, mem_bound_flag, pock_flag, miller_flag);
             highly_composite_main(iter, val, file1, file2, file3, first_time, all_test_flag,
                 highly_composite_def_flag, highly_composite_naive_flag);
@@ -357,16 +341,17 @@ void run_master(int nslaves, unsigned long int data[], int size)
     unsigned long int val;
 
     // On lit la premiere donnee
-    val = read_data(&cptr, data, size);
+    //val = read_data(&cptr, data, size);
 
-    while(val != -1){
-        // Le maitre attend qu'un esclave soit disponible
-        MPI_Recv(NULL, 0, MPI_BYTE, MPI_ANY_SOURCE, TAG_READY, MPI_COMM_WORLD, &sta);
-        slave_rank = sta.MPI_SOURCE;
-        // Le maitre envoit les donnees a traiter a l'esclave avec l'etiquette TAG_DATA+cptr
-        MPI_Send(&val, 1, MPI_UNSIGNED_LONG, slave_rank, TAG_DATA, MPI_COMM_WORLD);
-        // On prepare la prochaine donnee
-        val = read_data(&cptr, data, size);
+    for(unsigned long int i = 1; i<=10000000; i++){
+      // Le maitre attend qu'un esclave soit disponible
+      MPI_Recv(NULL, 0, MPI_BYTE, MPI_ANY_SOURCE, TAG_READY, MPI_COMM_WORLD, &sta);
+      if(i%100000 == 0){
+      printProgress((double)i/10000000);
+      }
+      slave_rank = sta.MPI_SOURCE;
+      // Le maitre envoit les donnees a traiter a l'esclave avec l'etiquette TAG_DATA+cptr
+      MPI_Send(&i, 1, MPI_UNSIGNED_LONG, slave_rank, TAG_DATA, MPI_COMM_WORLD);
     }
 
     /* Maintenant que toutes les donnees sont traitees

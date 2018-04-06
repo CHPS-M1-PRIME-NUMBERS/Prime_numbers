@@ -10,7 +10,6 @@ int main(int argc, char** argv){
     bool first_time = false;
     bool all_test_flag = false;
     bool aks_flag = false;
-    bool aks_conj_flag = false;
     bool euclide_flag = false;
     bool modulo_flag = false;
     bool mem_bound_flag = false;
@@ -32,6 +31,8 @@ int main(int argc, char** argv){
                 std::cerr << "No argument provided!" << std::endl;
                 return 1;
         }
+
+
         if (rank == MASTER_RANK){
             //Check si il existe des arguments, si oui recupère le nom du fichier et le nombre d'iterations
             {
@@ -55,19 +56,17 @@ int main(int argc, char** argv){
                 run_master(size-1, data, size_data);
                 delete[] data;
             }
+            t2 = MPI_Wtime();
         }
         else{
             iter = atoi(argv[argc-2]);
             // Empeche GetOpt d'afficher des erreurs:
             opterr = 0;
             // On récupère les options (doit être connu par tout les processus sauf le maitre qui ne les utilises pas)
-            while ( (opt = getopt(argc, argv, "aAkeoumpihH")) != -1 ) {    // for each option...
+            while ( (opt = getopt(argc, argv, "akeoumpihH")) != -1 ) {    // for each option...
                 switch ( opt ) {
                     case 'a':
                     all_test_flag = true;
-                    break;
-                    case 'A':
-                    aks_conj_flag = true;
                     break;
                     case 'k':
                     aks_flag = true;
@@ -98,17 +97,27 @@ int main(int argc, char** argv){
                     break;
                 }
             }
-            run_slave(rank, iter, first_time, all_test_flag, aks_flag, aks_conj_flag, euclide_flag, modulo_flag, mem_bound_flag,
+            run_slave(rank, iter, first_time, all_test_flag, aks_flag, euclide_flag, modulo_flag, mem_bound_flag,
                 pock_flag, miller_flag, highly_composite_def_flag, highly_composite_naive_flag);
             }
             t2 = MPI_Wtime();
-            std::cout << "\nTotal execution time :" << t2-t1 << "s for the process " << rank << "\n";
         }
+        MPI_Barrier(MPI_COMM_WORLD);
         if (rank == MASTER_RANK){
+                      std::cout << "\nTotal execution time :" << t2-t1 << "s for the process " << rank << "\n";
+          for (int i = 1; i < size; i++) {
+              double t3;
+              MPI_Status stats;
+              MPI_Recv(&t3, 1, MPI_DOUBLE, MPI_ANY_SOURCE, 100, MPI_COMM_WORLD, &stats);
+              std::cout << "\nTotal execution time :" << t3 << "s for the process " << stats.MPI_SOURCE << "\n";
+          }
             system("rm Result.txt Data.txt Memory.txt");
             system("cat result*.txt >> Result.txt && rm result*.txt");
             system("cat memory*.txt >> Memory.txt && rm memory*.txt");
             system("cat data*.txt >> Data.txt && rm data*.txt");
+        }else{
+              double t3 = t2 - t1;
+              MPI_Send(&t3, 1, MPI_DOUBLE, 0, 100, MPI_COMM_WORLD);
         }
         MPI_Finalize();
         //Fin du programme

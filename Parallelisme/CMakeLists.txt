@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9.4)
+cmake_minimum_required(VERSION 3.9.0)
 
 project(Prime_numbers VERSION 1.0 LANGUAGES CXX)
 
@@ -9,13 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_library(NTL_LIB ntl)
 if(NOT NTL_LIB)
   message(FATAL_ERROR "ntl library not found.  Rerun cmake with -DCMAKE_PREFIX_PATH=\"<path to lib1>;<path to lib2>\"")
-endif()
-
-find_package(OpenMP)
-if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
 #includes our libraries
@@ -30,6 +23,8 @@ set (EXTRA_LIBS ${EXTRA_LIBS} primality_proba primality_deter highly_composite)
 find_package(MPI REQUIRED)
 include_directories(${MPI_INCLUDE_PATH})
 
+add_executable(prime_numbers main.cpp)
+
 if(MPI_COMPILE_FLAGS)
   set_target_properties(prime_numbers PROPERTIES
     COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
@@ -40,7 +35,6 @@ if(MPI_LINK_FLAGS)
     LINK_FLAGS "${MPI_LINK_FLAGS}")
 endif()
 
-add_executable(prime_numbers main.cpp)
 target_link_libraries(prime_numbers ${MPI_LIBRARIES} ${NTL_LIB} ${M_LIB} ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} ntl gmp gmpxx)
 
 # cmake ..  cmake .. -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_CC_COMPILER=mpicc

@@ -1,4 +1,7 @@
 #include "memory_bound.hpp"
+#include <iostream>
+#include <fstream>
+#include <chrono>
 
 // #### MEMORY-BOUND #### //
 
@@ -6,12 +9,14 @@
 void memory_bound(unsigned long int nbr, std::list<unsigned long int>* l){ // Retourne une liste de nombre premier entre 2 et nbr.
 
         bool* isPrime;
-        unsigned long int i;
+        unsigned long int i, memory_size = nbr/2;
         isPrime = eratosthene(nbr); // Appel du crible d'Eratosthene
+        l->push_back(2);
 
-        for(i = 0; i <= nbr; i++) {
+        #pragma omp parallel for 
+        for(i = 1; i <= memory_size; i ++) { /*** Optimisation en ne comptant pas les nombres paires ***/
                 if (isPrime[i]) {
-                        l->push_back(i); // Ajout des nombres premiers dans la liste
+                        l->push_back(i*2+1); // Ajout des nombres premiers dans la liste
                 }
         }
         delete [] isPrime;

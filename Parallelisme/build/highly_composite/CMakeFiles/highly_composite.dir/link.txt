@@ -1,2 +1,0 @@
-/usr/bin/ar qc libhighly_composite.a  CMakeFiles/highly_composite.dir/highly_composite.cpp.o
-/usr/bin/ranlib libhighly_composite.a

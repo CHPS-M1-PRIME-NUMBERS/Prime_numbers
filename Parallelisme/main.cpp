@@ -60,7 +60,7 @@ int main(int argc, char** argv){
                         t2 = MPI_Wtime();
                 }
                 else{
-                        iter = atoi(argv[argc-2]);
+                        iter = atoi(argv[argc-3]);
                         // Empeche GetOpt d'afficher des erreurs:
                         opterr = 0;
                         // On récupère les options (doit être connu par tout les processus sauf le maitre qui ne les utilises pas)

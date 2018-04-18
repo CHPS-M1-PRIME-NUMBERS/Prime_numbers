@@ -20,6 +20,7 @@ read -p "A quel nombre débute la plage à tester ? " start_range
 read -p "A quel nombre fini la plage à tester ? " end_range
 read -p "Quels sont les tests que vous voulez lancer ? " options
 read -p "Combien d'itérations pour le test d'un nombre premier ? " iter
+read -p "Sur combien de processus MPI voulez vous effectuer le calcul ?" nbr_proc
 
 # Par défaut on suppose que l'on a fait cmake et make et qu'on se trouve dans le dossier racine
 cd build/
@@ -39,7 +40,7 @@ else   # On efface le contenu
     echo '' | tee result.txt
 fi
 
-./prime_numbers -$options $iter $start_range $end_range
+mpirun -np $nbr_proc ./prime_numbers -$options $iter $start_range $end_range
 
 
 #gnuplot -e "plot 'data.txt'; pause -1" # Affiche le plot du résultat

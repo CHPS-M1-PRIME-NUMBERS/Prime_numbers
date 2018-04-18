@@ -11,6 +11,7 @@
 #include "millerRabin.hpp"
 #include "pocklington.hpp"
 #include "AKS.hpp"
+#include "AKS_CONJECTURE.hpp"
 #include "highly_composite.hpp"
 
 #define MASTER_RANK 0
@@ -84,7 +85,7 @@ void highly_composite_main(int iter, unsigned long int val, std::ofstream& file1
 }
 
 void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::ofstream& file2, std::ofstream& file3,
-    bool first_time, bool all_test_flag, bool aks_flag, bool euclide_flag, bool modulo_flag, bool mem_bound_flag,
+    bool first_time, bool all_test_flag, bool aks_flag,  bool aks_conj_flag, bool euclide_flag, bool modulo_flag, bool mem_bound_flag,
     bool pock_flag, bool miller_flag)
     {
 
@@ -263,9 +264,36 @@ void primality_test(int iter, unsigned long int val, std::ofstream& file1, std::
             std::cout << "AKS : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
             file2 << val << " " << avg << " " << min << " " << max << std::endl;
         }
+
+        //Lance le test d'AKS conjecture si l'option est choisie
+        if(aks_conj_flag == true || all_test_flag == true) {
+            avg = 0;
+            for (int i = 0; i < iter; i++) {
+                start = std::chrono::system_clock::now();
+                result = conjecture(val);
+                end = std::chrono::system_clock::now();
+                elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
+                if (!first_time) {
+                    first_time = true;
+                    max = elapsed_time;
+                    min = max;
+                }
+                if (max < elapsed_time) max = elapsed_time;
+                if (min > elapsed_time) min = elapsed_time;
+                avg += elapsed_time;
+            }
+            if(result) {
+                file3 << "AKS conjecture" << val << " True" << std::endl;
+            }else{
+                file3 << "AKS Conjecture" << val << " False" << std::endl;
+            }
+            avg /= iter;
+            std::cout << "AKS Conjecture : " << val << " === Time elapsed average: " << avg << " µs" << std::endl;
+            file2 << val << " " << avg << " " << min << " " << max << std::endl;
+        }
     }
 
-void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bool aks_flag, bool euclide_flag,
+void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bool aks_flag, bool aks_conj_flag, bool euclide_flag,
     bool modulo_flag, bool mem_bound_flag, bool pock_flag, bool miller_flag, bool highly_composite_def_flag,
     bool highly_composite_naive_flag)
 {
@@ -292,7 +320,7 @@ void run_slave(int slave_rank, int iter, bool first_time, bool all_test_flag, bo
         if (sta.MPI_TAG >= TAG_DATA)
         {
             MPI_Recv(&val, 1, MPI_UNSIGNED_LONG, MASTER_RANK, sta.MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            primality_test(iter, val, file1, file2, file3, first_time, all_test_flag, aks_flag, euclide_flag,
+            primality_test(iter, val, file1, file2, file3, first_time, all_test_flag, aks_flag, aks_conj_flag, euclide_flag,
                 modulo_flag, mem_bound_flag, pock_flag, miller_flag);
             highly_composite_main(iter, val, file1, file2, file3, first_time, all_test_flag,
                 highly_composite_def_flag, highly_composite_naive_flag);

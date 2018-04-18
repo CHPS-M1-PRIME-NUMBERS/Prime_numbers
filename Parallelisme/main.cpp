@@ -10,6 +10,7 @@ int main(int argc, char** argv){
     bool first_time = false;
     bool all_test_flag = false;
     bool aks_flag = false;
+    bool aks_conj_flag = false;
     bool euclide_flag = false;
     bool modulo_flag = false;
     bool mem_bound_flag = false;
@@ -60,10 +61,13 @@ int main(int argc, char** argv){
             // Empeche GetOpt d'afficher des erreurs:
             opterr = 0;
             // On récupère les options (doit être connu par tout les processus sauf le maitre qui ne les utilises pas)
-            while ( (opt = getopt(argc, argv, "akeoumpihH")) != -1 ) {    // for each option...
+            while ( (opt = getopt(argc, argv, "aAkeoumpihH")) != -1 ) {    // for each option...
                 switch ( opt ) {
                     case 'a':
                     all_test_flag = true;
+                    break;
+                    case 'A':
+                    aks_conj_flag = true;
                     break;
                     case 'k':
                     aks_flag = true;
@@ -94,7 +98,7 @@ int main(int argc, char** argv){
                     break;
                 }
             }
-            run_slave(rank, iter, first_time, all_test_flag, aks_flag, euclide_flag, modulo_flag, mem_bound_flag,
+            run_slave(rank, iter, first_time, all_test_flag, aks_flag, aks_conj_flag, euclide_flag, modulo_flag, mem_bound_flag,
                 pock_flag, miller_flag, highly_composite_def_flag, highly_composite_naive_flag);
             }
             t2 = MPI_Wtime();

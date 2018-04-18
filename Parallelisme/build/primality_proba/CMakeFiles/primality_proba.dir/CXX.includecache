@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/maxence/Bureau/Prime_numbers/Parallelisme/primality_proba/millerRabin.cpp
+millerRabin.hpp
+/home/maxence/Bureau/Prime_numbers/Parallelisme/primality_proba/millerRabin.hpp
+
+/home/maxence/Bureau/Prime_numbers/Parallelisme/primality_proba/millerRabin.hpp
+cmath
+-
+cstdlib
+-
+ctime
+-
+

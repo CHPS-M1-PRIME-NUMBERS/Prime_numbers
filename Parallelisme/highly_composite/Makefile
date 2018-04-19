@@ -1,5 +1,5 @@
 CC = mpicxx
-CFLAGS = -O3 -fPIC
+CFLAGS = -O3 -fPIC --std=c++14
 LDTOOL = ar rcs
 LIBDIR = -I../primality_deter -L../primality_deter -lprimalitydeter
 EXEC = libhighlycomposite.a

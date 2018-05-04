@@ -38,10 +38,14 @@ La seconde optimisation de cette fonction concerne la boucle interne. En effet d
 	\paragraph{} \textbf{OPTIMIASTION AKS $\rightarrow$ CONJECTURE}
 	
 	\paragraph{} \textbf{POURQUOI ON N'OPTIMISE PAS LES AUTRES}
+	\paragraph{} \textbf{Pocklington : }
+	L'algorithme de Pocklington repose sur la factorisation en nombres premier qui même avec un algorithme optimisé, tel que le crible quadratique, se trouve être un problème appartenant à la classe NP. De plus, l'implémentation des algorithmes de factorisation en nombres premier plus efficace représente un problème car ils sont basés sur des principes mathématiques difficile à implémenter.
  
 
 	\section{Parallélisation}
 	Après avoir optimisé notre code, nous nous sommes consacré à la parallélisation de celui-ci. Deux types de parallélismes nous ont été proposé par notre encadrant. Le premier étant le parallélisme de calculs dans le cas où le(s) test(s) implémenté(s) nous le permettait et le parallélisme de données pour distribuer les données contenu dans une plage au sein des processus disponible lors du lancement du programme et à y opérer les mêmes opérations (les tests de primalité ici).
+	
+	\paragraph{} \textbf{Miller Rabin : }
 	
 		\subsection{Outils utilisés}
 Pour produire cette nouvelle version du projet, certains outils ont été utilisés pour obtenir le résultat présenté. En premier lieu nous avons utilisé \textbf{OpenMP}, un API employé pour le calcul parallèle sur des architectures à mémoire partagée. Nous l'utilisons pour le parallélisme de calculs pour les fonctions de memory\_bound() et eratosthene(). L'avantage de ce dernier nous permet de rajouter des "\#pragma" sans pour autant modifier le code séquentiel.

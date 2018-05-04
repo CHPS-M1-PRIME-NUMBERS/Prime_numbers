@@ -35,17 +35,18 @@
 	Pour débuter cette deuxième période il nous fallait d'abord commencer l'optimisation des différents tests de primalité implémentés. Le premier test étant le \textit{eratosthene()} dont le premier problème concerne la mémoire utilisé. En effet un nombre premier ne peut être un nombre paire hormis $2$. Pour un très grand nombre $N$ donné, $\frac{N}{2}-1$ nombres entre 1 et N sont paires et non-premier ce qui correspond à un espace mémoire de $4*(\frac{N}{2}-1)$ octets utilisés inutilement dans le tableau de booléen de la fonction \textit{eratosthe()} pour indiqué si un nombre est premier. Pour résoudre cela nous avons donc diviser par deux la taille du tableau utilisé pour ne plus prendre en compte les nombres paires. Cette observation économise 50\% de mémoire et est presque deux fois plus rapide que l'algorithme de base tout en ne nécessitant que des modifications mineures du code.\\
 La seconde optimisation de cette fonction concerne la boucle interne. En effet dans la version basique il nous arrive de visiter plusieurs fois la même case du tableau de booléen. Pour cela nous ne faisons plus $N$ itération mais $\sqrt{N}-3$ itérations.
 
-	\paragraph{} \textbf{OPTIMIASTION AKS $\rightarrow$ CONJECTURE}
+	\paragraph{} \textbf{OPTIMISATION AKS $\rightarrow$ CONJECTURE}
 	
 	\paragraph{} \textbf{POURQUOI ON N'OPTIMISE PAS LES AUTRES}
 	\paragraph{} \textbf{Pocklington : }
-	L'algorithme de Pocklington repose sur la factorisation en nombres premier qui même avec un algorithme optimisé, tel que le crible quadratique, se trouve être un problème appartenant à la classe NP. De plus, l'implémentation des algorithmes de factorisation en nombres premier plus efficace représente un problème car ils sont basés sur des principes mathématiques difficile à implémenter.
- 
+	L'algorithme de Pocklington repose sur la factorisation en nombres premier qui même avec un algorithme optimisé, tel que le crible quadratique, se trouve être un problème appartenant à la classe NP, c'est-à-dire qu'il appartient aux problèmes les plus difficile en informatique car ceux-ci augmentent très rapidement en temps d'exécution en fonction de l'entrée d'une façon exponentielle. De plus, l'implémentation des algorithmes de factorisation en nombres premier plus efficace représente un problème car ils sont basés sur des principes mathématiques difficile à implémenter.
+	
 
 	\section{Parallélisation}
 	Après avoir optimisé notre code, nous nous sommes consacré à la parallélisation de celui-ci. Deux types de parallélismes nous ont été proposé par notre encadrant. Le premier étant le parallélisme de calculs dans le cas où le(s) test(s) implémenté(s) nous le permettait et le parallélisme de données pour distribuer les données contenu dans une plage au sein des processus disponible lors du lancement du programme et à y opérer les mêmes opérations (les tests de primalité ici).
 	
-	\paragraph{} \textbf{Miller Rabin : }
+	\paragraph{} \textbf{Miller-Rabin : }
+	Pour paralléliser Miller-Rabin nous avons paralléliser les k itérations permettant d'affiner la précision de l'algorithme, après cette parallélisation nous avons effectué des tests de performances, ces tests montraient que cette parallélisation n'améliorait pas le temps d'exécution de l'algorithme mais qu'au contraire elle l'augmentait. Pour cette implémentation nous avions remplacer les valeurs de retours qui étaient des booléens par des entier 0 pour vrai et 1 pour false, ainsi les différents coeurs se répartissant les itérations faisaient la somme des valeurs de retours et lorsque cette somme était supérieur à 0 le nombre testé n'était donc pas premier. L'idée était donc ensuite d'utiliser la version optimal de Miller-Rabin avec le système master/slave pour avoir de meilleur temps.  
 	
 		\subsection{Outils utilisés}
 Pour produire cette nouvelle version du projet, certains outils ont été utilisés pour obtenir le résultat présenté. En premier lieu nous avons utilisé \textbf{OpenMP}, un API employé pour le calcul parallèle sur des architectures à mémoire partagée. Nous l'utilisons pour le parallélisme de calculs pour les fonctions de memory\_bound() et eratosthene(). L'avantage de ce dernier nous permet de rajouter des "\#pragma" sans pour autant modifier le code séquentiel.
@@ -61,9 +62,12 @@ Pour produire cette nouvelle version du projet, certains outils ont été utilis
 	\section{Bilan Technique}	
 		
 	\section{Problèmes rencontrés}
+%	Le tempérament de Jean-Didier
 	
 	\textbf{Problème avec implémentation si on a}
 	\paragraph{} \textbf{Problème rencontré à la MDLS}
+	Lors de nos séances à la maison de la simulation, nous avons été dans l'impossibilité d'effectuer nos tests en raison d'un problème technique au niveau des noeuds de calcul qui n'étaient plus disponibles.
+	A la première séance nous avons eu besoin d'implémenter un Makefile, nous utilisions à la base cmake qui s'occupait alors de créer le Makefile pour nous mais cmake n'était pas compatible avec les machines auquel nous avion accès à la maison de la simulation, lors de l'implémentation de ce Makefile nous avons rencontrer des problèmes d'intégration des bibliothèques NTL et GMP, ce qui nous a retardé dans les tests.
 					
 	\section{Organisation interne du groupe}
 	Pour débuter la deuxième période de ce projet, il nous fallait en premier lieu établir une nouvelle répartition du travail de groupe pour que le projet puisse avancer de façon efficace et de manière rapide. Le tableau ci-dessous va ainsi indiquer pour chaque membre du groupe la ou les fonctionnalités pour laquelle il a pu contribuer à l'élaboration: \\
@@ -73,8 +77,9 @@ Pour produire cette nouvelle version du projet, certains outils ont été utilis
 		\hline 	Master slave & x & x & ~ & ~ & ~ \\
 		\hline 	Optimisation Memory Bound & x & ~ & ~ & ~ & ~ \\
 		\hline 	AKS Conjecture & ~ & ~ & x & ~ & ~ \\
-		\hline 	Makefile & ~ & ~ & x & ~ & x \\
-		\hline 	Rapport & ~ & ~ & ~ & ~ & ~ \\
+		\hline 	Tests parallélisation Miller-Rabin & ~ & x & ~ & x & ~ \\
+		\hline 	Makefile & ~ & ~ & x & x & x \\
+		\hline 	Rapport & x & x & x & x & x \\
 		\hline 	Tests & x & x & x & x & x \\
 		\hline
 	\end{longtable}\vspace{-2.2em}\end{center}	

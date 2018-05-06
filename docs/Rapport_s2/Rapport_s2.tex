@@ -202,8 +202,28 @@ Cependant en ce qui concerne la plage [1, 1 000 000] nous pouvons observer qu'au
 
 	Pour cette plage de données, nous pouvons voir que l'implémentation possède toujours une bonne scalabilité à l'exception du résultat pour Modulo. D'après notre encadrant Matthieu Haefele la cause de ce résultat serait causé par l'utilisation de nœuds qui ne seraient pas sains lors de nos tests. Ce résultat ne serait donc pas causé par notre implémentation et donc ne serait pas représentatif.\\
 	
-	Les tests concernant Memory Bound ont été fait à part des autres étant donné que ce test utilise un autre type de parallélisme et qui'l calcul les nombres premier compris entre 1 et N. Les résultats de la parallélisation associé à ce test nous indique qu'il supporte plutôt bien le parallélisme de calculs même si la scalabilité affiché de celui-ci n'est pas parfaite. De plus, l'optimisation faite nous permet donc d'économiser de la mémoire au niveau de la RAM ce qui nous autorise d'utiliser ce test pour de plus grand nombre.
+	Les tests concernant MemoryBound ont été fait à part des autres étant donné que ce test utilise un autre type de parallélisme et qu'il calcul les nombres premier compris entre 1 et N. Les résultats de la parallélisation associé à ce test nous indique qu'il supporte plutôt bien le parallélisme de calculs même si la scalabilité affiché de celui-ci n'est pas parfaite. De plus, l'optimisation faite nous permet donc d'économiser de la mémoire au niveau de la RAM ce qui nous autorise d'utiliser ce test pour de plus grand nombre.
 	\section{Bilan Technique}	
+		
+Suite à nos résultats nous pouvons conclure que notre implémentation d'une communication Maitre-Esclave pour paralléliser nos recherches de nombres premiers est relativement efficace.
+L'augmentation du nombre de cœur de calcul diminue bien par la même échelle le temps nécessaire à la recherche des nombres premiers d'une plage donnée.
+On remarque cependant que cette augmentation de l'efficacité atteins un palier pour la plupart de nos tests. Selon notre analyse des temps passés dans les différentes parties de notre programme, il semblerait que le processus Maître, qui envoi les données à traiter aux processus Esclaves, soit le responsable de ce plafonnement.
+\paragraph{}En effet avec l'augmentation du nombre de cœur de calculs, le nombre de communications que doit effectuer le processus Maître en un instant T augmente considérablement afin d'assurer le fait qu'aucun processus n'attende trop longtemps un nouveau travail.
+Or le calcul d'une donnée étant relativement court, le processus Maître arrive à saturation avec l'augmentation du nombre de nœud de calcul.
+Notre schéma de communication arrive donc à ses limites dû au fait que des processus Esclaves vont certainement ne pas être utilisé 100\% du temps.
+
+\paragraph{}Une optimisation de notre schéma de communication aurait pu être d'envoyer des centaines voir des milliers de données à traiter à chaque processus Esclave en un envoi.
+Ceci aurait pu permettre de diminuer le nombre de communication nécessaire de la part du processus Maître et ainsi le rendre plus réactif à la demande de travail d'un nouveau processus Esclave.
+Cette implémentation n'a été testé que sur nos ordinateurs personnels (avec seulement 8 cœurs) et n'a cependant pas donné de résultats probant en gain de performance.
+
+\paragraph{}Une autre implémentation aurait pu être d'augmenter le nombre de processus Maître. En effet en divisant la taille du problème en plusieurs processus Maîtres, on aurait diviser d'autant la charge qui pèse sur leur épaules.
+
+\paragraph{}Concernant l'équilibrage des charges sur nos processeurs, il est important de rappeler que nos calculs sont très courts, de l'ordre d'un centième de seconde pour la plupart de nos algorithmes d'évaluation.
+Ainsi un cœur ne va pas prendre beaucoup plus de temps qu'un autre pour analyser sa donnée même si celle çi demande un peu plus de calculs pour déterminer sa primalité.
+Notre équilibrage de charge est donc presque parfait, de l'ordre de 1/10ème de seconde de différence entre les deux processus les plus éloignés en terme de fin d’exécution pour 40 secondes de temps total d’exécution. Donc aucun équilibrage compliqué n'a été nécessaire.
+
+\paragraph{}Le problème de recherche des nombres premiers dans une plage de donnée est donc hautement parallélisable et notre implementation en Maitre/Esclave est efficace. Cependant la limite de ce problème réside avant tout dans la non parallélisation des tests en eux-même du à leur forme très simple.
+Les limites techniques de rapidité de calculs sont donc rapidement atteintes et seul l'augmentation du volume de donnée laisserait entrevoir l'utilité de l'augmentation du nombre de noeud de calcul et leur bonne utilisation.		
 		
 	\section{Problèmes rencontrés}
 	Lors de nos séances à la maison de la simulation, nous avons été dans l'impossibilité d'effectuer nos tests en raison d'un problème technique au niveau des noeuds de calcul qui n'étaient plus disponibles.

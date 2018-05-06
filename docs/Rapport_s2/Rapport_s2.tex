@@ -9,6 +9,7 @@
 }
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{subcaption}
 \begin{document}
 \pagenumbering{gobble}\clearpage
 \maketitle\vspace{13em}
@@ -90,11 +91,109 @@ Pour produire cette nouvelle version du projet, certains outils ont été utilis
 \textit{\#pragma omp parallel for schedule(dynamic)}	pour la partie appliquant l'algorithme du crible. L'utilisation de "schedule(dynamic)" indique qu'OpenMP affecte une itération à chaque thread. Lorsque le thread finit, il lui sera affecté l’itération suivante qui n’a pas encore été exécutée. Cela permet donc d'avoir une bonne répartition des tâches sur l'ensemble des threads car on suppose que le temps de traitement pour une itération n'est pas constant.
 	
 		\subsection{Parallélisme de données}
-		La majorité de nos tests n'étant pas parallélisé il fallait donc opter pour un autre type de parallélisme qui est celui de données. Pour cela nous sommes donc parti sur un modèle basé sur le Master Slave (Maître-Esclave). C'est à dire qu'un processus sera désigné en tant que "Maître" et sera chargé de distribué du travail aux esclaves qui vont donc demander à l'inverse du travail au maître qu'il sera libre.  Le choix de ce modèle vient du fait qu'il est principalement utilisé pour une application décomposable en différentes tâches indépendantes (chaque test de primalité étant indépendant). De plus il est nécessaire de faire attention à l'équilibre de charges car lorsque nous donnons une plage de données à analyser il nous est impossible de prévoir à l'avance le temps mis pour le traitement d'un nombre et donc de répartir de façon équitable le travail sur les processus. 
+		La majorité de nos tests n'étant pas parallélisé il fallait donc opter pour un autre type de parallélisme qui est celui de données. Pour cela nous sommes donc parti sur un modèle basé sur le Master Slave (Maître-Esclave). C'est à dire qu'un processus sera désigné en tant que "Maître" et sera chargé de distribué du travail aux esclaves qui vont donc demander à l'inverse du travail au maître dès qu'il est libre.  Le choix de ce modèle vient du fait qu'il est principalement utilisé pour une application décomposable en différentes tâches indépendantes (chaque test de primalité étant indépendant). De plus il est nécessaire de faire attention à l'équilibre de charges car lorsque nous donnons une plage de données à analyser il nous est impossible de prévoir à l'avance le temps mis pour le traitement d'un nombre et donc de répartir de façon équitable le travail sur les processus. 
 Pour notre implémentation le processus Maître correspond au rang 0, il ne lancera jamais de tests de primalité. Le rang maître envoi seulement un paquet d'un seul entier. Des tentatives d'envoyer des paquets de 10, 100 ou plus n'ont pas influencé le temps d'exécution final du programme. Cela peut se justifier par le fait que le temps de communication d'un message MPI était négligeable par rapport au reste (de l'ordre de $10^-4$s).
 
 	\section{Analyse des résultats}
-		 	
+	Pour cette deuxième période du projet, l'accès au cluster \textbf{Poincare} disponible à la Maison de la Simulation du CEA nous a permis de faire plusieurs vague de tests de scalabilité sur la version parallèle de notre projet.
+	
+		\subsection{Lancement d'un test}
+Pour commencer ces tests nous devions charger les modules indispensables à l'utilisation de notre programme dans l’environnement utilisé avec  \textit{module load tool}. Les modules utilisé lors des tests sont \textit{gnu-env/5.4.0} et \textit{openmpi/1.10.0\_gnu54}. Lancer un test sur Poincare nécessite d'utiliser un script nommé \textit{batch.sh}, celui-ci indique donc pour un job lancé, le nombre de processus MPI (total\_tasks), le nombre de nœuds nécessaire (node, 16 tâches MPI pour 1 nœud), la durée maximum avant que le job soit tué (wall\_clock\_limit), le type de job (job\_type = mpich si parallel ou serial sinon),... Pour soumettre un tel job la commande \textit{llsubmit batch.sh} est utilisé, cependant les sorties standard n'existant pas sur le cluster, des fichier job\_name.err et job\_name.log servent donc à les remplacer. Voici un exemple de fichier batch.sh :\\
+	 \begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.6]{batch.png}\end{center}
+		\caption{Exemple de fichier batch.sh}
+		\label{fg:bat}
+\end{figure}
+		\subsection{Résultats}
+	
+Tout d'abord nous avons réalisé une première batterie de tests sur une première plage de nombres allant de 1 à 1 million avec 10 itérations. Les \textbf{Figure \ref{fg:fig1}, \ref{fig:2} et \ref{fig:3}} représentent donc l'évolution du temps de calcul en fonction du nombre processus sur cette plage. Cependant deux tests de primalité n'ont pas eu de résultats du à un manque de temps et aussi à leur problème de performance. Pour la première plage avec $4h$ donné lors de la soumission du job  Pocklington et AKS n'ont pas pu finir leur exécution avant d'être tué par le supercalculateur quelque soit le nombre de processus donné. 
+		
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.8]{All_1M.png}\end{center}
+		\caption{Évolution du temps de calcul pour Conjecture, Miller-Rabin, Euclide et Modulo. }
+		\label{fg:fig1}
+\end{figure}
+
+\begin{figure*}
+        \centering
+        \begin{subfigure}[b]{0.9\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Euclide_1M.png}
+            \caption[Network2]%
+            {{\small Euclide}}    
+            \label{fig:sub1}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.9\textwidth}  
+            \centering 
+            \includegraphics[width=\textwidth]{Conjecture_1M.png}
+            \caption[]%
+            {{\small AKS Conjecture}}    
+            \label{fig:sub2}
+        \end{subfigure}
+         \caption[ Évolution du temps de calcul en fonction du nombre processus]
+        {\small Évolution du temps de calcul en fonction du nombre processus : Plage [1, 1 000 000]} 
+        \label{fig:2}
+\end{figure*}
+\begin{figure*}
+        \begin{subfigure}[b]{0.9\textwidth}   
+            \centering 
+            \includegraphics[width=\textwidth]{Modulo_1M.png}
+            \caption[]%
+            {{\small Modulo}}    
+            \label{fig:sub3}
+        \end{subfigure}
+        \quad
+        \begin{subfigure}[b]{0.9\textwidth}   
+            \centering 
+            \includegraphics[width=\textwidth]{Miller.png}
+            \caption[]%
+            {{\small Miller-Rabin}}    
+            \label{fig:sub4}
+        \end{subfigure}
+        \caption[ Évolution du temps de calcul en fonction du nombre processus]
+        {\small Évolution du temps de calcul en fonction du nombre processus : Plage [1, 1 000 000]} 
+        \label{fig:3}
+\end{figure*}
+
+% PLAGE 4M à 4M1m
+Ensuite nous avons réalisé une deuxième vague de tests sur une deuxième plage de nombres allant de 4 Milliard à 4 Milliard 1 million (4M1m) avec 10 itérations. Les \textbf{Figure \ref{fg:4} et \ref{fig:5}} représentent donc l'évolution du temps de calcul en fonction du nombre processus sur cette plage. Par manque de temps le test de Miller Rabin n'a pu avoir avoir de résultat pour cette plage de données.
+
+\begin{figure*}
+        \centering
+        \begin{subfigure}[b]{0.9\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Euclide_4M.png}
+            \caption[Network2]%
+            {{\small Euclide}}    
+            \label{fig:sub4}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.9\textwidth}  
+            \centering 
+            \includegraphics[width=\textwidth]{Conjecture_4M.png}
+            \caption[]%
+            {{\small AKS Conjecture}}    
+            \label{fig:sub5}
+        \end{subfigure}
+         \caption[ Évolution du temps de calcul en fonction du nombre processus]
+        {\small Évolution du temps de calcul en fonction du nombre processus : Plage [4M, 4M1m]} 
+        \label{fig:4}
+\end{figure*}
+\begin{figure*}
+            \centering 
+            \includegraphics[width=0.8\textwidth]{Modulo_4M.png}
+        \caption[ Évolution du temps de calcul en fonction du nombre processus]
+        {\small Évolution du temps de calcul en fonction du nombre processus Modulo: Plage [4M, 4M1m]} 
+        \label{fig:5}
+\end{figure*}
+\begin{figure*}
+        \centering 
+            \includegraphics[width=0.8\textwidth]{Memory.png}
+        \caption[ Évolution du temps de calcul en fonction du nombre processus]
+        {\small Évolution du temps de calcul en fonction du nombre processus pour Memory Bound : Plage [1, 500 000 000]} 
+        \label{fig:6}
+\end{figure*}
 	
 	\section{Bilan Technique}	
 		

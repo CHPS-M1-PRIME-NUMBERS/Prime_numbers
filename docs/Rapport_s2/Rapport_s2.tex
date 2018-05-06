@@ -92,7 +92,7 @@ Pour produire cette nouvelle version du projet, certains outils ont été utilis
 	
 		\subsection{Parallélisme de données}
 		La majorité de nos tests n'étant pas parallélisé il fallait donc opter pour un autre type de parallélisme qui est celui de données. Pour cela nous sommes donc parti sur un modèle basé sur le Master Slave (Maître-Esclave). C'est à dire qu'un processus sera désigné en tant que "Maître" et sera chargé de distribué du travail aux esclaves qui vont donc demander à l'inverse du travail au maître dès qu'il est libre.  Le choix de ce modèle vient du fait qu'il est principalement utilisé pour une application décomposable en différentes tâches indépendantes (chaque test de primalité étant indépendant). De plus il est nécessaire de faire attention à l'équilibre de charges car lorsque nous donnons une plage de données à analyser il nous est impossible de prévoir à l'avance le temps mis pour le traitement d'un nombre et donc de répartir de façon équitable le travail sur les processus. 
-Pour notre implémentation le processus Maître correspond au rang 0, il ne lancera jamais de tests de primalité. Le rang maître envoi seulement un paquet d'un seul entier. Des tentatives d'envoyer des paquets de 10, 100 ou plus n'ont pas influencé le temps d'exécution final du programme. Cela peut se justifier par le fait que le temps de communication d'un message MPI était négligeable par rapport au reste (de l'ordre de $10^-4$s).
+Pour notre implémentation le processus Maître correspond au rang 0, il ne lancera jamais de tests de primalité (avec 4 processus seulement 3 lancerons des tests de primalité). Le rang maître envoi seulement un paquet d'un seul entier. Des tentatives d'envoyer des paquets de 10, 100 ou plus n'ont pas influencé le temps d'exécution final du programme. Cela peut se justifier par le fait que le temps de communication d'un message MPI était négligeable par rapport au reste (de l'ordre de $10^-4$s).
 
 	\section{Analyse des résultats}
 	Pour cette deuxième période du projet, l'accès au cluster \textbf{Poincare} disponible à la Maison de la Simulation du CEA nous a permis de faire plusieurs vague de tests de scalabilité sur la version parallèle de notre projet.
@@ -116,7 +116,7 @@ Tout d'abord nous avons réalisé une première batterie de tests sur une premi�
 
 \begin{figure*}
         \centering
-        \begin{subfigure}[b]{0.9\textwidth}
+        \begin{subfigure}[b]{0.85\textwidth}
             \centering
             \includegraphics[width=\textwidth]{Euclide_1M.png}
             \caption[Network2]%
@@ -124,7 +124,7 @@ Tout d'abord nous avons réalisé une première batterie de tests sur une premi�
             \label{fig:sub1}
         \end{subfigure}
         \hfill
-        \begin{subfigure}[b]{0.9\textwidth}  
+        \begin{subfigure}[b]{0.85\textwidth}  
             \centering 
             \includegraphics[width=\textwidth]{Conjecture_1M.png}
             \caption[]%
@@ -136,15 +136,15 @@ Tout d'abord nous avons réalisé une première batterie de tests sur une premi�
         \label{fig:2}
 \end{figure*}
 \begin{figure*}
-        \begin{subfigure}[b]{0.9\textwidth}   
+        \begin{subfigure}[b]{0.85\textwidth}   
             \centering 
             \includegraphics[width=\textwidth]{Modulo_1M.png}
             \caption[]%
             {{\small Modulo}}    
             \label{fig:sub3}
         \end{subfigure}
-        \quad
-        \begin{subfigure}[b]{0.9\textwidth}   
+        \hfill
+        \begin{subfigure}[b]{0.85\textwidth}   
             \centering 
             \includegraphics[width=\textwidth]{Miller.png}
             \caption[]%
@@ -156,12 +156,16 @@ Tout d'abord nous avons réalisé une première batterie de tests sur une premi�
         \label{fig:3}
 \end{figure*}
 
+D'après ces résultats nous pouvons voir que l'implémentation du modèle Master-Slave montre une bonne scalabilité. De plus, la \textbf{Figure \ref{fg:fig1}} indique que lorsque nous augmentons le nombre de processus les tests les plus lent tel que la Conjecture ont un temps d'exécution équivalent aux tests les plus rapides. En séquentiel nous avons la Conjecture qui tourne avec 424.5s en moyenne, Miller-Rabin avec 129.1s, Euclide avec 89.9s et Modulo 375s. Nous pouvons donc voir que dès 3 processus le programme exécute plus rapidement la plage de données.
+Cependant en ce qui concerne la plage [1, 1 000 000] nous pouvons observer qu'au bout d'un certain nombre de processus il devient peu avantageux d'augmenter ce nombre. La cause de cette augmentation serait les communications MPI qui prennent le dessus sur le temps d'exécution final. En effet, les nombres de cette plage sont très petits, l'exécution d'un test serait donc beaucoup trop rapide.\\
+
+
 % PLAGE 4M à 4M1m
-Ensuite nous avons réalisé une deuxième vague de tests sur une deuxième plage de nombres allant de 4 Milliard à 4 Milliard 1 million (4M1m) avec 10 itérations. Les \textbf{Figure \ref{fg:4} et \ref{fig:5}} représentent donc l'évolution du temps de calcul en fonction du nombre processus sur cette plage. Par manque de temps le test de Miller Rabin n'a pu avoir avoir de résultat pour cette plage de données.
+	\paragraph{}Ensuite nous avons réalisé une deuxième vague de tests sur une deuxième plage de nombres allant de 4 Milliard à 4 Milliard 1 million (4M1m) avec 10 itérations. Les \textbf{Figure \ref{fig:4} et \ref{fig:5}} représentent donc l'évolution du temps de calcul en fonction du nombre processus sur cette plage. Par manque de temps le test de Miller Rabin n'a pu avoir avoir de résultat pour cette plage de données.
 
 \begin{figure*}
         \centering
-        \begin{subfigure}[b]{0.9\textwidth}
+        \begin{subfigure}[b]{0.85\textwidth}
             \centering
             \includegraphics[width=\textwidth]{Euclide_4M.png}
             \caption[Network2]%
@@ -169,7 +173,7 @@ Ensuite nous avons réalisé une deuxième vague de tests sur une deuxième plag
             \label{fig:sub4}
         \end{subfigure}
         \hfill
-        \begin{subfigure}[b]{0.9\textwidth}  
+        \begin{subfigure}[b]{0.85\textwidth}  
             \centering 
             \includegraphics[width=\textwidth]{Conjecture_4M.png}
             \caption[]%
@@ -187,19 +191,23 @@ Ensuite nous avons réalisé une deuxième vague de tests sur une deuxième plag
         {\small Évolution du temps de calcul en fonction du nombre processus Modulo: Plage [4M, 4M1m]} 
         \label{fig:5}
 \end{figure*}
+	
 \begin{figure*}
         \centering 
             \includegraphics[width=0.8\textwidth]{Memory.png}
-        \caption[ Évolution du temps de calcul en fonction du nombre processus]
+        \caption[Évolution du temps de calcul en fonction du nombre processus]
         {\small Évolution du temps de calcul en fonction du nombre processus pour Memory Bound : Plage [1, 500 000 000]} 
         \label{fig:6}
 \end{figure*}
+
+	Pour cette plage de données, nous pouvons voir que l'implémentation possède toujours une bonne scalabilité à l'exception du résultat pour Modulo. D'après notre encadrant Matthieu Haefele la cause de ce résultat serait causé par l'utilisation de nœuds qui ne seraient pas sains lors de nos tests. Ce résultat ne serait donc pas causé par notre implémentation et donc ne serait pas représentatif.\\
 	
+	Les tests concernant Memory Bound ont été fait à part des autres étant donné que ce test utilise un autre type de parallélisme et qui'l calcul les nombres premier compris entre 1 et N. Les résultats de la parallélisation associé à ce test nous indique qu'il supporte plutôt bien le parallélisme de calculs même si la scalabilité affiché de celui-ci n'est pas parfaite. De plus, l'optimisation faite nous permet donc d'économiser de la mémoire au niveau de la RAM ce qui nous autorise d'utiliser ce test pour de plus grand nombre.
 	\section{Bilan Technique}	
 		
 	\section{Problèmes rencontrés}
 	Lors de nos séances à la maison de la simulation, nous avons été dans l'impossibilité d'effectuer nos tests en raison d'un problème technique au niveau des noeuds de calcul qui n'étaient plus disponibles.
-	A la première séance nous avons eu besoin d'implémenter un Makefile, nous utilisions à la base cmake qui s'occupait alors de créer le Makefile pour nous mais cmake n'était pas compatible avec les machines auquel nous avion accès à la maison de la simulation, lors de l'implémentation de ce Makefile nous avons rencontrer des problèmes d'intégration des bibliothèques NTL et GMP, ce qui nous a retardé dans les tests.
+	A la première séance nous avons eu besoin d'implémenter un Makefile, nous utilisions à la base cmake qui s'occupait alors de créer le Makefile pour nous mais cmake n'était pas compatible avec les machines auquel nous avion accès à la Maison de la Simulation, lors de l'implémentation de ce Makefile nous avons rencontré des problèmes d'intégration des bibliothèques NTL et GMP, ce qui nous a retardé dans les tests.
 	Enfin, lors de notre dernière séance certains de nos résultats peuvent avoir été faussé causé par des nœuds qui n'étaient pas sain (un temps d'exécution de $300s$ au lieu de $25s$ par exemple).
 					
 	\section{Organisation interne du groupe}
@@ -218,7 +226,13 @@ Ensuite nous avons réalisé une deuxième vague de tests sur une deuxième plag
 	\end{longtable}\vspace{-2.2em}\end{center}	
 	
 	\section{Conclusion}
-	En conclusion, l'utilisation de techniques de parallélisation et d'optimisation montre les même résultats que nous avons déjà observé, les algorithmes les plus rapides permettent d'obtenir des résultats très rapidement sur une plage de données. Et la parallélisation mise en place permet de traiter une grande plage de données rapidement sur une machine parallèle mais les performances dépendent très fortement des performances individuelles des algorithmes quand on se trouve à 100\% des ressources alloués utilisés.
+	Pour terminer, l'utilisation de techniques de parallélisation et d'optimisation nous montre les mêmes résultats que nous avons déjà pu observer, les algorithmes les plus rapides permettent d'obtenir des résultats très rapidement sur une plage de données. Et la parallélisation mise en place permet de traiter une grande plage de données rapidement sur une machine parallèle. Cependant les performances observé dépendent très fortement des performances individuelles des algorithmes quand on se trouve à 100\% des ressources alloués utilisés ou de l'état de "santé" des nœud utilisés.	
+	
+	\paragraph{}Pour cette deuxième partie nous avons malheureusement uniquement étudié des plages de données. Nous aurions pu explorer d'autres options comme la comparaison de nos algorithmes avec des implémentations déjà existantes mais des problèmes rencontrés à la Maison de la Simulation nous ont limité dans nos tests. Malgré cela, le résultat final reste satisfaisant, la partie parallèle est efficace, l'équilibrage de charge est très bien respecté et les optimisations effectuées ont bien amélioré les temps d’exécution.
+	
+	\paragraph{}Le groupe s'est une nouvelle fois très bien entendu tout au long du projet, l'entraide était vraiment présente. Pour élargir ce sujet il serait possible d’implémenter d'autres algorithmes efficace comme ECPP(Elliptic curve primality test) ou encore APR (Adleman-Pomerance-Rumely primality test) des équivalents de l'algorithme AKS avec de bien meilleurs résultats pratiques. Mais également à d'autres schémas de parallélisation (\textit{ex: avoir plusieurs processus maître}) du programme pour comparer les performances.
+	
+	\paragraph{}Ce projet nous aura donc permis d'affiner et d'améliorer nos connaissances sur la parallélisation et l'optimisation d'algorithmes, mais il nous aura également permis de découvrir et d'utiliser du matériel spécialisé et performant tel que le cluster Poincare du CEA. 
 
 \bibliography{references}
 \bibliographystyle{unsrt}

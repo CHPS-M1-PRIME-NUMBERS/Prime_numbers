@@ -1,4 +1,5 @@
 #include "memory_bound.hpp"
+#include "mpi.h"
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -32,3 +33,4 @@ std::ostream& operator<<(std::ostream& flux, std::list<unsigned long int>& l)
         }
         return flux;
 }
+

@@ -1,6 +1,6 @@
 CC = mpicxx
 CFLAGS = -O3 --std=c++14
-LDFLAGS = -lntl -lgmp -lm
+LDFLAGS = -lntl -lgmp -lm -fopenmp
 LIBDIR = -I./lib/usr/local/include/ -I./lib/gmp-6.1.2/
 EXEC = prime_numbers
 SRC =	main.cpp
@@ -8,6 +8,7 @@ OBJ = $(SRC:.cpp=.o)
 
 
 all: lib $(EXEC)
+	cp $(EXEC) build/
 
 lib:
 	$(MAKE) -C highly_composite/

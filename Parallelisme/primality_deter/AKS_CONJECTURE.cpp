@@ -47,20 +47,4 @@ bool conjecture(unsigned long int n) {
     }
   }
 }
-/*
-int main() {
-  int a = 5;
-  int elapsed_time;
-  std::chrono::time_point<std::chrono::system_clock> start, end;
 
-  start = std::chrono::system_clock::now();
-  bool res = conjecture(a);
-  end = std::chrono::system_clock::now();
-  elapsed_time =
-      std::chrono::duration_cast<std::chrono::microseconds>(end - start)
-          .count();
-
-  printf("res de %d => %d\n", a, res);
-  std::cout << "Time elapsed average: " << elapsed_time << " µs" << std::endl;
-}
-*/

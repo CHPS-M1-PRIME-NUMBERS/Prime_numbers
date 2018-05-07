@@ -32,7 +32,7 @@ Une fois placé dans un dossier d'installation créé à l'interieur du dossier 
 
 ## Usage
 
-`./prime_numbers -options nb_iterations nbs_a_tester`
+`mpirun -np NB_PROC -x OMP_NUM_THREADS ./prime_numbers -options nb_iterations start_range end_range`
 
 ou
 
@@ -40,6 +40,7 @@ ou
 
 ### Les options
 * a : Effectuer chaque test.
+* A : AKS Conjecture.
 * k : AKS.
 * e : Euclide.
 * o : Modulo.

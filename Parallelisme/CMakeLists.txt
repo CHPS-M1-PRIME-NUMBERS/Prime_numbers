@@ -43,4 +43,4 @@ endif()
 add_executable(prime_numbers main.cpp)
 target_link_libraries(prime_numbers ${MPI_LIBRARIES} ${NTL_LIB} ${M_LIB} ${GMP_LIBRARIES} ${GMPXX_LIBRARIRES} ${EXTRA_LIBS} ntl gmp gmpxx)
 
-# cmake ..  cmake .. -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_CC_COMPILER=mpicc
+#cmake .. -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_CC_COMPILER=mpicc

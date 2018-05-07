@@ -1,4 +1,5 @@
 #include "AKS.hpp"
+
 NTL_CLIENT
 // cette fonction vérifie que n est un "perfect power", si cette fonction renvoie true n est composé sinon aks peut continuer a s'executer
 bool is_perfect_power(unsigned long int n)

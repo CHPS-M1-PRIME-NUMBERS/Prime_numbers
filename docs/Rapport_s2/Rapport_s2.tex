@@ -1,6 +1,6 @@
 \input{../tex/preambule}
 
-\title{\vspace{\fill}\textbf{\Huge Rapport $2^{eme}$ Période}}
+\title{\vspace{\fill}\textbf{\Huge Rapport Semestre 2}}
 \author{Jean-Didier Pailleux - Maxence Joulin - Damien Thenot - Romain Robert - Robin Feron 
 	\vspace{2em}\\
 	\textit{Test de primalité}\\
@@ -20,7 +20,7 @@
 \newpage\clearpage\pagenumbering{arabic}
 
 	\section{Introduction}
-	\paragraph{}Ce document est le compte rendu de notre travail qui s'inscrit dans le cadre de la deuxième période du module \textit{Projet de Programmation numérique}du master \textit{Calcul Haute Performance Simulation} de l'\textit{\textbf{UVSQ}} proposé par notre encadrant Sébastien Gougeaud.
+	\paragraph{}Ce document est le compte rendu de notre travail qui s'inscrit dans le cadre de la deuxième période du module \textit{Projet de Programmation numérique} du master \textit{Calcul Haute Performance Simulation} de l'\textit{\textbf{UVSQ}} proposé par notre encadrant Sébastien Gougeaud.
 	
 	\paragraph{}Durant la première période de ce projet, on nous a demandé d'implémenter plusieurs tests de primalité en séquentiel dans le but de déterminer si un grand nombre donné est premier ou non. On rappel qu'un nombre premier est un entier qui admet uniquement deux diviseurs distincts et positifs 1 et lui-même. Et qu'il existe deux types de tests de primalité, les déterministes qui permettent d'établir avec certitude le résultat et les tests probabilistes qui émettent un résultat non fiable avec une certaine probabilité d'erreur, mais possèdent de meilleures performances que les tests déterministes.
 
@@ -57,7 +57,7 @@ La seconde optimisation de cette fonction concerne la boucle interne. En effet d
 }
 \\
 \\
-Nous avons donc choisi d'implémenter une variante d'AKS en sélectionnant celle qui serait la plus faible en terme de complexité et qui utiliserait le moins possible la bibliothèque NTL. Pour rappel NTL est une bibliothèque haute performance qui nous permet d'implémenter facilement des calculs modulaires sur les polynômes. Une variante sortait du lot : la Conjecture d'Agrawals. C'est un algorithme très performant avec une complexité en $O (log n)^3$. Cependant, ce dernier est non prouvé, car à partir d'un certain rang il existerait une infinité de contres exemples. Un projet appelé \textit{distributed computing project Primaboinca} a pour but de trouver les contres exemples de cette conjecture et affirme que leur inexistence   pour $n < 10^{12}$. Or notre projet étant limité a $2^{64}$ nous pouvons donc utiliser cet algorithme sans risque d'avoir des résultats faussé.  
+Nous avons donc choisi d'implémenter une variante d'AKS en sélectionnant celle qui serait la plus faible en terme de complexité et qui utiliserait le moins possible la bibliothèque NTL. Pour rappel NTL est une bibliothèque haute performance qui nous permet d'implémenter facilement des calculs modulaires sur les polynômes. Une variante sortait du lot : la Conjecture d'Agrawals\cite{Conjecture1}\cite{Conjecture2}. C'est un algorithme très performant avec une complexité en $O (log n)^3$. Cependant, ce dernier est non prouvé, car à partir d'un certain rang il existerait une infinité de contres exemples. Un projet appelé \textit{distributed computing project Primaboinca} a pour but de trouver les contres exemples de cette conjecture et affirme que leur inexistence   pour $n < 10^{12}$. Or notre projet étant limité a $2^{64}$ nous pouvons donc utiliser cet algorithme sans risque d'avoir des résultats faussé.  
 \begin{algorithm}
 \caption{AKS Conjecture}
 
@@ -78,9 +78,9 @@ Après optimisation on obtient un algorithme efficace qui nous permet de tester 
 	Après avoir optimisé notre code, nous nous sommes consacré à la parallélisation de celui-ci. Deux types de parallélismes nous ont été proposés par notre encadrant. Le premier étant le parallélisme de calculs dans le cas où le(s) test(s) implémenté(s) nous le permettait et le parallélisme de données pour distribuer les données contenues dans une plage au sein des processus disponibles lors du lancement du programme et à y opérer les mêmes opérations (les tests de primalité ici).
 
 		\subsection{Outils utilisés}
-Pour produire cette nouvelle version du projet, certains outils ont été utilisés pour obtenir le résultat présenté. En premier lieu nous avons utilisé \textbf{OpenMP}, un API employé pour le calcul parallèle sur des architectures à mémoire partagée. Nous l'utilisons pour le parallélisme de calculs pour les fonctions de memory\_bound() et eratosthene(). L'avantage de ce dernier nous permet de rajouter des "\#pragma" sans pour autant modifier le code séquentiel.
+Pour produire cette nouvelle version du projet, certains outils ont été utilisés pour obtenir le résultat présenté. En premier lieu nous avons utilisé \textbf{OpenMP}\cite{omp}, un API employé pour le calcul parallèle sur des architectures à mémoire partagée. Nous l'utilisons pour le parallélisme de calculs pour les fonctions de memory\_bound() et eratosthene(). L'avantage de ce dernier nous permet de rajouter des "\#pragma" sans pour autant modifier le code séquentiel.
 
-		\paragraph{}Le deuxième outil \textbf{MPI}(Message Passing Interface) est une norme définie par une bibliothèque de fonctions utilisé pour le passage de messages entre processus. Le choix d'utiliser MPI provient du fait que cette norme est adaptée pour des machines massivement parallèles à mémoire distribuée, ce qui est le cas du supercalculateur situé à la Maison de la Simulation. Cela nous a donc permis d'exploiter au maximum les ressources mises à disposition lors de l'utilisation de cette machine. 
+		\paragraph{}Le deuxième outil \textbf{MPI}(Message Passing Interface)\cite{MPI} est une norme définie par une bibliothèque de fonctions utilisé pour le passage de messages entre processus. Le choix d'utiliser MPI provient du fait que cette norme est adaptée pour des machines massivement parallèles à mémoire distribuée, ce qui est le cas du supercalculateur situé à la Maison de la Simulation. Cela nous a donc permis d'exploiter au maximum les ressources mises à disposition lors de l'utilisation de cette machine. 
 		
 		\subsection{Parallélisme de calculs}		
 	Pour le parallélisme de calculs plusieurs algorithmes tels que AKS et la conjecture ne supportent pas ce type de parallélisme. Pour le test de Miller-Rabin nous avons parallélisé les k itérations permettant d'affiner la précision de l'algorithme, après cette parallélisation nous avons effectué des tests de performances, ces tests montraient que cette modification n'améliorait pas le temps d'exécution de l'algorithme mais qu'au contraire elle l'augmentait. Pour cette implémentation nous avions remplacé les valeurs de retours qui étaient des booléens par des entier 0 pour vrai et 1 pour false, ainsi les différents cœurs se répartissant les itérations faisaient la somme des valeurs de retours et lorsque cette somme était supérieure à 0 le nombre testé n'était donc pas premier. L'idée était donc ensuite d'utiliser la version optimal de Miller-Rabin avec le système master/slave pour avoir de meilleurs temps.
@@ -95,7 +95,7 @@ Pour produire cette nouvelle version du projet, certains outils ont été utilis
 Pour notre implémentation le processus Maître correspond au rang 0, il ne lancera jamais de tests de primalité (avec 4 processus seulement 3 lancerons des tests de primalité). Le rang maître envoi seulement un paquet d'un seul entier. Des tentatives d'envoyer des paquets de 10, 100 ou plus n'ont pas influencé le temps d'exécution final du programme. Cela peut se justifier par le fait que le temps de communication d'un message MPI était négligeable par rapport au reste (de l'ordre de $10^-4$s).
 
 	\section{Analyse des résultats}
-	Pour cette deuxième période du projet, l'accès au cluster \textbf{Poincare} disponible à la Maison de la Simulation du CEA nous a permis de faire plusieurs vagues de tests de scalabilité sur la version parallèle de notre projet.
+	Pour cette deuxième période du projet, l'accès au cluster \textbf{Poincare}\cite{poincare} disponible à la Maison de la Simulation du CEA nous a permis de faire plusieurs vagues de tests de scalabilité sur la version parallèle de notre projet.
 	
 		\subsection{Lancement d'un test}
 Pour commencer ces tests nous devions charger les modules indispensables à l'utilisation de notre programme dans l’environnement utilisé avec  \textit{module load tool}. Les modules utilisés lors des tests sont \textit{gnu-env/5.4.0} et \textit{openmpi/1.10.0\_gnu54}. Lancer un test sur Poincare nécessite d'utiliser un script nommé \textit{batch.sh}, celui-ci indique donc pour un job lancé, le nombre de processus MPI (total\_tasks), le nombre de nœuds nécessaire (node, 16 tâches MPI pour 1 nœud), la durée maximum avant que le job soit tué (wall\_clock\_limit), le type de job (job\_type = mpich si parallel ou serial sinon),... Pour soumettre un tel job la commande \textit{llsubmit batch.sh} est utilisé, cependant les sorties standard n'existant pas sur le cluster, des fichier job\_name.err et job\_name.log servent donc à les remplacer. Voici un exemple de fichier batch.sh :\\
@@ -254,6 +254,6 @@ Les limites techniques de rapidité de calculs sont donc rapidement atteintes et
 	
 	\paragraph{}Ce projet nous aura donc permis d'affiner et d'améliorer nos connaissances sur la parallélisation et l'optimisation d'algorithmes, mais il nous aura également permis de découvrir et d'utiliser du matériel spécialisé et performant tel que le cluster Poincare du CEA. 
 
-\bibliography{references}
+\bibliography{references2}
 \bibliographystyle{unsrt}
 \end{document}

@@ -17,21 +17,69 @@
 	
 	\section*{Introduction}
         \begin{frame}
+        \begin{itemize}
+        \item \textbf{Tests déterministes :} AKS, Pocklington, Euclide/Computation Bound, Eratosthène/Memory Bound.
+        \vspace{1.5em}
+        \item \textbf{Test probabiliste :} Miller-Rabin.
+        \vspace{1.5em}
+        \item \textbf{Rappel :} Miller-Rabin très efficace, méthodes naïves utiles pour les petits nombres et AKS peu performante à cause de NTL.
+        \vspace{1.5em}
+        \item \textbf{Objectif :} Optimisation des algorithmes et travail sur la parallélisation.
+        \end{itemize}
                     
         \end{frame}
-	
+
 	\begin{frame}
 		\tableofcontents
 	\end{frame}
 	
 	\section{Optimisation}
-	\begin{frame}
+	\begin{frame}	
+ 		  \begin{block}{Memory Bound}
+   \begin{itemize}
+\item Suppression des nombres pairs du tableau $\rightarrow$ Réduction de la taille du tableau.
+\item Réduction du nombre d'itérations $\rightarrow$ N à $\sqrt{N-3}$.
+\end{itemize}
+   \end{block}
+   \vspace{2em}
+   \begin{block}{AKS}
+   Implémentation d'une variante d'AKS $\rightarrow$ Complexité passant de $O(log(n))^{12}$ à $O(log(n))^{3}$.
+    \end{block}
+	\end{frame}
 	
+		\begin{frame}
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.4]{Optimisation.png}\end{center}
+		\caption{Comparaison de la version de base avec la version optimisé.}
+		\label{fg:fig2}
+	\end{figure}	
 	\end{frame}
 	
 	\section{Parallélisation}
 	\begin{frame}
+	\begin{block}{Outils utilisés}
+	\begin{itemize}
+		\item OpenMP
+		\item MPI (Message Passing Interface)
+	\end{itemize}
+	\end{block}
+	\pause
+	\vspace{2.5em}
+	\begin{block}{Parallélisation des algorithmes}
+	\begin{itemize}
+		\item Implémentations non concluantes : AKS, Conjecture, Miller-Rabin, Pocklington 
+		\item Implémentation concluante : Memory Bound
+	\end{itemize}
+	\end{block}
+	\end{frame}
 	
+	
+	\begin{frame}	
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.6]{Master1.png}\end{center}
+		\caption{Schéma du Modèle du Master-Slave}
+		\label{fg:Master}
+	\end{figure}
 	\end{frame}
 	
 	\section{Résultats}
@@ -107,13 +155,55 @@
 	\end{frame}
 	
 	\section{Bilan Technique}
-	\begin{frame}
-	
-	\end{frame}
+	 
+\begin{frame}
+\begin{itemize}
+\item Une bonne scalabilité forte. \vspace{2em}
+\item Un palier max d’accélération.\vspace{2em}
+\item Le processus Maître trop chargé en travail.\\
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{block}{De meilleurs schémas de communications}
+\begin{itemize}
+\item Augmentation du nombre données à traiter par un esclave à chaque communication du Maître.\vspace{1em}
+\item Augmentation du nombre de Maîtres.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.55]{Masters2.png}\end{center}
+		\caption{Schéma avec augmentation du nombre de Maître}
+		\label{fg:fig12}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Un équilibrage des charges efficace. \vspace{2em}
+\item Des temps de calcul très courts.\vspace{2em}
+\item Des temps de calcul répartis de manière uniforme. \vspace{2em}
+\item Des différences finales négligeable entres les processus.\\
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Les tests de primalité sont peu parallélisable. \vspace{2em}
+\item Seule l'augmentation du volume de donnée permet de tirer avantage du parallélisme. \vspace{2em}
+\end{itemize}
+\end{frame}
 	
 	\section{Problèmes Rencontrés}
 	\begin{frame}
-	
+\begin{itemize}
+\item Utilisation de bibliothèques sur le supercalculateur (NTL, GMP).\vspace{2em}
+\item Manque de temps. \vspace{2em}
+\item Dysfonctionnement  du supercalculateur.
+\end{itemize}
 	\end{frame}
 	
 	\section{Conclusion}

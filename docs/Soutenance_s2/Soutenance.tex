@@ -38,14 +38,14 @@
 	\begin{frame}
 		\begin{itemize}
 		\item Lancement des tests sur le cluster Poincare de la MDLS. \vspace{2em}
-		\item Tout nos tests ont été réalisés sur 10 itérations.\vspace{2em}
+		\item Tests réalisés sur 10 itérations.\vspace{2em}
 		\item Lors de la soumission du job Pocklington et AKS n'ont pas pu finir leur exécution avant d'être tué par le supercalculateur.\\
 		\end{itemize}
 	\end{frame}		
 	
 	\begin{frame}	
 	\begin{figure}[!ht]	
-		\begin{center}\includegraphics[scale=0.5]{All_1M.png}\end{center}
+		\begin{center}\includegraphics[scale=0.55]{All_1M.png}\end{center}
 		\caption{Évolution du temps de calcul pour Conjecture, Miller-Rabin, Euclide et Modulo; Plage [1, 1 000 000]}
 		\label{fg:fig1}
 	\end{figure}
@@ -53,12 +53,20 @@
 
 	\begin{frame}
 	\begin{figure}[!ht]	
-		\begin{center}\includegraphics[scale=0.5]{All_4M.png}\end{center}
+		\begin{center}\includegraphics[scale=0.55]{All_4M.png}\end{center}
 		\caption{Évolution du temps de calcul pour Conjecture, Euclide et Modulo; Plage [4M, 4M1m]}
 		\label{fg:fig2}
 	\end{figure}	
 	\end{frame}
-	
+		
+	\begin{frame}
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.4]{Bar1.png}\end{center}
+		\caption{Comparaison Conjecture, Miller-Rabin, Euclide et Modulo avec le séquentiel}
+		\label{fg:fig3}
+	\end{figure}	
+	\end{frame}
+		
 	\begin{frame}
 	\begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.55]{Acc_All_1M_v2.png}\end{center}
@@ -74,20 +82,12 @@
 		\label{fg:fig4}
 	\end{figure}	
 	\end{frame}
-		
-	\begin{frame}
-	\begin{figure}[!ht]	
-		\begin{center}\includegraphics[scale=0.4]{Bar1.png}\end{center}
-		\caption{Comparaison Conjecture, Miller-Rabin, Euclide et Modulo avec le séquentiel}
-		\label{fg:fig3}
-	\end{figure}	
-	\end{frame}
 	
 	\begin{frame}
 	\footnotesize\begin{longtable}{l l}		
  		\hspace{-2em} \includegraphics[scale=0.37]{Memory.png}  & \hspace{-1em}\includegraphics[scale=0.37]{Acc_Memory.png}\\
  			\end{longtable}
-		 \color{blue} Figures - \color{black}\textit{Évolution du temps de calcul et de l'accélération pour Memory Bound en fonction du nombre de threads.} \\
+		 \color{blue} Figures - \color{black}Évolution du temps de calcul et de l'accélération pour Memory Bound en fonction du nombre de threads. \\
 		\end{frame}
 	
 	\begin{frame}

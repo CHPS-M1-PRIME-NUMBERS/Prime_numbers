@@ -36,7 +36,14 @@
 	
 	\section{Résultats}
 	\begin{frame}
+		\begin{itemize}
+		\item Lancement des tests sur le cluster Poincare de la MDLS. \vspace{2em}
+		\item Tout nos tests ont été réalisés sur 10 itérations.\vspace{2em}
+		\item Lors de la soumission du job Pocklington et AKS n'ont pas pu finir leur exécution avant d'être tué par le supercalculateur.\\
+		\end{itemize}
+	\end{frame}		
 	
+	\begin{frame}	
 	\begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.5]{All_1M.png}\end{center}
 		\caption{Évolution du temps de calcul pour Conjecture, Miller-Rabin, Euclide et Modulo; Plage [1, 1 000 000]}
@@ -55,7 +62,15 @@
 	\begin{frame}
 	\begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.55]{Acc_All_1M_v2.png}\end{center}
-		\caption{Évolution de l’accélération en fonction du nombre de processus sur Plage [1, 1 000 000].}
+		\caption{Évolution de l’accélération en fonction du nombre de processus; Plage [1, 1 000 000].}
+		\label{fg:fig4}
+	\end{figure}	
+	\end{frame}
+	
+	\begin{frame}
+	\begin{figure}[!ht]	
+		\begin{center}\includegraphics[scale=0.55]{Acc_All_4M.png}\end{center}
+		\caption{Évolution de l’accélération en fonction du nombre de processus; Plage [4M, 4M1m].}
 		\label{fg:fig4}
 	\end{figure}	
 	\end{frame}
@@ -67,20 +82,19 @@
 		\label{fg:fig3}
 	\end{figure}	
 	\end{frame}
-		
+	
 	\begin{frame}
-	\begin{figure}[!ht]	
-		\begin{center}\includegraphics[scale=0.5]{Memory.png}\end{center}
-		\caption{Évolution du temps de calcul pour Memory Bound en fonction du nombre de threads.}
-		\label{fg:fig4}
-	\end{figure}	
-	\end{frame}
+	\footnotesize\begin{longtable}{l l}		
+ 		\hspace{-2em} \includegraphics[scale=0.37]{Memory.png}  & \hspace{-1em}\includegraphics[scale=0.37]{Acc_Memory.png}\\
+ 			\end{longtable}
+		 \color{blue} Figures - \color{black}\textit{Évolution du temps de calcul et de l'accélération pour Memory Bound en fonction du nombre de threads.} \\
+		\end{frame}
 	
 	\begin{frame}
 	\begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.35]{equilibre8.png}\end{center}
 		\caption{Exemple d'équilibre des charges obtenu avec 16 processus MPI.}
-		\label{fg:fig4}
+		\label{fg:fig6}
 	\end{figure}	
 	\end{frame}
 	
@@ -88,7 +102,7 @@
 	\begin{figure}[!ht]	
 		\begin{center}\includegraphics[scale=0.35]{equilibre64.png}\end{center}
 		\caption{Exemple d'équilibre des charges obtenu avec 64 processus MPI.}
-		\label{fg:fig4}
+		\label{fg:fig7}
 	\end{figure}	
 	\end{frame}
 	
@@ -110,9 +124,9 @@
 
 % Courbes Accélération sur graphes Bar / Calcul de l'accélération
 % Préciser à l'oral que les résultats => 10 runs
-% Graphe pour l'équilibre des charges
-% Graphes de natures différentes.\\
-% Accélération ( 5 courbes => 5 accélérations) par rapport au temps séquentiel
+% XX Graphe pour l'équilibre des charges
+% XX Graphes de natures différentes.\\
+% XX Accélération ( 5 courbes => 5 accélérations) par rapport au temps séquentiel
 % Implem paralléle non-existante (rappel) 
 % Parler de l'algorithme de Master-Slave
 % Graphe montrant/décrire le Master-Slave( Mettre le graphe après les résultats => transition sur le bilan ?)
